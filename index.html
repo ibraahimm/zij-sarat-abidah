@@ -78,7 +78,9 @@ td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowra
 
 footer{border-top:1px solid var(--line);padding-top:1.6rem;color:var(--muted);
   font-size:.9rem;display:flex;flex-direction:column;gap:.6rem}
-.handle{font-family:var(--mono);color:var(--amber);font-size:1.1rem;font-weight:700}
+.handle{font-family:var(--mono);color:var(--amber);font-size:1.15rem;font-weight:700;
+  text-decoration:none;display:inline-block;width:fit-content}
+.handle:hover{text-decoration:underline}
 @media(max-width:600px){body{font-size:16px}.wrap{gap:2.6rem}}
 </style>
 </head>
@@ -228,7 +230,7 @@ footer{border-top:1px solid var(--line);padding-top:1.6rem;color:var(--muted);
 </section>
 
 <footer>
-  <div class="handle">@IBR_NJI</div>
+  <a class="handle" href="https://x.com/IBR_NJI" target="_blank" rel="noopener">@IBR_NJI</a>
   <div>زيج سراة عبيدة · نحسب ولا ننقل</div>
   <div class="muted">الحدود الإدارية من خرائط الشارع المفتوحة برخصة ODbL ·
     تقويم الكواكب JPL DE440s · مواقع النجوم Hipparcos</div>
