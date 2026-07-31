@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>زيج سراة عبيدة — تقويم فلكي محسوب</title>
+<meta name="description" content="جداول فلكية تخص منطقة سراة عبيدة: تُحسب لخط عرض 18.1° وارتفاع 2360 متراً، وتُعاير على تواريخ الأنواء المتوارثة، ويُتحقق منها مقابل JPL Horizons.">
+<meta property="og:title" content="زيج سراة عبيدة">
+<meta property="og:description" content="تقويم فلكي محسوب — نحسب ولا ننقل">
+<meta property="og:image" content="cards/hero_dark.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@IBR_NJI">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
+<style>
+:root{
+  --bg:#0D1017; --panel:#141924; --ink:#E9E7E1; --ink2:#C3C7D2; --muted:#99A0B2;
+  --line:#262D3B; --amber:#E3A93F; --teal:#58A69C; --rust:#D07A56;
+  --serif:"Noto Naskh Arabic","Amiri","Traditional Arabic",Georgia,serif;
+  --sans:"Noto Sans Arabic","Segoe UI","Dubai",Tahoma,system-ui,sans-serif;
+  --mono:ui-monospace,"Cascadia Mono",Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);
+  font-size:17px;line-height:1.9;-webkit-text-size-adjust:100%}
+.wrap{max-width:62rem;margin:0 auto;padding:0 1.3rem 6rem;
+  display:flex;flex-direction:column;gap:3.4rem}
+h1,h2,h3{font-family:var(--serif);line-height:1.35;text-wrap:balance}
+a{color:var(--amber)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.95em}
+
+/* الترويسة */
+header{padding:3.4rem 0 0;display:flex;flex-direction:column;gap:1rem}
+.eyebrow{font-size:.75rem;letter-spacing:.18em;color:var(--muted);font-weight:700}
+h1{font-size:clamp(2.2rem,7vw,3.6rem);font-weight:700;color:var(--amber)}
+.tag{font-size:clamp(1.05rem,3vw,1.3rem);color:var(--ink2);max-width:44rem}
+.rule{height:3px;background:var(--amber);width:220px;border-radius:2px}
+.hero-img{width:100%;border:1px solid var(--line);border-radius:8px;display:block;margin-top:.6rem}
+
+/* الوعد */
+.promise{border:2px solid var(--amber);border-radius:10px;background:var(--panel);
+  padding:1.5rem 1.6rem;display:flex;flex-direction:column;gap:1rem}
+.promise .lbl{font-size:.75rem;letter-spacing:.16em;color:var(--amber);font-weight:700}
+.promise h2{font-size:clamp(1.5rem,4.4vw,2rem)}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(7rem,1fr));gap:1rem}
+.pgrid div{display:flex;flex-direction:column;gap:.2rem}
+.pgrid b{font-family:var(--mono);font-size:1.9rem;color:var(--amber);font-weight:700}
+.pgrid span{font-size:.85rem;color:var(--muted)}
+
+section{display:flex;flex-direction:column;gap:1.1rem}
+h2{font-size:clamp(1.4rem,4vw,1.9rem);font-weight:700;
+  border-bottom:1px solid var(--line);padding-bottom:.5rem}
+h3{font-size:1.1rem;font-weight:700;color:var(--amber);margin-top:.5rem}
+p{max-width:46rem}
+.muted{color:var(--muted)}
+ul{padding-inline-start:1.2rem;display:flex;flex-direction:column;gap:.5rem;max-width:46rem}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.grid>div{background:var(--panel);padding:1.1rem 1.2rem;display:flex;
+  flex-direction:column;gap:.3rem}
+.grid b{color:var(--amber);font-size:1rem}
+.grid span{font-size:.92rem;color:var(--ink2);line-height:1.75}
+
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;min-width:30rem;font-size:.94rem}
+th,td{text-align:right;padding:.66rem .9rem;border-bottom:1px solid var(--line)}
+thead th{background:var(--panel);font-size:.82rem;color:var(--ink2);font-weight:700}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ok{color:var(--teal);font-weight:700}
+
+.note{border-inline-start:3px solid var(--amber);background:var(--panel);
+  padding:1rem 1.2rem;border-radius:0 8px 8px 0}
+.note.warn{border-inline-start-color:var(--rust)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));gap:1rem}
+.cards img{width:100%;border:1px solid var(--line);border-radius:8px;display:block}
+
+footer{border-top:1px solid var(--line);padding-top:1.6rem;color:var(--muted);
+  font-size:.9rem;display:flex;flex-direction:column;gap:.6rem}
+.handle{font-family:var(--mono);color:var(--amber);font-size:1.1rem;font-weight:700}
+@media(max-width:600px){body{font-size:16px}.wrap{gap:2.6rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">تقويم فلكي محلي محسوب</div>
+  <h1>زيج سراة عبيدة</h1>
+  <div class="rule"></div>
+  <p class="tag">جداول فلكية تخص منطقة سراة عبيدة — تُحسب لخط عرض
+    <span class="num">18.0993°</span> شمالاً وارتفاع <span class="num">2360</span> متراً،
+    وتُعايَر على تواريخ الأنواء المتوارثة، ويُتحقَّق منها مقابل مرصد جت بروبلجن.</p>
+  <img class="hero-img" src="cards/hero_dark.png" alt="بطاقة التعريف بزيج سراة عبيدة">
+</header>
+
+<div class="promise">
+  <div class="lbl">وعدٌ مؤرَّخ يُختبر</div>
+  <h2>سهيل — فجر الأحد ٩ أغسطس ٢٠٢٦</h2>
+  <div class="pgrid">
+    <div><b>05:11</b><span>الساعة</span></div>
+    <div><b>147°</b><span>السمت</span></div>
+    <div><b>1.1°</b><span>الارتفاع</span></div>
+    <div><b>14</b><span>دقيقة نافذة الرصد</span></div>
+  </div>
+  <p class="muted">موعد صعب يلزمه أفق جنوبي شرقي مكشوف تماماً، والغبار يؤخّره.
+    <strong style="color:var(--ink)">والتقويم النجدي يعلنه ٢٤ أغسطس.</strong></p>
+</div>
+
+<section>
+  <h2>ما «الزيج»؟</h2>
+  <p>مصطلح فلكي دقيق لا استعارة: <strong>جداول تُحسب لبلدٍ بعينه، وتُعايَر على
+    أرصاد أهله.</strong> كزيج البتاني، والزيج الحاكمي، وزيج أُلُغ بيك — وكلٌّ منها
+    حُسب لموضعه وزمانه، ولم يُنقل عن غيره.</p>
+</section>
+
+<section>
+  <h2>لماذا موقع بعينه؟</h2>
+  <p><strong>مواعيد الأنواء تختلف باختلاف خط العرض.</strong> وسهيل نجم جنوبي
+    (ميله <span class="num">−52.7°</span>)، فكلما اتجهتَ جنوباً بكّر طلوعه.</p>
+  <p>وبين سراة عبيدة والرياض <strong>ستّ درجات ونصف</strong> من خط العرض — تعني
+    <strong>خمسة عشر يوماً</strong> في موعد سهيل.</p>
+  <div class="note">فالفرق ليس خلافاً مع أحد، <strong>بل أثر الجغرافيا</strong>.</div>
+</section>
+
+<section>
+  <h2>كيف يُحسب</h2>
+  <div class="grid">
+    <div><b>تقويم الكواكب</b><span>جداول مختبر الدفع النفاث الأمريكي — أدقّ ما هو متاح مدنياً</span></div>
+    <div><b>مواقع النجوم</b><span>فهرس القمر الصناعي الأوروبي هيباركوس</span></div>
+    <div><b>المواضع</b><span>من سطح الأرض عند الموقع لا من مركزها — والفرق في القمر درجة كاملة</span></div>
+    <div><b>الهلال</b><span>معيار عودة لتصنيف إمكان الرؤية</span></div>
+  </div>
+  <h3>والفروض تُعلن ولا تُخفى</h3>
+  <ul>
+    <li><strong>الأفق مستوٍ</strong> — ولا يُحتسب انخفاض الأفق، لأن الأرض جنوباً شرقياً بارتفاعنا.</li>
+    <li><strong>الطلوع الاحتراقي:</strong> ارتفاع النجم الحقيقي <span class="num">≥ 1°</span>
+      والشمس على عمق <span class="num">9°</span>.</li>
+    <li><strong>الضغط <span class="num">760</span> هكتوباسكال</strong> ومعامل الخفوت
+      <span class="num">0.102</span> — وهما قيمتا ارتفاع <span class="num">2360</span> متراً.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>المعايرة</h2>
+  <p>المعيار لم يُختر اعتباطاً. جُرِّبت العتبات من <span class="num">6°</span> إلى
+    <span class="num">13°</span>، مع الانكسار وبدونه، حتى وُجد ما يعيد إنتاج تواريخ
+    سهيل المتوارثة:</p>
+  <div class="scroll"><table>
+    <thead><tr><th>الموقع</th><th>المتوارث</th><th>ما يخرجه الزيج</th></tr></thead>
+    <tbody>
+      <tr><td>جازان</td><td class="n">٧ أغسطس</td><td class="n ok">٧ أغسطس ✓</td></tr>
+      <tr><td>عرعر</td><td class="n">٨ سبتمبر</td><td class="n ok">٨ سبتمبر ✓</td></tr>
+      <tr><td>الرياض</td><td class="n">٢٤ أغسطس</td><td class="n">٢٣ أغسطس — بيوم</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note"><strong>والفرق مُعلَن ولم يُغطَّ بمعامل تصحيح.</strong>
+    فلا عتبة واحدة تجمع الثلاثة، وإعلان ذلك أصدق من إخفائه.</div>
+  <p>وفي الهلال: المحرّك يعيد إنتاج قاعدة تقويم أم القرى <strong>٣٦ من ٣٦ شهراً</strong>.</p>
+</section>
+
+<section>
+  <h2>التحقق</h2>
+  <p>كل نشرة تُقابَل بـ<strong>JPL Horizons</strong> بإحداثي الموقع نفسه قبل النشر:</p>
+  <div class="scroll"><table>
+    <thead><tr><th>الكمية</th><th>Horizons</th><th>الزيج</th><th>الفرق</th></tr></thead>
+    <tbody>
+      <tr><td>ارتفاع المشتري</td><td class="n">6.367°</td><td class="n">6.35°</td><td class="n ok">0.02°</td></tr>
+      <tr><td>استطالة الزهرة</td><td class="n">45.8919°</td><td class="n">45.892°</td><td class="n ok">0.0001°</td></tr>
+      <tr><td>استطالة الهلال من مكة</td><td class="n">12.0525°</td><td class="n">12.0505°</td><td class="n ok">0.002°</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">ومطابقات داخلية: معامل غاما لكسوف ١٢ أغسطس خرج
+    <span class="num">+0.8977</span> مطابقاً للمنشور.</p>
+</section>
+
+<section>
+  <h2>ماذا يقدّم</h2>
+  <div class="grid">
+    <div><b>الطلوع الاحتراقي</b><span>أول ليلة يمكن فيها رصد سهيل والشعرى والمرزم، بنافذتها</span></div>
+    <div><b>الهلال</b><span>إمكان الرؤية كل شهر هجري، من سراة عبيدة ومكة</span></div>
+    <div><b>الكسوف والخسوف</b><span>ما يُرى من هنا فعلاً وما لا يُرى — بالأرقام</span></div>
+    <div><b>الكواكب</b><span>الاقترانات والاستطالات القصوى والتقابلات</span></div>
+    <div><b>الشهب</b><span>ذرى الزخات مع ارتفاع المُشِعّ وحال القمر</span></div>
+    <div><b>حدود الرؤية</b><span>سقف كل نجم، وأدنى ارتفاع يُرى عنده بعد الخفوت</span></div>
+  </div>
+  <p><strong>ولكل حدث:</strong> التاريخ · الساعة · السمت بالدرجات · الارتفاع ·
+    طول النافذة · وجملة الأفق المطلوب.</p>
+</section>
+
+<section>
+  <h2>قواعد الصدق</h2>
+  <ul>
+    <li><strong>الهندسي رقم قاطع، والاحتمالي نافذة.</strong> فالاقتران والخسوف
+      بالدقيقة، وأما الطلوع الاحتراقي فنافذة موصوفة بما يؤخّرها — والغبار أولها.</li>
+    <li><strong>يُنشر المعيار مع الرقم دائماً</strong> — فمن أراد نقضه عرف على ماذا ينقض.</li>
+    <li><strong>ما لم يُتحقق منه لا يُنشر.</strong> وكل رقم مصنَّف في سجل معلن.</li>
+    <li><strong>الرقم يُفصل عن تفسيره</strong> — فما لم يُحسب يُوسَم تفسيراً مقترحاً.</li>
+  </ul>
+  <div class="note warn"><strong>وفي الهلال حدٌّ لا يُتجاوز:</strong> الزيج يحسب
+    <strong>الإمكان الفلكي</strong> فقط. <strong>لا يُثبت شهراً ولا ينفيه</strong> —
+    والإثبات لجهة الإفتاء وحدها.</div>
+</section>
+
+<section>
+  <h2>وما هو قيد التحقق</h2>
+  <p class="muted">تُعلن حدود العمل كما تُعلن نتائجه:</p>
+  <ul>
+    <li><strong>انزياح المنازل</strong> — الحساب يرجّح أن جداول المنازل الشعبية تؤرّخ
+      مرور الشمس في المنزلة لا طلوع نجمها. والأطروحة قائمة على تواريخ منقولة لم
+      تُقابل بمطبوعة، فلا تُنشر حتى يُتحقق منها.</li>
+    <li><strong>عتبة الرؤية بدلالة لمعان النجم</strong> — معادلة مرشّحة، معطَّلة
+      حتى يحسمها الرصد.</li>
+    <li><strong>النثرة</strong> — حُسبت بنجم مفرد، والمنزلة في التراث لطخة ضبابية.
+      فحسابها ناقص ومعلوم.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>البطاقات</h2>
+  <div class="cards">
+    <img src="cards/promise_dark.png" alt="وعد سهيل المؤرخ" loading="lazy">
+    <img src="cards/method_dark.png" alt="كيف نحسب" loading="lazy">
+    <img src="cards/ability_dark.png" alt="ماذا يحسب الزيج" loading="lazy">
+    <img src="cards/location_dark.png" alt="الموقع الجغرافي" loading="lazy">
+  </div>
+</section>
+
+<footer>
+  <div class="handle">@IBR_NJI</div>
+  <div>زيج سراة عبيدة · نحسب ولا ننقل</div>
+  <div class="muted">الحدود الإدارية من خرائط الشارع المفتوحة برخصة ODbL ·
+    تقويم الكواكب JPL DE440s · مواقع النجوم Hipparcos</div>
+</footer>
+
+</div>
+</body>
+</html>
