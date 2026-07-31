@@ -70,6 +70,15 @@ tbody tr:last-child td{border-bottom:0}
 td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
 .ok{color:var(--teal);font-weight:700}
 
+.verse{margin:0;background:var(--panel);border:1px solid var(--line);
+  border-radius:10px;padding:1.8rem 1.6rem;display:flex;flex-direction:column;gap:1rem}
+.verse blockquote{display:flex;flex-direction:column;gap:.7rem;
+  font-family:var(--serif);font-size:clamp(1.15rem,3.4vw,1.5rem);
+  line-height:2;color:var(--ink);text-align:center}
+.verse blockquote p{max-width:none}
+.verse figcaption{text-align:center;color:var(--muted);font-size:.95rem;
+  border-top:1px solid var(--line);padding-top:1rem}
+.verse figcaption strong{color:var(--amber)}
 .note{border-inline-start:3px solid var(--amber);background:var(--panel);
   padding:1rem 1.2rem;border-radius:0 8px 8px 0}
 .note.warn{border-inline-start-color:var(--rust)}
@@ -116,6 +125,15 @@ footer{border-top:1px solid var(--line);padding-top:1.6rem;color:var(--muted);
     أرصاد أهله.</strong> كزيج البتاني، والزيج الحاكمي، وزيج أُلُغ بيك — وكلٌّ منها
     حُسب لموضعه وزمانه، ولم يُنقل عن غيره.</p>
 </section>
+
+<figure class="verse">
+  <blockquote>
+    <p>كنتُ إذا أصبحتُ في حاجةٍ<br>أستعملُ التقويمَ والزِّيجا</p>
+    <p>فأصبح الزِّيجُ كتصحيفهِ<br>وأصبح التقويمُ تعويجا</p>
+  </blockquote>
+  <figcaption>شكوى قديمة من زيجٍ يُنقل ولا يُحسب — فيفسد التقويم بفساده.
+    <strong>وهذا بعينه ما نعالجه.</strong></figcaption>
+</figure>
 
 <section>
   <h2>لماذا موقع بعينه؟</h2>
