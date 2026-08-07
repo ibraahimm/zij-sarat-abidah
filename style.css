@@ -145,6 +145,18 @@ svg.dial{width:100%;height:auto;display:block}
 .more{align-self:flex-start;font-family:var(--kufi);font-size:.84rem;
   color:var(--ac);font-weight:700}
 .ics-line{margin-top:1.6rem;display:flex;align-items:center;gap:.9rem;flex-wrap:wrap}
+
+.sharebar{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-top:1.2rem}
+.sharebar .copy{position:relative}
+.sharebar .copy.done{border-color:var(--teal);color:var(--teal)}
+.crumb{font-family:var(--kufi);font-size:.85rem;color:var(--muted);
+  text-decoration:none;display:inline-flex;align-items:center;gap:.4rem}
+.crumb:hover{color:var(--amber)}
+.pillnav{display:flex;flex-wrap:wrap;gap:.6rem}
+.pill{font-family:var(--kufi);font-size:.85rem;color:var(--ink2);
+  text-decoration:none;border:1px solid var(--line);border-radius:999px;
+  padding:.4rem 1rem;transition:border-color .15s ease,color .15s ease}
+.pill:hover{border-color:var(--amber);color:var(--amber)}
 .ics-note{color:var(--muted);font-size:.85rem}
 
 .panels{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1.3rem}

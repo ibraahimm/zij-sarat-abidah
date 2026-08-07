@@ -38,4 +38,15 @@
   } else {
     document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
   }
+
+  document.querySelectorAll('.copy[data-copy]').forEach(function (btn) {
+    var base = btn.textContent;
+    btn.addEventListener('click', function () {
+      navigator.clipboard.writeText(btn.dataset.copy).then(function () {
+        btn.textContent = 'نُسخ ✓';
+        btn.classList.add('done');
+        setTimeout(function () { btn.textContent = base; btn.classList.remove('done'); }, 1800);
+      });
+    });
+  });
 })();
