@@ -178,13 +178,13 @@ td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowra
 .hero-big{max-width:76rem;margin:0 auto;padding:0 1.2rem}
 .big-cta{border:2px solid var(--amber);border-radius:16px;
   background:linear-gradient(135deg,color-mix(in srgb,var(--amber) 14%,var(--panel)),var(--panel));
-  padding:1.6rem 1.8rem;display:flex;flex-direction:column;gap:.6rem;
-  text-decoration:none;color:inherit}
+  padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;
+  gap:.6rem;text-align:center;text-decoration:none;color:inherit}
 .big-cta:hover{border-color:var(--ink)}
 .big-cta .bl{font-family:var(--kufi);font-size:.78rem;letter-spacing:.16em;
   color:var(--amber);font-weight:700}
-.big-cta h3{font-size:clamp(1.3rem,3.4vw,1.9rem);color:var(--ink)}
-.big-cta p{color:var(--ink2);font-size:.98rem;max-width:44rem}
+.big-cta h3{font-size:clamp(1.3rem,3.4vw,1.9rem);color:var(--ink);max-width:44rem}
+.big-cta p{color:var(--ink2);font-size:.98rem;max-width:42rem;margin:0 auto}
 
 .verse{background:var(--panel);border:1px solid var(--line);border-radius:14px;
   padding:2rem 1.6rem;text-align:center;display:flex;flex-direction:column;gap:1rem}
