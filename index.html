@@ -3,14 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>تقويم سراة عبيدة الفلكي — تقويم فلكي محسوب</title>
+<title>تقويم سراة عبيدة الفلكي — مواعيد الأحداث محسوبةً للموقع</title>
 <meta name="description" content="جداول فلكية تخص منطقة سراة عبيدة: تُحسب لخط عرض 18.1° وارتفاع 2360 متراً، وتُعاير على تواريخ الأنواء المتوارثة، ويُتحقق منها مقابل JPL Horizons.">
+<link rel="canonical" href="https://ibraahimm.github.io/zij-sarat-abidah/">
 <meta property="og:title" content="تقويم سراة عبيدة الفلكي">
-<meta property="og:description" content="تقويم فلكي محسوب — نحسب ولا ننقل">
-<meta property="og:image" content="cards/hero_dark.png">
+<meta property="og:description" content="تقويم فلكي محسوب — نحسب ولا ننقل. مواعيد الأحداث من الموقع نفسه، بمعيارها المعلن.">
+<meta property="og:image" content="https://ibraahimm.github.io/zij-sarat-abidah/cards/hero_dark.png">
+<meta property="og:url" content="https://ibraahimm.github.io/zij-sarat-abidah/">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="ar_SA">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@IBR_NJI">
+<meta name="twitter:image" content="https://ibraahimm.github.io/zij-sarat-abidah/cards/hero_dark.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
 <style>
 :root{
@@ -28,16 +32,12 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);
 h1,h2,h3{font-family:var(--serif);line-height:1.35;text-wrap:balance}
 a{color:var(--amber)}
 .num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.95em}
-
-/* الترويسة */
 header{padding:3.4rem 0 0;display:flex;flex-direction:column;gap:1rem}
 .eyebrow{font-size:.75rem;letter-spacing:.18em;color:var(--muted);font-weight:700}
 h1{font-size:clamp(2.2rem,7vw,3.6rem);font-weight:700;color:var(--amber)}
 .tag{font-size:clamp(1.05rem,3vw,1.3rem);color:var(--ink2);max-width:44rem}
 .rule{height:3px;background:var(--amber);width:220px;border-radius:2px}
 .hero-img{width:100%;border:1px solid var(--line);border-radius:8px;display:block;margin-top:.6rem}
-
-/* الوعد */
 .promise{border:2px solid var(--amber);border-radius:10px;background:var(--panel);
   padding:1.5rem 1.6rem;display:flex;flex-direction:column;gap:1rem}
 .promise .lbl{font-size:.75rem;letter-spacing:.16em;color:var(--amber);font-weight:700}
@@ -46,7 +46,14 @@ h1{font-size:clamp(2.2rem,7vw,3.6rem);font-weight:700;color:var(--amber)}
 .pgrid div{display:flex;flex-direction:column;gap:.2rem}
 .pgrid b{font-family:var(--mono);font-size:1.9rem;color:var(--amber);font-weight:700}
 .pgrid span{font-size:.85rem;color:var(--muted)}
-
+.cd{display:flex;gap:1.2rem;flex-wrap:wrap;border:1px dashed var(--line);
+  border-radius:8px;padding:.7rem 1rem;width:fit-content}
+.cd span{display:flex;align-items:baseline;gap:.35rem;color:var(--muted);font-size:.85rem}
+.cd b{font-family:var(--mono);font-size:1.6rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.crit{display:block;font-size:.85rem;opacity:.85;margin-top:.3rem}
+.btn{display:inline-block;border:1px solid var(--amber);border-radius:8px;
+  padding:.5rem 1.1rem;font-weight:700;text-decoration:none}
+.btn:hover{background:var(--amber);color:var(--bg)}
 section{display:flex;flex-direction:column;gap:1.1rem}
 h2{font-size:clamp(1.4rem,4vw,1.9rem);font-weight:700;
   border-bottom:1px solid var(--line);padding-bottom:.5rem}
@@ -54,22 +61,25 @@ h3{font-size:1.1rem;font-weight:700;color:var(--amber);margin-top:.5rem}
 p{max-width:46rem}
 .muted{color:var(--muted)}
 ul{padding-inline-start:1.2rem;display:flex;flex-direction:column;gap:.5rem;max-width:46rem}
-
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1px;
   background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
 .grid>div{background:var(--panel);padding:1.1rem 1.2rem;display:flex;
   flex-direction:column;gap:.3rem}
 .grid b{color:var(--amber);font-size:1rem}
 .grid span{font-size:.92rem;color:var(--ink2);line-height:1.75}
-
 .scroll{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
 table{border-collapse:collapse;width:100%;min-width:30rem;font-size:.94rem}
-th,td{text-align:right;padding:.66rem .9rem;border-bottom:1px solid var(--line)}
+th,td{text-align:right;padding:.66rem .9rem;border-bottom:1px solid var(--line);vertical-align:top}
 thead th{background:var(--panel);font-size:.82rem;color:var(--ink2);font-weight:700}
 tbody tr:last-child td{border-bottom:0}
 td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
 .ok{color:var(--teal);font-weight:700}
-
+#evt tr.past td{opacity:.55}
+#evt tr.next td{background:color-mix(in srgb,var(--amber) 9%,transparent)}
+.chip{display:inline-block;font-size:.72rem;font-weight:700;padding:.1rem .5rem;
+  border:1px solid var(--line);border-radius:6px;color:var(--muted);white-space:nowrap}
+tr.next .chip{color:var(--amber);border-color:var(--amber)}
+tr.past .chip{color:var(--muted)}
 .verse{margin:0;background:var(--panel);border:1px solid var(--line);
   border-radius:10px;padding:1.8rem 1.6rem;display:flex;flex-direction:column;gap:1rem}
 .verse blockquote{display:flex;flex-direction:column;gap:.7rem;
@@ -86,12 +96,12 @@ td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowra
 .note.warn{border-inline-start-color:var(--rust)}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));gap:1rem}
 .cards img{width:100%;border:1px solid var(--line);border-radius:8px;display:block}
-
 footer{border-top:1px solid var(--line);padding-top:1.6rem;color:var(--muted);
   font-size:.9rem;display:flex;flex-direction:column;gap:.6rem}
 .handle{font-family:var(--mono);color:var(--amber);font-size:1.15rem;font-weight:700;
   text-decoration:none;display:inline-block;width:fit-content}
 .handle:hover{text-decoration:underline}
+.build{font-family:var(--mono);font-size:.8rem;opacity:.8}
 @media(max-width:600px){body{font-size:16px}.wrap{gap:2.6rem}}
 </style>
 </head>
@@ -108,18 +118,29 @@ footer{border-top:1px solid var(--line);padding-top:1.6rem;color:var(--muted);
   <img class="hero-img" src="cards/hero_dark.png" alt="بطاقة التعريف بتقويم سراة عبيدة الفلكي">
 </header>
 
-<div class="promise">
-  <div class="lbl">وعدٌ مؤرَّخ يُختبر</div>
-  <h2>سهيل — فجر الأحد ٩ أغسطس ٢٠٢٦</h2>
-  <div class="pgrid">
-    <div><b>05:11</b><span>الساعة</span></div>
-    <div><b>147°</b><span>السمت</span></div>
-    <div><b>1.1°</b><span>الارتفاع</span></div>
-    <div><b>14</b><span>دقيقة نافذة الرصد</span></div>
+<div class="promise" id="next" data-when="2026-08-09T05:11:00+03:00">
+  <div class="lbl">الحدث القادم — أول ظهور ممكن</div>
+  <h2>سهيل</h2>
+  <div class="muted">26 صفر 1448هـ · الأحد 9 أغسطس 2026م</div>
+  <div id="cd" class="cd" hidden>
+    <span><b id="cd-d">0</b> يوم</span><span><b id="cd-h">0</b> ساعة</span>
+    <span><b id="cd-m">0</b> دقيقة</span><span><b id="cd-s">0</b> ثانية</span>
   </div>
-  <p class="muted">موعد صعب يلزمه أفق جنوبي شرقي مكشوف تماماً، والغبار يؤخّره.
-    <strong style="color:var(--ink)">والتقويم النجدي يعلنه ٢٤ أغسطس.</strong></p>
+  <div class="pgrid"><div><b>05:11</b><span>الوقت</span></div><div><b>147.5°</b><span>السمت</span></div><div><b>1.1°</b><span>الارتفاع</span></div><div><b>14 دقيقة</b><span>النافذة</span></div></div>
+  <p class="muted">موعد صعب: يلزم أفق الجنوب الشرقي مكشوفاً تماماً، والنافذة دقائق معدودة، وأي تلة أو غبار يلغيها.
+    <span class="crit">المعيار: النجم فوق درجة واحدة بارتفاع حقيقي، والشمس على عمق تسع درجات، وأفق مستو.</span></p>
+  <p><a class="btn" href="events.ics" download>⬇ أضف أحداث الشهر إلى تقويمك</a></p>
 </div>
+
+<section>
+  <h2>أحداث الشهر</h2>
+  <p class="muted">الأرقام كما نُشرت بمعيارها، وقد أعاد محرّكنا الحسابي حسابها
+    وقابلها قبل النشر. ومواعيد الحالة والعدّ تُحدَّث في متصفحك.</p>
+  <div class="scroll"><table id="evt"><thead><tr><th>هجري</th><th>ميلادي</th><th>الوقت</th><th>الحدث</th><th>الأرقام كما نُشرت</th><th>الأفق المطلوب</th><th>الحالة</th></tr></thead><tbody><tr data-when="2026-08-07T05:11:00+03:00"><td class="n">24 صفر 1448هـ</td><td class="n">الجمعة 7 أغسطس 2026م</td><td class="n">05:11<br><small class="muted">لحظة الرصد</small></td><td><b>القمر والثريا</b><br><small class="muted">تقارب قمري</small></td><td>الفصل بينهما <span class="num">2.6°</span> · ارتفاع القمر <span class="num">67.6°</span> · ارتفاع الثريا <span class="num">65.3°</span> · النافذة <span class="num">حتى الشروق</span></td><td>سترى من أي مكان وغير محجوبة، فالمشهد في كبد السماء لا على الأفق</td><td class="st"><span class="chip">—</span></td></tr><tr data-when="2026-08-09T05:11:00+03:00"><td class="n">26 صفر 1448هـ</td><td class="n">الأحد 9 أغسطس 2026م</td><td class="n">05:11<br><small class="muted">لحظة الرصد</small></td><td><b>سهيل</b><br><small class="muted">أول ظهور ممكن</small></td><td>الوقت <span class="num">05:11</span> · السمت <span class="num">147.5°</span> · الارتفاع <span class="num">1.1°</span> · النافذة <span class="num">14 دقيقة</span></td><td>موعد صعب: يلزم أفق الجنوب الشرقي مكشوفاً تماماً، والنافذة دقائق معدودة، وأي تلة أو غبار يلغيها</td><td class="st"><span class="chip">—</span></td></tr><tr data-when="2026-08-13T04:32:00+03:00"><td class="n">30 صفر 1448هـ</td><td class="n">الخميس 13 أغسطس 2026م</td><td class="n">04:32<br><small class="muted">الظلام حتى</small></td><td><b>البرشاويات</b><br><small class="muted">ذروة زخة الشهب</small></td><td>المشع عند الثالثة <span class="num">38.6°</span> · السمت <span class="num">21°–33°</span> · إضاءة القمر <span class="num">0.1%</span> · الظلام حتى <span class="num">04:32</span></td><td>سترى من أي مكان وغير محجوبة، والذروة تصادف محاقاً تاماً فلا ضوء قمر طوال الليل</td><td class="st"><span class="chip">—</span></td></tr><tr data-when="2026-08-15T05:27:00+03:00"><td class="n">2 ربيع الأول 1448هـ</td><td class="n">السبت 15 أغسطس 2026م</td><td class="n">05:27<br><small class="muted">لحظة الرصد</small></td><td><b>عطارد والمشتري</b><br><small class="muted">اقتران وثيق</small></td><td>الفصل بينهما <span class="num">0.80°</span> · الوقت <span class="num">05:27</span> · السمت <span class="num">72.6°</span> · الارتفاع <span class="num">6.4°–7.0°</span></td><td>يلزم أفق الشرق مكشوفاً تماماً، كوكبان لامعان تحت الدرجة الواحدة والنافذة عشرون دقيقة</td><td class="st"><span class="chip">—</span></td></tr><tr data-when="2026-08-15T18:56:00+03:00"><td class="n">2 ربيع الأول 1448هـ</td><td class="n">السبت 15 أغسطس 2026م</td><td class="n">18:56<br><small class="muted">عند الشفق المدني</small></td><td><b>الزهرة</b><br><small class="muted">أقصى استطالة شرقية</small></td><td>الاستطالة <span class="num">45.9°</span> · السمت <span class="num">254°</span> · الارتفاع عند الشفق المدني <span class="num">27.5°</span> · تغرب <span class="num">20:56</span></td><td>سترى من أي مكان وغير محجوبة، وهي أسهل أحداث الشهر وأضمنها وألمعها</td><td class="st"><span class="chip">—</span></td></tr><tr data-when="2026-08-28T05:33:00+03:00"><td class="n">15 ربيع الأول 1448هـ</td><td class="n">الجمعة 28 أغسطس 2026م</td><td class="n">05:33<br><small class="muted">أول قضمة</small></td><td><b>خسوف القمر</b><br><small class="muted">الطرف المرئي فقط</small></td><td>أول قضمة <span class="num">05:33</span> · السمت <span class="num">258°</span> · ارتفاع القمر عندها <span class="num">3.4°</span> · المرئي <span class="num">17 دقيقة</span></td><td>يلزم أفق الغرب مكشوفاً تماماً، فالذروة العميقة تقع بعد غروب القمر، ولا قمر أحمر</td><td class="st"><span class="chip">—</span></td></tr></tbody></table></div>
+  <p><a class="btn" href="events.ics" download>⬇ أضف الأحداث إلى تقويمك (ICS)</a>
+    <span class="muted" style="font-size:.85rem">— يعمل مع تقويم الجوال وGoogle
+    وOutlook وApple</span></p>
+</section>
 
 <section>
   <h2>ما التقويم المحلي؟</h2>
@@ -162,6 +183,7 @@ footer{border-top:1px solid var(--line);padding-top:1.6rem;color:var(--muted);
     <li><strong>الأفق مستوٍ</strong> — ولا يُحتسب انخفاض الأفق، لأن الأرض جنوباً شرقياً بارتفاعنا.</li>
     <li><strong>الطلوع الاحتراقي:</strong> ارتفاع النجم الحقيقي <span class="num">≥ 1°</span>
       والشمس على عمق <span class="num">9°</span>.</li>
+    <li><strong>رصد الكواكب:</strong> الشمس على عمق <span class="num">6°</span> — الشفق المدني.</li>
     <li><strong>الضغط <span class="num">760</span> هكتوباسكال</strong> ومعامل الخفوت
       <span class="num">0.102</span> — وهما قيمتا ارتفاع <span class="num">2360</span> متراً.</li>
   </ul>
@@ -173,7 +195,7 @@ footer{border-top:1px solid var(--line);padding-top:1.6rem;color:var(--muted);
     <span class="num">13°</span>، مع الانكسار وبدونه، حتى وُجد ما يعيد إنتاج تواريخ
     سهيل المتوارثة:</p>
   <div class="scroll"><table>
-    <thead><tr><th>الموقع</th><th>المتوارث</th><th>ما يخرجه الزيج</th></tr></thead>
+    <thead><tr><th>الموقع</th><th>المتوارث</th><th>ما يخرجه الحساب</th></tr></thead>
     <tbody>
       <tr><td>جازان</td><td class="n">٧ أغسطس</td><td class="n ok">٧ أغسطس ✓</td></tr>
       <tr><td>عرعر</td><td class="n">٨ سبتمبر</td><td class="n ok">٨ سبتمبر ✓</td></tr>
@@ -189,7 +211,7 @@ footer{border-top:1px solid var(--line);padding-top:1.6rem;color:var(--muted);
   <h2>التحقق</h2>
   <p>كل نشرة تُقابَل بـ<strong>JPL Horizons</strong> بإحداثي الموقع نفسه قبل النشر:</p>
   <div class="scroll"><table>
-    <thead><tr><th>الكمية</th><th>Horizons</th><th>الزيج</th><th>الفرق</th></tr></thead>
+    <thead><tr><th>الكمية</th><th>Horizons</th><th>محرّكنا</th><th>الفرق</th></tr></thead>
     <tbody>
       <tr><td>ارتفاع المشتري</td><td class="n">6.367°</td><td class="n">6.35°</td><td class="n ok">0.02°</td></tr>
       <tr><td>استطالة الزهرة</td><td class="n">45.8919°</td><td class="n">45.892°</td><td class="n ok">0.0001°</td></tr>
@@ -223,7 +245,7 @@ footer{border-top:1px solid var(--line);padding-top:1.6rem;color:var(--muted);
     <li><strong>ما لم يُتحقق منه لا يُنشر.</strong> وكل رقم مصنَّف في سجل معلن.</li>
     <li><strong>الرقم يُفصل عن تفسيره</strong> — فما لم يُحسب يُوسَم تفسيراً مقترحاً.</li>
   </ul>
-  <div class="note warn"><strong>وفي الهلال حدٌّ لا يُتجاوز:</strong> الزيج يحسب
+  <div class="note warn"><strong>وفي الهلال حدٌّ لا يُتجاوز:</strong> الحساب يحسب
     <strong>الإمكان الفلكي</strong> فقط. <strong>لا يُثبت شهراً ولا ينفيه</strong> —
     والإثبات لجهة الإفتاء وحدها.</div>
 </section>
@@ -247,7 +269,7 @@ footer{border-top:1px solid var(--line);padding-top:1.6rem;color:var(--muted);
   <div class="cards">
     <img src="cards/promise_dark.png" alt="وعد سهيل المؤرخ" loading="lazy">
     <img src="cards/method_dark.png" alt="كيف نحسب" loading="lazy">
-    <img src="cards/ability_dark.png" alt="ماذا يحسب الزيج" loading="lazy">
+    <img src="cards/ability_dark.png" alt="ماذا يحسب التقويم" loading="lazy">
     <img src="cards/location_dark.png" alt="الموقع الجغرافي" loading="lazy">
   </div>
 </section>
@@ -257,8 +279,42 @@ footer{border-top:1px solid var(--line);padding-top:1.6rem;color:var(--muted);
   <div>تقويم سراة عبيدة الفلكي · نحسب ولا ننقل</div>
   <div class="muted">الحدود الإدارية من خرائط الشارع المفتوحة برخصة ODbL ·
     تقويم الكواكب JPL DE440s · مواقع النجوم Hipparcos</div>
+  <div class="build">آخر تحديث: 24 صفر 1448هـ · الجمعة 7 أغسطس 2026م · الإصدار 5810013 —
+    تُولَّد هذه الصفحة آلياً من المحرّك ولا تُحرَّر يدوياً</div>
 </footer>
 
 </div>
+<script type="application/json" id="evdata">[{"t":"2026-08-07T05:11:00+03:00","title":"القمر والثريا"},{"t":"2026-08-09T05:11:00+03:00","title":"سهيل"},{"t":"2026-08-13T04:32:00+03:00","title":"البرشاويات"},{"t":"2026-08-15T05:27:00+03:00","title":"عطارد والمشتري"},{"t":"2026-08-15T18:56:00+03:00","title":"الزهرة"},{"t":"2026-08-28T05:33:00+03:00","title":"خسوف القمر"}]</script>
+<script>
+(function () {
+  var rows = document.querySelectorAll('#evt tbody tr');
+  var hero = document.getElementById('next');
+  var cd = document.getElementById('cd');
+  function tick() {
+    var now = new Date(), nxt = null;
+    rows.forEach(function (r) {
+      var t = new Date(r.dataset.when), chip = r.querySelector('.chip');
+      r.classList.remove('past', 'next');
+      if (t < now) { r.classList.add('past'); chip.textContent = 'انقضى'; }
+      else {
+        chip.textContent = 'قادم';
+        if (!nxt) { nxt = t; r.classList.add('next'); chip.textContent = 'التالي'; }
+      }
+    });
+    if (cd && hero && hero.dataset.when) {
+      var ms = new Date(hero.dataset.when) - now;
+      if (ms > 0) {
+        cd.hidden = false;
+        var s = Math.floor(ms / 1000);
+        document.getElementById('cd-d').textContent = Math.floor(s / 86400);
+        document.getElementById('cd-h').textContent = Math.floor(s % 86400 / 3600);
+        document.getElementById('cd-m').textContent = Math.floor(s % 3600 / 60);
+        document.getElementById('cd-s').textContent = s % 60;
+      } else { cd.hidden = true; }
+    }
+  }
+  tick(); setInterval(tick, 1000);
+})();
+</script>
 </body>
 </html>

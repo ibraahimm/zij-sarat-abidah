@@ -1,0 +1,88 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//zij-sarat-abidah//almanac//AR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:تقويم سراة عبيدة الفلكي
+X-WR-TIMEZONE:Asia/Riyadh
+BEGIN:VEVENT
+UID:moonpleiades-2026-08-07@zij-sarat-abidah
+DTSTAMP:20260807T152832Z
+DTSTART:20260807T021100Z
+SUMMARY:تقارب قمري | القمر والثريا
+DESCRIPTION:لحظة الرصد 05:11 بتوقيت سراة عبيدة. س
+ ترى من أي مكان وغير محجوبة، فالمشهد في ك
+ بد السماء لا على الأفق. الفصل طوبوغرافي 
+ من سراة عبيدة، وليس تغطية ولا حدثاً حديا
+ ً. تقويم سراة عبيدة الفلكي https://ibraahimm.github.
+ io/zij-sarat-abidah
+LOCATION:سراة عبيدة، عسير
+END:VEVENT
+BEGIN:VEVENT
+UID:suhail-2026-08-09@zij-sarat-abidah
+DTSTAMP:20260807T152832Z
+DTSTART:20260809T021100Z
+SUMMARY:أول ظهور ممكن | سهيل
+DESCRIPTION:لحظة الرصد 05:11 بتوقيت سراة عبيدة. م
+ وعد صعب: يلزم أفق الجنوب الشرقي مكشوفاً 
+ تماماً، والنافذة دقائق معدودة، وأي تلة 
+ أو غبار يلغيها. المعيار: النجم فوق درجة و
+ احدة بارتفاع حقيقي، والشمس على عمق تسع د
+ رجات، وأفق مستو. تقويم سراة عبيدة الفلكي
+  https://ibraahimm.github.io/zij-sarat-abidah
+LOCATION:سراة عبيدة، عسير
+END:VEVENT
+BEGIN:VEVENT
+UID:perseids-2026-08-13@zij-sarat-abidah
+DTSTAMP:20260807T152832Z
+DTSTART:20260813T013200Z
+SUMMARY:ذروة زخة الشهب | البرشاويات
+DESCRIPTION:الظلام حتى 04:32 بتوقيت سراة عبيدة. س
+ ترى من أي مكان وغير محجوبة، والذروة تصاد
+ ف محاقاً تاماً فلا ضوء قمر طوال الليل. ال
+ مشع يرتفع طوال الليل ويبلغ سبعاً وأربعي
+ ن درجة عند الفجر الفلكي. تقويم سراة عبيد
+ ة الفلكي https://ibraahimm.github.io/zij-sarat-abidah
+LOCATION:سراة عبيدة، عسير
+END:VEVENT
+BEGIN:VEVENT
+UID:mercjup-2026-08-15@zij-sarat-abidah
+DTSTAMP:20260807T152832Z
+DTSTART:20260815T022700Z
+SUMMARY:اقتران وثيق | عطارد والمشتري
+DESCRIPTION:لحظة الرصد 05:27 بتوقيت سراة عبيدة. ي
+ لزم أفق الشرق مكشوفاً تماماً، كوكبان لا
+ معان تحت الدرجة الواحدة والنافذة عشرون 
+ دقيقة. أقرب اقتران كوكبي في الشهر، والفص
+ ل طوبوغرافي من سراة عبيدة نفسها. تقويم س
+ راة عبيدة الفلكي https://ibraahimm.github.io/zij-sarat-abid
+ ah
+LOCATION:سراة عبيدة، عسير
+END:VEVENT
+BEGIN:VEVENT
+UID:venus-2026-08-15@zij-sarat-abidah
+DTSTAMP:20260807T152832Z
+DTSTART:20260815T155600Z
+SUMMARY:أقصى استطالة شرقية | الزهرة
+DESCRIPTION:عند الشفق المدني 18:56 بتوقيت سراة ع
+ بيدة. سترى من أي مكان وغير محجوبة، وهي أس
+ هل أحداث الشهر وأضمنها وألمعها. قمة الظه
+ ور المسائي لهذا الموسم، وقدرها ناقص أرب
+ عة وأربعة أعشار. تقويم سراة عبيدة الفلكي
+  https://ibraahimm.github.io/zij-sarat-abidah
+LOCATION:سراة عبيدة، عسير
+END:VEVENT
+BEGIN:VEVENT
+UID:eclipse-2026-08-28@zij-sarat-abidah
+DTSTAMP:20260807T152832Z
+DTSTART:20260828T023300Z
+SUMMARY:الطرف المرئي فقط | خسوف القمر
+DESCRIPTION:أول قضمة 05:33 بتوقيت سراة عبيدة. يلز
+ م أفق الغرب مكشوفاً تماماً، فالذروة الع
+ ميقة تقع بعد غروب القمر، ولا قمر أحمر. ال
+ قدر الظلي عند الذروة 0.938 والقمر يومئذ تس
+ ع عشرة درجة تحت الأفق. تقويم سراة عبيدة ا
+ لفلكي https://ibraahimm.github.io/zij-sarat-abidah
+LOCATION:سراة عبيدة، عسير
+END:VEVENT
+END:VCALENDAR
