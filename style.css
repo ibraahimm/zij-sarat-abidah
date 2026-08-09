@@ -140,6 +140,21 @@ svg.rainbars{width:100%;height:auto;display:block}
 .rblbl{font-family:var(--naskh);font-size:11px;fill:var(--muted)}
 .rbval{font-family:var(--mono);font-size:10.5px;fill:var(--ink2);font-variant-numeric:tabular-nums}
 .rbaxis{stroke:var(--line);stroke-width:1}
+.fc10-list{display:flex;flex-direction:column;gap:.15rem}
+.fc10-row{display:grid;grid-template-columns:5rem 8rem 2.4rem 1fr 2.4rem;
+  align-items:center;gap:.7rem;padding:.55rem .3rem;border-bottom:1px solid var(--line)}
+.fc10-row:last-child{border-bottom:none}
+.fc10-day{font-family:var(--kufi);font-size:.86rem;color:var(--ink)}
+.fc10-cond{color:var(--muted);font-size:.82rem}
+.fc10-lo{font-family:var(--mono);color:var(--teal);text-align:center;font-variant-numeric:tabular-nums}
+.fc10-hi{font-family:var(--mono);color:var(--rust);text-align:center;font-variant-numeric:tabular-nums}
+.fc10-track{position:relative;height:6px;border-radius:4px;background:var(--line)}
+.fc10-bar{position:absolute;top:0;height:100%;border-radius:4px;
+  background:linear-gradient(90deg,var(--teal),var(--amber),var(--rust))}
+@media (max-width:36rem){
+  .fc10-row{grid-template-columns:3.6rem 1fr 2rem 4.5rem 2rem}
+  .fc10-cond{display:none}
+}
 .nums{display:flex;flex-direction:column;gap:.35rem}
 .nrow{display:flex;justify-content:space-between;gap:.8rem;
   border-bottom:1px dashed var(--line);padding-bottom:.3rem}
