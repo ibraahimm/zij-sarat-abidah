@@ -222,6 +222,181 @@ svg.dial{width:100%;height:auto;display:block}
 .dlbl.main{font-family:var(--kufi);font-weight:700;fill:var(--ink2);font-size:10.5px}
 .dray{stroke-width:3;stroke-linecap:round}
 .dobs{fill:var(--muted)}
+/* ═══ الطقس الآن الحيّ — هيكل عظمي بارتفاعات محجوزة ═══
+   البطاقة والعدّاد يأخذان مقاسهما النهائي قبل وصول الردّ، فلا ينزاح
+   شيء تحتهما حين يصل (لا CLS). والوميض يتوقّف مع تفضيل تقليل الحركة. */
+#liveNow .stat-icon{min-height:74px}
+#liveNow .gauge-item{min-height:200px}
+#liveNow .lv-v{display:inline-block;min-width:3.4rem}
+#liveNow.lv-loading .lv-v,
+#liveNow.lv-loading .lv-when{background:linear-gradient(90deg,
+   var(--line) 25%,var(--panel2) 37%,var(--line) 63%);
+  background-size:400% 100%;border-radius:6px;color:transparent;
+  animation:lvshine 1.4s ease infinite}
+#liveNow.lv-loading .lv-when{display:inline-block;min-width:22rem;max-width:100%}
+#liveNow.lv-loading .gauge-lbl{opacity:.45}
+#liveNow .lv-needle{transition:transform .5s cubic-bezier(.4,1.4,.5,1)}
+/* الإبرة تُخفى قبل وصول الردّ: إبرة عند أدنى المدى تُقرأ «ضغط منخفض»
+   و«رياح شمالية»، وهذا رقم لم يصل بعدُ — إخفاؤها أصدق من إظهار صفر. */
+#liveNow:not(.lv-ready) .lv-needle{visibility:hidden}
+#liveNow .lv-uv-mark{transition:cx .5s ease}
+@keyframes lvshine{from{background-position:100% 0}to{background-position:0 0}}
+@media (prefers-reduced-motion:reduce){
+  #liveNow.lv-loading .lv-v,#liveNow.lv-loading .lv-when{animation:none}
+  #liveNow .lv-needle,#liveNow .lv-uv-mark{transition:none}}
+/* ═══ الشريط الساعي ═══
+   الخانة بمقاس ثابت والشريط بارتفاع محجوز، فيستقرّ التخطيط قبل البيانات.
+   والتمرير أفقي داخل الشريط وحده — لا يجرّ الصفحة معه. */
+.hr-scroll{overflow-x:auto;overflow-y:hidden;padding-bottom:.4rem;
+  padding-top:1.2rem;   /* موضع تاريخ حدّ اليوم — بدونه يقصّه overflow */
+  scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.hr-strip{display:flex;gap:.3rem;list-style:none;margin:0;padding:0;min-height:126px}
+.hr-cell{flex:0 0 62px;display:flex;flex-direction:column;align-items:center;
+  gap:.28rem;padding:.55rem .2rem .5rem;border-radius:12px;
+  background:var(--panel);border:1px solid var(--line);position:relative}
+.hr-cell.now{border-color:var(--amber);
+  background:color-mix(in srgb,var(--amber) 12%,var(--panel));
+  box-shadow:0 0 0 1px var(--amber)}
+.hr-cell.now .hr-t{color:var(--amber);font-weight:700}
+/* حدّ اليوم: فاصل رفيع وتاريخ صغير فوق أول ساعة بعد منتصف الليل */
+.hr-cell.daybreak{margin-inline-start:.85rem}
+.hr-cell.daybreak::before{content:attr(data-day);position:absolute;
+  top:-1.05rem;inset-inline-start:0;font-size:.66rem;color:var(--muted);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.hr-cell.daybreak::after{content:"";position:absolute;inset-block:-.2rem;
+  inset-inline-start:-.5rem;width:1px;background:var(--line)}
+.hr-t{font-size:.72rem;color:var(--ink2);font-variant-numeric:tabular-nums;
+  letter-spacing:0;white-space:nowrap;height:1.4rem;line-height:1.4rem}
+.hr-i{height:26px;display:flex;align-items:center;justify-content:center}
+.hr-svg{width:23px;height:23px;color:var(--ink2)}
+.hr-cell.now .hr-svg{color:var(--amber)}
+.hr-v{font-size:1rem;font-weight:700;color:var(--ink);
+  font-variant-numeric:tabular-nums;height:1.1rem;line-height:1.1rem}
+.hr-p{font-size:.66rem;color:var(--teal);font-variant-numeric:tabular-nums;
+  height:.95rem;line-height:.95rem;white-space:nowrap}
+.hr-p.prob{color:var(--muted)}
+.hr-w{height:17px;display:flex;align-items:center;justify-content:center;
+  color:var(--ink2)}
+.hr-arrow{width:15px;height:15px}
+#liveHourly:not(.hr-ready) .hr-t,
+#liveHourly:not(.hr-ready) .hr-v{background:linear-gradient(90deg,
+   var(--line) 25%,var(--panel2) 37%,var(--line) 63%);
+  background-size:400% 100%;border-radius:5px;color:transparent;
+  animation:lvshine 1.4s ease infinite;min-width:2.1rem}
+#liveHourly:not(.hr-ready) .hr-i{opacity:.18}
+/* ═══ توقّع سبعة أيام — dumbbell على محور مشترك ═══
+   ارتفاع الصفّ والمحور مثبّتان، فلا ينزاح شيء عند وصول البيانات. */
+.d7-axis{height:1.25rem;position:relative;margin-bottom:.15rem}
+.d7-axis-in{position:absolute;inset:0;
+  margin-inline-start:calc(6.4rem + 8.6rem + 1.2rem)}
+.d7-axis-in span{position:absolute;transform:translateX(50%);
+  font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.d7-list{list-style:none;margin:0;padding:0}
+.d7-row{display:grid;grid-template-columns:6.4rem 8.6rem 1fr;gap:.6rem;
+  align-items:center;height:3.1rem;padding:0 .5rem;border-radius:11px;
+  border:1px solid transparent}
+.d7-row + .d7-row{margin-top:.18rem}
+.d7-row.today{border-color:var(--amber);
+  background:color-mix(in srgb,var(--amber) 10%,transparent)}
+.d7-day{display:flex;flex-direction:column;line-height:1.25}
+.d7-day b{font-size:.9rem;color:var(--ink);font-weight:600}
+.d7-row.today .d7-day b{color:var(--amber)}
+.d7-day i{font-size:.72rem;color:var(--muted);font-style:normal;
+  font-variant-numeric:tabular-nums}
+.d7-cond{display:flex;align-items:center;gap:.4rem;min-width:0}
+.d7-ico{flex:none;height:22px;display:flex;align-items:center}
+.d7-svg{width:21px;height:21px;color:var(--ink2)}
+.d7-row.today .d7-svg{color:var(--amber)}
+.d7-cond em{font-style:normal;font-size:.76rem;color:var(--ink2);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.d7-track{position:relative;height:2.4rem}
+.d7-haze{position:absolute;top:1.02rem;height:.62rem;border-radius:.31rem;
+  background:linear-gradient(90deg,var(--rust),var(--teal));opacity:0}
+.d7-line{position:absolute;top:1.19rem;height:.28rem;border-radius:.14rem;
+  background:linear-gradient(90deg,var(--rust),var(--teal))}
+.d7-dot{position:absolute;top:.95rem;width:.78rem;height:.78rem;
+  border-radius:50%;transform:translateX(50%)}
+.d7-dot.lo{background:var(--teal)}
+.d7-dot.hi{background:var(--rust)}
+.d7-v{position:absolute;font-size:.78rem;font-weight:600;
+  font-variant-numeric:tabular-nums;transform:translateX(50%);white-space:nowrap}
+.d7-v.lov{top:-.05rem;color:var(--teal)}
+.d7-v.hiv{top:-.05rem;color:var(--rust)}
+#liveDaily:not(.d7-ready) .d7-day b,
+#liveDaily:not(.d7-ready) .d7-day i,
+#liveDaily:not(.d7-ready) .d7-cond em{background:linear-gradient(90deg,
+   var(--line) 25%,var(--panel2) 37%,var(--line) 63%);
+  background-size:400% 100%;border-radius:5px;color:transparent;
+  animation:lvshine 1.4s ease infinite}
+#liveDaily:not(.d7-ready) .d7-day b{width:3.2rem;height:.9em}
+#liveDaily:not(.d7-ready) .d7-day i{width:4.2rem;height:.8em}
+#liveDaily:not(.d7-ready) .d7-cond em{width:5.4rem;height:.85em}
+#liveDaily:not(.d7-ready) .d7-ico{opacity:.18}
+#liveDaily:not(.d7-ready) .d7-line{inset-inline-start:22%;width:46%;opacity:.25}
+/* النقطتان والقيمتان تُخفيان قبل الردّ: نقطة عند موضع افتراضي تُقرأ درجةً
+   حقيقية — نفس قاعدة إخفاء الإبر في «الطقس الآن». وvisibility لا opacity
+   حتى يبقى الحيّز محجوزاً فلا ينزاح شيء. */
+#liveDaily:not(.d7-ready) .d7-dot,
+#liveDaily:not(.d7-ready) .d7-v{visibility:hidden}
+/* ═══ الشمس والقمر — سبعة أيام محسوبة مسبقاً ═══
+   لا هيكل عظمي ولا حالة فشل هنا: القسم مولَّد كاملاً وقت البناء. */
+.sm-week{list-style:none;margin:1rem 0 0;padding:0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:.6rem}
+/* صفّ واحد بسبعة أعمدة على العريض: auto-fit وحده يعطي ٦ فيهبط السابع وحيداً */
+@media (min-width:980px){.sm-week{grid-template-columns:repeat(7,minmax(0,1fr))}}
+.sm-card{background:var(--panel);border:1px solid var(--line);border-radius:13px;
+  padding:.8rem .85rem;display:flex;flex-direction:column;gap:.55rem}
+.sm-card.today{border-color:var(--amber);
+  background:color-mix(in srgb,var(--amber) 10%,var(--panel))}
+.sm-head{display:flex;align-items:baseline;justify-content:space-between;gap:.4rem}
+.sm-head b{font-size:.92rem;color:var(--ink);font-weight:600}
+.sm-card.today .sm-head b{color:var(--amber)}
+.sm-head i{font-style:normal;font-size:.74rem;color:var(--muted);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.sm-moon{display:flex;align-items:center;gap:.6rem}
+.sm-moon svg{flex:none}
+.sm-phase{min-width:0}
+.sm-phase b{display:block;font-size:.83rem;color:var(--amber);font-weight:600;
+  line-height:1.35}
+.sm-phase span{font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.sm-rows{margin:0;padding:.5rem 0 0;border-top:1px solid var(--line);
+  display:flex;flex-direction:column;gap:.22rem}
+.sm-rows > div{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.sm-rows dt{display:flex;align-items:center;gap:.3rem;font-size:.75rem;
+  color:var(--ink2);margin:0}
+.sm-rows dt .wicon{width:15px;height:15px;flex:none;opacity:.85}
+.sm-rows dd{margin:0;font-size:.8rem;font-weight:600;color:var(--ink);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.d7-fail{margin-top:.6rem;padding:.8rem 1rem;border-radius:10px;
+  border:1px solid var(--rust);background:color-mix(in srgb,var(--rust) 10%,transparent);
+  font-size:.9rem;line-height:1.7}
+@media (max-width:640px){
+  .d7-row{grid-template-columns:4.6rem 1fr;height:auto;padding:.45rem .5rem;
+    row-gap:.15rem}
+  .d7-cond{grid-column:2}
+  .d7-track{grid-column:1 / -1;height:2.2rem}
+  .d7-axis-in{margin-inline-start:0}
+  .d7-cond em{font-size:.72rem}}
+@media (prefers-reduced-motion:reduce){
+  #liveDaily:not(.d7-ready) .d7-day b,#liveDaily:not(.d7-ready) .d7-day i,
+  #liveDaily:not(.d7-ready) .d7-cond em{animation:none}}
+
+.hr-fail{margin-top:.6rem;padding:.8rem 1rem;border-radius:10px;
+  border:1px solid var(--rust);background:color-mix(in srgb,var(--rust) 10%,transparent);
+  font-size:.9rem;line-height:1.7}
+@media (max-width:640px){.hr-cell{flex-basis:56px}}
+@media (prefers-reduced-motion:reduce){
+  #liveHourly:not(.hr-ready) .hr-t,#liveHourly:not(.hr-ready) .hr-v{animation:none}}
+
+.lv-fail{margin-top:.8rem;padding:.85rem 1rem;border-radius:10px;
+  border:1px solid var(--rust);background:color-mix(in srgb,var(--rust) 10%,transparent);
+  font-size:.9rem;line-height:1.7}
+.lv-fail button{margin-inline-start:.6rem;font:inherit;font-size:.85rem;
+  color:var(--bg);background:var(--amber);border:none;border-radius:7px;
+  padding:.22rem .8rem;cursor:pointer}
+.lv-fail button:hover{filter:brightness(1.08)}
+
 .gtrack{fill:none;stroke:var(--line);stroke-linecap:round}
 .gfill{fill:none;stroke-linecap:round}
 .gtick{stroke:var(--bg);stroke-width:2;stroke-linecap:butt;opacity:.75}
