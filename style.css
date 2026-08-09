@@ -24,17 +24,37 @@ img{max-width:100%}
    الفلك دائماً داكن؛ الطقس نهاريّ بطبيعته. صنف واحد يعيد كل متغيّر لوني،
    فيتبعه الموقع كلّه (نجوم مطفأة، بطاقات زجاجية، ألوان النصّ) بلا لمس مكوّن. */
 body.weather-light{
-  --bg:#e9f4fb; --panel:rgba(255,255,255,.42); --panel2:rgba(255,255,255,.6);
-  --ink:#0f2a3d; --ink2:#1f3d52; --muted:#4d7189;
-  --line:rgba(15,42,61,.14); --amber:#e08a2e; --teal:#1f8f8a; --rust:#d1592f;
+  --bg:#cfe3f2; --panel:rgba(255,255,255,.50); --panel2:rgba(255,255,255,.72);
+  --ink:#0f2a3d; --ink2:#1f3d52; --muted:#375876;
+  --line:rgba(15,42,61,.16); --amber:#c26f12; --teal:#177f7a; --rust:#c04a22;
 }
+/* السماء تنزلق مع الصفحة ولا تُثبَّت. والتثبيت (كما كان) يعيد شريط
+   الداكن↖الفاتح في كل ملء شاشة، فيتبدّل ما خلف النصّ بحسب موضع التمرير
+   ولا يثبت تباينٌ واحد. هنا: سماء داكنة حقيقية في نطاق الترويسة وحده،
+   ثم لونٌ فاتح موحَّد لكل ما بعدها — فالتباين معلوم مقدَّماً. */
 body.weather-light{
-  background:linear-gradient(180deg,#4f95d6 0%,#7ab8e6 22%,#a9d3ee 46%,#cfe6f5 72%,#e9f4fb 100%);
-  background-attachment:fixed;
+  background:linear-gradient(180deg,#2b5f98 0,#31659e 260px,#3a70a8 430px,
+    #5c92c6 540px,#9cc1e1 620px,#cfe3f2 700px) no-repeat,#cfe3f2;
 }
+/* ترويسة عالية: شريط سحاب نظيف أعلاها، والنصّ تحته على أزرق خالص — فلا
+   تمرّ سحابة خلف حرف. */
+body.weather-light .hero{padding-top:17.5rem}
 body.weather-light .sky{display:none}
 body.weather-light nav{background:color-mix(in srgb,#bfe0f2 55%,transparent)}
-body.weather-light .hero h1,body.weather-light .hero .eyebrow{color:var(--ink)}
+/* أعلى التدرّج أزرقُ داكن بعد تغميقه، فنصّ الترويسة يُقلَب إلى فاتح — ولولا
+   ذلك لصار الرماديّ على الأزرق الداكن بالكاد يُقرأ (وقع فعلاً عند التغميق).
+   والعنوان يبقى داكناً لأنه يقع على السحب البيضاء لا على السماء. */
+/* نصّ الترويسة كلّه فاتح على الأزرق الداكن — ولا لون واحد يصلح لو مرّت
+   السحابة خلفه (فاتح على سحابة بيضاء يختفي، وداكن على سماء داكنة يختفي)،
+   ولذلك تُزاح السحب أسفل النصّ لا خلفه. انظر ‎.cloud‎ أدناه. */
+body.weather-light .hero h1{color:#fff}
+body.weather-light .hero .eyebrow{color:#dbeaf7}
+body.weather-light .hero .lede{color:#eaf3fa}
+/* الكهرماني الرفيع على السماء الزرقاء لا يُقرأ (قيس فعلاً: 1.8:1)، فيوضع
+   على رقعة كهرمانية فاتحة تحفظ هويّة اللون وترفع التباين إلى 6.4:1. */
+body.weather-light .sec-head .tag{color:#7d4200;background:#ffe3bd;
+  padding:.14rem .58rem;border-radius:999px;
+  border:1px solid rgba(125,66,0,.20)}
 body.weather-light .stats div,body.weather-light .gauge-item,
 body.weather-light .crit-list li,body.weather-light .scroll,
 body.weather-light table{
@@ -48,21 +68,43 @@ body.weather-light .fc10-track{background:rgba(15,42,61,.12)}
 body.weather-light a{color:#0d6e93}
 body.weather-light .sec-head{border-bottom-color:rgba(15,42,61,.14)}
 
-/* غيوم بيضاء ناعمة تنجرف ببطء فوق السماء الزرقاء */
-.clouds{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.clouds::before,.clouds::after{content:"";position:absolute;width:150vw;height:55vh;
-  filter:blur(18px);opacity:.85;background:
-    radial-gradient(ellipse 16% 55% at 12% 40%, #fff, transparent 72%),
-    radial-gradient(ellipse 22% 70% at 30% 25%, #fff, transparent 72%),
-    radial-gradient(ellipse 14% 50% at 46% 42%, #fff, transparent 72%),
-    radial-gradient(ellipse 20% 65% at 66% 22%, #fff, transparent 72%),
-    radial-gradient(ellipse 15% 52% at 84% 38%, #fff, transparent 72%);}
-.clouds::before{top:-4vh;inset-inline-start:-25vw;animation:driftA 100s linear infinite}
-.clouds::after{top:20vh;inset-inline-start:-45vw;opacity:.55;transform:scale(.8);
-  animation:driftB 150s linear infinite}
-@keyframes driftA{from{transform:translateX(0)}to{transform:translateX(14vw)}}
-@keyframes driftB{from{transform:scale(.8) translateX(0)}to{transform:scale(.8) translateX(-12vw)}}
-@media (prefers-reduced-motion:reduce){.clouds::before,.clouds::after{animation:none}}
+/* غيوم بمحيط حقيقي (svg دوائر متراكبة، انظر _cloud_svg) تنجرف ببطء —
+   لا تمويه تجريدي بلا حواف كما كان. أربع سحب بأحجام وأعماق مختلفة. */
+/* مطلقة لا ثابتة: الثابتة تطفو فوق الجداول والرسوم في وسط الصفحة فتزاحم
+   النصّ (وقع فعلاً). السحب تسكن نطاق السماء أعلى الصفحة وتنزلق مع التمرير. */
+body.weather-light{position:relative;overflow-x:hidden}
+.clouds{position:absolute;top:0;inset-inline:0;height:700px;
+  pointer-events:none;z-index:0;overflow:hidden}
+.cloud{position:absolute;filter:drop-shadow(0 10px 18px rgba(15,42,61,.18))}
+/* المواضع بالبكسل لا بـvh (نطاق السماء ثابت 620px، والوحدة النسبية تُخرج
+   السحابة عنه في الشاشات الطويلة)، وكلّها **أسفل نصّ الترويسة** (ينتهي عند
+   ‎308px‎) لا خلفه — فالسحابة البيضاء خلف نصّ فاتح تمحوه. وهي هناك أقرب
+   إلى الأفق، وهو موضعها الطبيعي أصلاً. */
+.cloud.c1{top:52px;inset-inline-start:-12vw;width:min(46vw,440px);opacity:.97;
+  animation:driftA 140s linear infinite}
+.cloud.c2{top:120px;inset-inline-start:34vw;width:min(30vw,310px);opacity:.85;
+  animation:driftB 175s linear infinite}
+.cloud.c3{top:74px;inset-inline-start:66vw;width:min(26vw,250px);opacity:.92;
+  animation:driftA 115s linear infinite reverse}
+.cloud.c4{top:186px;inset-inline-start:6vw;width:min(20vw,190px);opacity:.55;
+  animation:driftB 200s linear infinite}
+@keyframes driftA{from{transform:translateX(0)}to{transform:translateX(16vw)}}
+@keyframes driftB{from{transform:translateX(0)}to{transform:translateX(-14vw)}}
+@media (prefers-reduced-motion:reduce){.cloud{animation:none}}
+/* في الشاشات الضيّقة يلتفّ شريط التنقّل إلى ثلاثة صفوف (≈160px) فيدفع كل
+   ما تحته، فتختفي السحب خلفه ويتّسع فراغ الترويسة. مقاسات نطاق السماء
+   والسحب والحشو تُعاد هنا بحيث يبقى الترتيب نفسه: سحبٌ ثم نصّ على أزرق. */
+@media (max-width:640px){
+  body.weather-light{
+    background:linear-gradient(180deg,#2b5f98 0,#31659e 300px,#3a70a8 470px,
+      #4f88bf 560px,#9cc1e1 640px,#cfe3f2 720px) no-repeat,#cfe3f2}
+  body.weather-light .hero{padding-top:11rem}
+  .clouds{height:720px}
+  .cloud.c1{top:175px;width:70vw}
+  .cloud.c2{top:210px;width:52vw}
+  .cloud.c3{top:185px;width:44vw}
+  .cloud.c4{top:245px;width:36vw}
+}
 
 nav{position:sticky;top:0;z-index:50;
   background:color-mix(in srgb,var(--bg) 82%,transparent);
@@ -180,10 +222,26 @@ svg.dial{width:100%;height:auto;display:block}
 .dlbl.main{font-family:var(--kufi);font-weight:700;fill:var(--ink2);font-size:10.5px}
 .dray{stroke-width:3;stroke-linecap:round}
 .dobs{fill:var(--muted)}
-.gtrack{fill:none;stroke:var(--line);stroke-width:6;stroke-linecap:round}
-.gneedle{stroke-width:2.5;stroke-linecap:round}
-.gval{font-family:var(--mono);font-size:13px;fill:var(--ink);font-variant-numeric:tabular-nums}
+.gtrack{fill:none;stroke:var(--line);stroke-linecap:round}
+.gfill{fill:none;stroke-linecap:round}
+.gtick{stroke:var(--bg);stroke-width:2;stroke-linecap:butt;opacity:.75}
+.gknob{stroke:#fff;stroke-width:2;filter:drop-shadow(0 1px 3px rgba(15,42,61,.35))}
+.gknobc{fill:#fff}
+.gval{font-family:var(--mono);font-size:17px;fill:var(--ink);font-weight:700;
+  font-variant-numeric:tabular-nums}
 .glbl{font-family:var(--naskh);font-size:9.5px;fill:var(--muted)}
+
+.cface{filter:drop-shadow(0 2px 6px rgba(15,42,61,.18))}
+.cring{fill:none;stroke:rgba(15,42,61,.22);stroke-width:1.5}
+.ctick{stroke:var(--muted);stroke-width:1.2;stroke-linecap:round;opacity:.5}
+.ctick.major{stroke:var(--ink2);stroke-width:2.4;opacity:.9}
+.clbl{font-family:var(--kufi);font-size:10.5px;fill:var(--ink2);font-weight:700;
+  text-anchor:middle}
+.cneedle{filter:drop-shadow(0 1px 2px rgba(15,42,61,.35))}
+.ctail{fill:rgba(15,42,61,.30)}
+.chub{stroke:#fff;stroke-width:2.5}
+.cval{font-family:var(--mono);font-size:12.5px;fill:#fff;font-weight:700;
+  text-anchor:middle;font-variant-numeric:tabular-nums}
 .wicon{color:var(--muted);flex-shrink:0}
 .stat-icon{display:flex;align-items:center;gap:.35rem}
 .gauge-row{display:flex;flex-wrap:wrap;gap:1.4rem;align-items:flex-start;margin-top:.6rem}
