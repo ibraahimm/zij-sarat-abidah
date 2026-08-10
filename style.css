@@ -125,7 +125,12 @@ nav{position:sticky;top:0;z-index:50;
 .hero{position:relative;z-index:1;max-width:76rem;margin:0 auto;
   padding:4.4rem 1.2rem 4rem;display:flex;flex-direction:column;gap:1.2rem}
 .hero.tall{min-height:82vh;justify-content:center}
-.hero .eyebrow{font-family:var(--kufi);font-size:.8rem;letter-spacing:.14em;
+/* تباعد الأحرف صفرٌ في كل نصّ عربي — العربية خطّ متّصل، والتباعد
+   الموجب يباعد حروفها فيترهّل الشكل. والمواضع الأربعة أدناه كانت
+   ‎.14em‎ و‎.16em‎×٢ و‎.06em‎، وكلها محتواها عربيّ محض (فُحص في الصفحات
+   الاثنتي عشرة المولَّدة). وأصلها من قالب لاتينيّ كان معه
+   `text-transform:uppercase` — وهو لا معنى له في العربية. */
+.hero .eyebrow{font-family:var(--kufi);font-size:.8rem;letter-spacing:0;
   color:var(--muted);font-weight:700}
 .hero h1{font-size:clamp(2.1rem,6.4vw,3.6rem);color:var(--amber);font-weight:700}
 .hero .slogan{font-family:var(--kufi);font-size:clamp(1.05rem,2.8vw,1.4rem);color:var(--ink)}
@@ -161,7 +166,7 @@ nav{position:sticky;top:0;z-index:50;
   background:color-mix(in srgb,var(--panel) 88%,transparent);
   padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:.8rem;
   width:fit-content;max-width:100%}
-.nb-l{font-family:var(--kufi);font-size:.75rem;letter-spacing:.16em;
+.nb-l{font-family:var(--kufi);font-size:.75rem;letter-spacing:0;
   color:var(--amber);font-weight:700}
 .nb-t{font-family:var(--kufi);font-size:clamp(1rem,2.6vw,1.25rem)}
 .countdown .cd-grid{display:flex;gap:1.1rem;flex-wrap:wrap}
@@ -501,7 +506,7 @@ td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowra
   padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;
   gap:.6rem;text-align:center;text-decoration:none;color:inherit}
 .big-cta:hover{border-color:var(--ink)}
-.big-cta .bl{font-family:var(--kufi);font-size:.78rem;letter-spacing:.16em;
+.big-cta .bl{font-family:var(--kufi);font-size:.78rem;letter-spacing:0;
   color:var(--amber);font-weight:700}
 .big-cta h3{font-size:clamp(1.3rem,3.4vw,1.9rem);color:var(--ink);max-width:44rem}
 .big-cta p{color:var(--ink2);font-size:.98rem;max-width:42rem;margin:0 auto}
@@ -517,7 +522,7 @@ td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowra
   background:var(--panel2);white-space:pre-wrap;font-size:.94rem;color:var(--ink2);
   line-height:1.85}
 .quote-pub b{color:var(--amber);font-family:var(--kufi);font-size:.78rem;
-  display:block;margin-bottom:.5rem;letter-spacing:.06em}
+  display:block;margin-bottom:.5rem;letter-spacing:0}
 
 .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(20rem,1fr));gap:1.3rem}
 .gcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;
