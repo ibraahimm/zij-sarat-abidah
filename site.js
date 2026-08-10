@@ -26,6 +26,38 @@
       }
     });
   }
+  /* «اليوم» في شريط الأيام — يُحسب هنا لا وقت البناء، وإلا كذب غداً على
+     صفحةٍ ساكنة. وبتوقيت الرياض لا بساعة الجهاز، فزائرٌ بساعةٍ على توقيت
+     آخر لا يرى يوماً غير يومنا — نفس اصطلاح «الطقس الآن». */
+  function riyadhToday() {
+    try {
+      var o = {};
+      new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Riyadh',
+        year: 'numeric', month: '2-digit', day: '2-digit' })
+        .formatToParts(new Date()).forEach(function (p) { o[p.type] = p.value; });
+      return o.year + '-' + o.month + '-' + o.day;
+    } catch (e) { return null; }
+  }
+
+  function markToday() {
+    var iso = riyadhToday();
+    document.querySelectorAll('.mstrip').forEach(function (strip) {
+      var hit = null;
+      strip.querySelectorAll('.mday').forEach(function (c) {
+        c.classList.remove('today');
+        if (iso && c.dataset.d === iso) { c.classList.add('today'); hit = c; }
+      });
+      var lbl = strip.parentNode.querySelector('[data-today]');
+      /* لا يُترك شرطةً صامتة: إمّا يومٌ في المدى، أو تصريحٌ بأنه خارجه */
+      if (lbl) lbl.textContent = hit ? hit.dataset.h : 'خارج هذا المدى';
+    });
+  }
+  markToday();
+  setInterval(markToday, 60000);
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) markToday();
+  });
+
   tick(); setInterval(tick, 1000);
 
   if ('IntersectionObserver' in window) {
