@@ -277,6 +277,15 @@ nav{position:sticky;top:0;z-index:50;
 .mkey b{color:var(--ink);font-weight:600}
 .mkey i{display:inline-block;width:.7rem;height:.7rem;border-radius:2px;
   background:var(--ac,var(--amber));vertical-align:-1px;margin-inline-end:.35rem}
+/* طرفا الشريط — أوّله يميناً وآخره يساراً، وبينهما طبيعةُ المدى */
+.mends{display:flex;justify-content:space-between;align-items:flex-start;
+  gap:.8rem;margin-top:.5rem;font-size:var(--fs-1);color:var(--muted)}
+.me{display:flex;flex-direction:column;line-height:1.35;
+  border-top:2px solid var(--line);padding-top:.3rem;min-width:5.5rem}
+.me.lt{text-align:left}
+.me b{color:var(--ink);font-weight:600}
+.mn{flex:1;text-align:center;padding-top:.45rem;font-style:normal}
+@media (max-width:34rem){.mn{display:none}}
 .evs{display:grid;grid-template-columns:repeat(auto-fill,minmax(21rem,1fr));gap:1.3rem}
 .ev{background:var(--panel);border:1px solid var(--line);border-radius:14px;
   padding:1.3rem 1.4rem;display:flex;flex-direction:column;gap:.75rem;
