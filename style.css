@@ -259,6 +259,22 @@ nav{position:sticky;top:0;z-index:50;
 .stats b{font-family:var(--f-mono);font-size:clamp(1.4rem,3.4vw,2rem);color:var(--amber)}
 .stats span{font-size:var(--fs-4);color:var(--muted);line-height:var(--lh-ui)}
 
+/* ═══ الشهر في شريط — يومٌ لكل خانة، والمعلَّم عليه يوم حدث ═══
+   auto-fill لا repeat(29) — فعدد أيام الشهر الهجري يتغيّر (29 أو 30)،
+   والشريط يلتفّ من نفسه على الشاشة الضيّقة بلا استعلام مقاس. */
+.mstrip{display:grid;grid-template-columns:repeat(auto-fill,minmax(1.7rem,1fr));
+  gap:.28rem;margin-bottom:.9rem}
+.mday{aspect-ratio:1;display:grid;place-items:center;border-radius:5px;
+  background:var(--panel);border:1px solid var(--line);
+  font-size:var(--fs-1);color:var(--muted);font-variant-numeric:tabular-nums}
+.mday.hit{background:var(--ac,var(--amber));border-color:var(--ac,var(--amber));
+  color:var(--bg);font-weight:700}
+.mday.today{outline:2px solid var(--teal);outline-offset:1px}
+.mkey{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;font-size:var(--fs-1);
+  color:var(--muted);margin-bottom:.4rem}
+.mkey b{color:var(--ink);font-weight:600}
+.mkey i{display:inline-block;width:.7rem;height:.7rem;border-radius:2px;
+  background:var(--ac,var(--amber));vertical-align:-1px;margin-inline-end:.35rem}
 .evs{display:grid;grid-template-columns:repeat(auto-fill,minmax(21rem,1fr));gap:1.3rem}
 .ev{background:var(--panel);border:1px solid var(--line);border-radius:14px;
   padding:1.3rem 1.4rem;display:flex;flex-direction:column;gap:.75rem;
