@@ -275,6 +275,8 @@ nav{position:sticky;top:0;z-index:50;
 .mkey{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;font-size:var(--fs-1);
   color:var(--muted);margin-bottom:.4rem}
 .mkey b{color:var(--ink);font-weight:600}
+.sm-stale{margin-top:.7rem;font-size:var(--fs-1);color:var(--rust)}
+.sm-stale[hidden]{display:none}
 .mkey i{display:inline-block;width:.7rem;height:.7rem;border-radius:2px;
   background:var(--ac,var(--amber));vertical-align:-1px;margin-inline-end:.35rem}
 /* طرفا الشريط — أوّله يميناً وآخره يساراً، وبينهما طبيعةُ المدى */

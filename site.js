@@ -52,10 +52,48 @@
       if (lbl) lbl.textContent = hit ? hit.dataset.h : 'خارج هذا المدى';
     });
   }
-  markToday();
-  setInterval(markToday, 60000);
+  /* الشمس والقمر — الأفق محسوبٌ بمحرّكنا وقت البناء، والمتصفّح يختار يومه
+     منه. فلا حساب فلكيّ هنا ولا قاعدة رسمٍ مُعادة: المسار `p` يأتي جاهزاً. */
+  function smRender() {
+    var tag = document.getElementById('sm-data');
+    if (!tag) return;
+    var rows;
+    try { rows = JSON.parse(tag.textContent); } catch (e) { return; }
+    var iso = riyadhToday();
+    var i = -1;
+    for (var j = 0; j < rows.length; j++) { if (rows[j].d === iso) { i = j; break; } }
+    var stale = document.getElementById('sm-stale');
+    /* خارج الأفق — أو في آخر ستّة أيام منه فلا يكتمل الأسبوع بعده: يُترك ما
+       بناه الخادم ويُصرَّح بأنه يوم النشر لا يوم القارئ. وبغير هذا الحدّ
+       يُكرَّر آخرُ يومٍ سبع مرّات في صفّ الأسبوع. */
+    if (i < 0 || i > rows.length - 7) {
+      if (stale) stale.hidden = false;
+      return;
+    }
+    if (stale) stale.hidden = true;
+
+    function fill(el, row, isToday) {
+      el.querySelectorAll('[data-k]').forEach(function (n) {
+        var k = n.dataset.k, v = row[k];
+        if (v === undefined || v === null) return;
+        if (k === 'p') n.setAttribute('d', v);
+        else if (k === 'wd') n.textContent = isToday ? 'اليوم' : v;
+        else n.textContent = v;
+      });
+    }
+    var now = document.getElementById('sm-now');
+    if (now) fill(now, rows[i], true);
+    document.querySelectorAll('#sm-week .sm-card').forEach(function (card, k) {
+      var row = rows[Math.min(i + k, rows.length - 1)];
+      card.classList.toggle('today', k === 0);
+      fill(card, row, k === 0);
+    });
+  }
+
+  markToday(); smRender();
+  setInterval(function () { markToday(); smRender(); }, 60000);
   document.addEventListener('visibilitychange', function () {
-    if (!document.hidden) markToday();
+    if (!document.hidden) { markToday(); smRender(); }
   });
 
   tick(); setInterval(tick, 1000);
