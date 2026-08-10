@@ -17,6 +17,10 @@
      rust×1) فتتكرّر. متاح للحدث القادم، ولا يُعاد تلوين حدث منشور — بطاقته
      على X تحمل لونها الأول. التباين على الخلفية الداكنة 7.09:1. */
   --rose:#D08AA0;
+  /* الكهرمانيّ حشواً غير الكهرمانيّ نصّاً: النصّ على خلفية فاتحة يلزمه
+     تغميق ليبلغ 4.5:1، والحشو لا يلزمه — بل يبهت بالتغميق (زرّ كسوف ٢٠٢٧
+     صار بنياً معتماً حين وُحِّدا). في الداكن هما واحد. */
+  --amber-fill:var(--amber);
   /* العناوين واسم المشروع **أميري**، والمتن سانس — التقابل الذي كان في
      النسخة الأولى قبل 8d17480 ثم سقط.
      والأميري تحديداً لأنه ما كان يراه المؤلّف فعلاً: السلسلة القديمة كانت
@@ -59,11 +63,30 @@ img{max-width:100%}
 /* ============ سماء نهارية — صفحة الطقس وحدها ============
    الفلك دائماً داكن؛ الطقس نهاريّ بطبيعته. صنف واحد يعيد كل متغيّر لوني،
    فيتبعه الموقع كلّه (نجوم مطفأة، بطاقات زجاجية، ألوان النصّ) بلا لمس مكوّن. */
+/* ═══ الثيم الفاتح — نظام واحد لا اثنان ═══
+   كانت صفحة الطقس تعرّف أحد عشر رمزاً لونياً بنفسها، فصار للموقع لوحتان
+   متوازيتان: أي تغيير في الكهرمانيّ يلزمه تعديل في موضعين.
+   هنا **الرموز الدلالية مشتركة** لأي صفحة فاتحة، **والسماء وحدها خاصة
+   بالطقس** (الخلفية والزجاج والحدّ الشفاف أدناه) — لأنها معالجة بصرية لا
+   نظام لون.
+
+   والقيم مأخوذة **بأفضل مُتحقَّق من اللوحتين**، لا بتبنّي إحداهما:
+     ink  من اللوحة الأصلية (13.44:1 مقابل 11.22)
+     ink2 وmuted من لوحة الطقس (8.62 و5.65 مقابل 7.61 و4.47)
+     teal وrust ورose من الأصلية (5.20 و4.54 و4.82 مقابل 3.66 و3.75)
+     amber جديد: كلاهما كان يسقط (3.14 و2.86)، و#8a5510 يبلغ 4.70
+   وكلّها ≥4.5:1 على الخلفيات الثلاث: الورق والسماء والزجاج — مقيسة لا مقدَّرة. */
+body.light{
+  --bg:#FAF8F4; --panel:#FFFFFF; --panel2:#F1ECE2;
+  --ink:#16181F; --ink2:#1f3d52; --muted:#375876; --line:#DEDAD2;
+  --amber:#8a5510; --teal:#24645F; --rust:#A04A2C; --rose:#8E4A62;
+  --amber-fill:#c26f12;   /* حشواً لا نصّاً — انظر التعليق في :root */
+}
+/* والطقس يرث ما سبق، ولا يعيد إلا ما تفرضه السماء: خلفيتها، وزجاج البطاقات
+   فوقها، وحدّ شفاف يناسب الزجاج. أربعة رموز بدل أحد عشر. */
 body.weather-light{
   --bg:#cfe3f2; --panel:rgba(255,255,255,.50); --panel2:rgba(255,255,255,.72);
-  --ink:#0f2a3d; --ink2:#1f3d52; --muted:#375876;
-  --line:rgba(15,42,61,.16); --amber:#c26f12; --teal:#177f7a; --rust:#c04a22;
-  --rose:#8E4A62;   /* قيمة اللوحة الفاتحة الأصلية — التباين 4.82:1 على سماء الطقس */
+  --line:rgba(15,42,61,.16);
 }
 /* السماء تنزلق مع الصفحة ولا تُثبَّت. والتثبيت (كما كان) يعيد شريط
    الداكن↖الفاتح في كل ملء شاشة، فيتبدّل ما خلف النصّ بحسب موضع التمرير
@@ -78,6 +101,10 @@ body.weather-light{
 body.weather-light .hero{padding-top:17.5rem}
 body.weather-light .sky{display:none}
 body.weather-light nav{background:color-mix(in srgb,#bfe0f2 55%,transparent)}
+/* الزرّ الممتلئ على الثيم الفاتح: حشوٌ مضيء ونصٌّ داكن. وكان نصّه بلون
+   الخلفية الفاتحة على حشو كهرماني — 2.86:1، وهو إخفاق قائم قبل هذا العمل
+   لا نتيجة له. والداكن على الحشو نفسه يبلغ 4.71:1. */
+body.light .nav-links a.star,body.light .btn.solid,body.light .btn:hover{color:var(--ink)}
 /* أعلى التدرّج أزرقُ داكن بعد تغميقه، فنصّ الترويسة يُقلَب إلى فاتح — ولولا
    ذلك لصار الرماديّ على الأزرق الداكن بالكاد يُقرأ (وقع فعلاً عند التغميق).
    والعنوان يبقى داكناً لأنه يقع على السحب البيضاء لا على السماء. */
@@ -155,7 +182,7 @@ nav{position:sticky;top:0;z-index:50;
   font-family:var(--f-head);padding-bottom:.2rem;border-bottom:2px solid transparent}
 .nav-links a:hover{color:var(--amber)}
 .nav-links a.on{color:var(--amber);border-color:var(--amber)}
-.nav-links a.star{color:var(--bg);background:var(--amber);border-radius:8px;
+.nav-links a.star{color:var(--bg);background:var(--amber-fill);border-radius:8px;
   padding:.22rem .6rem;border-bottom-color:transparent}
 .nav-links a.star:hover{filter:brightness(1.08);color:var(--bg)}
 
@@ -176,8 +203,8 @@ nav{position:sticky;top:0;z-index:50;
 .btn{display:inline-block;font-family:var(--f-head);font-weight:700;font-size:var(--fs-5);
   border:1px solid var(--amber);border-radius:10px;padding:.6rem 1.3rem;
   text-decoration:none;color:var(--amber);background:transparent;cursor:pointer}
-.btn.solid{background:var(--amber);color:var(--bg)}
-.btn:hover{background:var(--amber);color:var(--bg)}
+.btn.solid{background:var(--amber-fill);color:var(--bg)}
+.btn:hover{background:var(--amber-fill);color:var(--bg)}
 .btn.ghost{border-color:var(--line);color:var(--ink2)}
 .btn.ghost:hover{border-color:var(--muted);background:transparent;color:var(--ink)}
 
