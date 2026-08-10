@@ -7,7 +7,7 @@ X-WR-CALNAME:تقويم سراة عبيدة الفلكي
 X-WR-TIMEZONE:Asia/Riyadh
 BEGIN:VEVENT
 UID:moonpleiades-2026-08-07@zij-sarat-abidah
-DTSTAMP:20260810T013103Z
+DTSTAMP:20260810T013408Z
 DTSTART:20260807T021100Z
 SUMMARY:تقارب قمري | القمر والثريا
 DESCRIPTION:لحظة الرصد 05:11 بتوقيت سراة عبيدة. س
@@ -20,7 +20,7 @@ LOCATION:سراة عبيدة، عسير
 END:VEVENT
 BEGIN:VEVENT
 UID:suhail-2026-08-09@zij-sarat-abidah
-DTSTAMP:20260810T013103Z
+DTSTAMP:20260810T013408Z
 DTSTART:20260809T021100Z
 SUMMARY:أول ظهور ممكن | سهيل
 DESCRIPTION:لحظة الرصد 05:11 بتوقيت سراة عبيدة. م
@@ -34,7 +34,7 @@ LOCATION:سراة عبيدة، عسير
 END:VEVENT
 BEGIN:VEVENT
 UID:perseids-2026-08-13@zij-sarat-abidah
-DTSTAMP:20260810T013103Z
+DTSTAMP:20260810T013408Z
 DTSTART:20260813T013200Z
 SUMMARY:ذروة زخة الشهب | البرشاويات
 DESCRIPTION:الظلام حتى 04:32 بتوقيت سراة عبيدة. س
@@ -47,7 +47,7 @@ LOCATION:سراة عبيدة، عسير
 END:VEVENT
 BEGIN:VEVENT
 UID:mercjup-2026-08-15@zij-sarat-abidah
-DTSTAMP:20260810T013103Z
+DTSTAMP:20260810T013408Z
 DTSTART:20260815T022700Z
 SUMMARY:اقتران وثيق | عطارد والمشتري
 DESCRIPTION:لحظة الرصد 05:27 بتوقيت سراة عبيدة. ي
@@ -61,7 +61,7 @@ LOCATION:سراة عبيدة، عسير
 END:VEVENT
 BEGIN:VEVENT
 UID:venus-2026-08-15@zij-sarat-abidah
-DTSTAMP:20260810T013103Z
+DTSTAMP:20260810T013408Z
 DTSTART:20260815T155600Z
 SUMMARY:أقصى استطالة شرقية | الزهرة
 DESCRIPTION:عند الشفق المدني 18:56 بتوقيت سراة ع
@@ -74,7 +74,7 @@ LOCATION:سراة عبيدة، عسير
 END:VEVENT
 BEGIN:VEVENT
 UID:eclipse-2026-08-28@zij-sarat-abidah
-DTSTAMP:20260810T013103Z
+DTSTAMP:20260810T013408Z
 DTSTART:20260828T023300Z
 SUMMARY:الطرف المرئي فقط | خسوف القمر
 DESCRIPTION:أول قضمة 05:33 بتوقيت سراة عبيدة. يلز
