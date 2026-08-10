@@ -286,6 +286,17 @@ if (typeof window !== 'undefined') window.WX = WX;
     return '<svg viewBox="0 0 24 24" class="' + cls + '" aria-hidden="true">' +
            ((window.CONDSVG || {})[key] || '') + '</svg>';
   }
+  /* وقت جلبنا المركزيّ بتوقيت الرياض — وهو غير وقت القراءة نفسها:
+     الأول متى حدّثنا، والثاني اللحظة التي يصفها الرقم. */
+  function riyadhTime(iso) {
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    try {
+      return new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Riyadh',
+        hour: '2-digit', minute: '2-digit', hour12: false }).format(d);
+    } catch (e) { return ''; }
+  }
+
   function dayName(iso) {
     var y = +iso.slice(0, 4), mo = +iso.slice(5, 7), d = +iso.slice(8, 10);
     return DAY[new Date(Date.UTC(y, mo - 1, d)).getUTCDay()];
@@ -314,7 +325,7 @@ if (typeof window !== 'undefined') window.WX = WX;
     var m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(iso || '');
     if (!m) return '';
     return dayName(iso) + ' ' + (+m[3]) + ' ' + MON[+m[2] - 1] + ' ' + m[1] + 'م · ' +
-           m[4] + ':' + m[5] + ' بتوقيت سراة عبيدة';
+           'قراءة ' + m[4] + ':' + m[5];
   }
 
   function set(box, key, text) {
@@ -333,6 +344,13 @@ if (typeof window !== 'undefined') window.WX = WX;
     var c = data.current, D = data.daily;
     if (!c) throw new Error('no current');
     root.querySelector('.lv-when').textContent = whenText(c.time);
+    /* وقت التحديث المركزيّ من `generated_at` لا من وقت القراءة — والفرق
+       بينهما دقائق، وخلطُهما يوهم القارئ أن الرقم أحدثُ أو أقدمُ مما هو. */
+    var up = root.querySelector('.lv-upd');
+    if (up) {
+      var ut = riyadhTime(data.generated_at);
+      up.textContent = ut ? ' · آخر تحديث ' + ut + ' بتوقيت سراة عبيدة' : '';
+    }
     root.querySelector('.lv-cond').textContent = condText(c.weather_code);
     root.querySelector('.lv-icon').innerHTML = condSvg(c.weather_code, c.is_day, 'lv-bigsvg');
     root.querySelector('.lv-temp').textContent = nf(c.temperature_2m, 1) + '°';
@@ -583,6 +601,8 @@ if (typeof window !== 'undefined') window.WX = WX;
            فشرطة صريحة — الفارغ يُقرأ «لم يكتمل الرسم» والشرطة «لا قيمة». */
         if (!root.classList.contains('lv-ready')) {
           root.querySelector('.lv-when').textContent = '';
+          var u0 = root.querySelector('.lv-upd');
+          if (u0) u0.textContent = '';
           root.querySelector('.lv-cond').textContent = '';
           root.querySelector('.lv-temp').textContent = '—';
           root.querySelectorAll('.lv-v').forEach(function (e) { e.textContent = '—'; });

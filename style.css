@@ -381,6 +381,7 @@ svg.dial{width:100%;height:auto;display:block}
 .lv-side{display:flex;flex-direction:column;gap:.18rem;min-width:0}
 .lv-cond{font-family:var(--f-head);font-size:var(--fs-6);color:var(--ink2);
   font-weight:700}
+.lv-upd{color:var(--muted);font-variant-numeric:tabular-nums}
 .lv-mm{display:flex;align-items:baseline;gap:.35rem;flex-wrap:wrap;
   font-variant-numeric:tabular-nums}
 .lv-mm i{font-style:normal;font-size:var(--fs-1);color:var(--muted)}
