@@ -269,6 +269,8 @@ nav{position:sticky;top:0;z-index:50;
   font-size:var(--fs-1);color:var(--muted);font-variant-numeric:tabular-nums}
 .mday.hit{background:var(--ac,var(--amber));border-color:var(--ac,var(--amber));
   color:var(--bg);font-weight:700}
+/* أول يوم من شهر هجريّ — يُرى الانتقال بدل أن يُقرأ رقمٌ يعود إلى الواحد */
+.mday.mstart{border-inline-start:3px solid var(--teal)}
 .mday.today{outline:2px solid var(--teal);outline-offset:1px}
 .mkey{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;font-size:var(--fs-1);
   color:var(--muted);margin-bottom:.4rem}
