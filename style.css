@@ -127,8 +127,6 @@ body.weather-light table{
   border:1px solid rgba(255,255,255,.5);box-shadow:0 4px 18px rgba(20,60,90,.10)}
 body.weather-light .stats div,body.weather-light .gauge-item{border-radius:16px}
 body.weather-light th{background:rgba(255,255,255,.35)}
-body.weather-light .fc10-row{border-bottom-color:rgba(15,42,61,.10)}
-body.weather-light .fc10-track{background:rgba(15,42,61,.12)}
 body.weather-light a{color:#0d6e93}
 body.weather-light .sec-head{border-bottom-color:rgba(15,42,61,.14)}
 
@@ -342,100 +340,6 @@ svg.dial{width:100%;height:auto;display:block}
 @media (prefers-reduced-motion:reduce){
   #liveNow.lv-loading .lv-v,#liveNow.lv-loading .lv-when{animation:none}
   #liveNow .lv-needle,#liveNow .lv-uv-mark{transition:none}}
-/* ═══ الشريط الساعي ═══
-   الخانة بمقاس ثابت والشريط بارتفاع محجوز، فيستقرّ التخطيط قبل البيانات.
-   والتمرير أفقي داخل الشريط وحده — لا يجرّ الصفحة معه. */
-.hr-scroll{overflow-x:auto;overflow-y:hidden;padding-bottom:.4rem;
-  padding-top:1.2rem;   /* موضع تاريخ حدّ اليوم — بدونه يقصّه overflow */
-  scrollbar-width:thin;-webkit-overflow-scrolling:touch}
-.hr-strip{display:flex;gap:.3rem;list-style:none;margin:0;padding:0;min-height:126px}
-.hr-cell{flex:0 0 62px;display:flex;flex-direction:column;align-items:center;
-  gap:.28rem;padding:.55rem .2rem .5rem;border-radius:12px;
-  background:var(--panel);border:1px solid var(--line);position:relative}
-.hr-cell.now{border-color:var(--amber);
-  background:color-mix(in srgb,var(--amber) 12%,var(--panel));
-  box-shadow:0 0 0 1px var(--amber)}
-.hr-cell.now .hr-t{color:var(--amber);font-weight:700}
-/* حدّ اليوم: فاصل رفيع وتاريخ صغير فوق أول ساعة بعد منتصف الليل */
-.hr-cell.daybreak{margin-inline-start:.85rem}
-.hr-cell.daybreak::before{content:attr(data-day);position:absolute;
-  top:-1.05rem;inset-inline-start:0;font-size:var(--fs-1);color:var(--muted);
-  font-variant-numeric:tabular-nums;white-space:nowrap}
-.hr-cell.daybreak::after{content:"";position:absolute;inset-block:-.2rem;
-  inset-inline-start:-.5rem;width:1px;background:var(--line)}
-.hr-t{font-size:var(--fs-2);color:var(--ink2);font-variant-numeric:tabular-nums;
-  letter-spacing:0;white-space:nowrap;height:1.4rem;line-height:1.4rem}
-.hr-i{height:26px;display:flex;align-items:center;justify-content:center}
-.hr-svg{width:23px;height:23px;color:var(--ink2)}
-.hr-cell.now .hr-svg{color:var(--amber)}
-.hr-v{font-size:var(--fs-6);font-weight:700;color:var(--ink);
-  font-variant-numeric:tabular-nums;height:1.1rem;line-height:1.1rem}
-.hr-p{font-size:var(--fs-1);color:var(--teal);font-variant-numeric:tabular-nums;
-  height:.95rem;line-height:.95rem;white-space:nowrap}
-.hr-p.prob{color:var(--muted)}
-.hr-w{height:17px;display:flex;align-items:center;justify-content:center;
-  color:var(--ink2)}
-.hr-arrow{width:15px;height:15px}
-#liveHourly:not(.hr-ready) .hr-t,
-#liveHourly:not(.hr-ready) .hr-v{background:linear-gradient(90deg,
-   var(--line) 25%,var(--panel2) 37%,var(--line) 63%);
-  background-size:400% 100%;border-radius:5px;color:transparent;
-  animation:lvshine 1.4s ease infinite;min-width:2.1rem}
-#liveHourly:not(.hr-ready) .hr-i{opacity:.18}
-/* ═══ توقّع سبعة أيام — dumbbell على محور مشترك ═══
-   ارتفاع الصفّ والمحور مثبّتان، فلا ينزاح شيء عند وصول البيانات. */
-.d7-axis{height:1.25rem;position:relative;margin-bottom:.15rem}
-.d7-axis-in{position:absolute;inset:0;
-  margin-inline-start:calc(6.4rem + 8.6rem + 1.2rem)}
-.d7-axis-in span{position:absolute;transform:translateX(50%);
-  font-size:var(--fs-2);color:var(--muted);font-variant-numeric:tabular-nums}
-.d7-list{list-style:none;margin:0;padding:0}
-.d7-row{display:grid;grid-template-columns:6.4rem 8.6rem 1fr;gap:.6rem;
-  align-items:center;height:3.1rem;padding:0 .5rem;border-radius:11px;
-  border:1px solid transparent}
-.d7-row + .d7-row{margin-top:.18rem}
-.d7-row.today{border-color:var(--amber);
-  background:color-mix(in srgb,var(--amber) 10%,transparent)}
-.d7-day{display:flex;flex-direction:column;line-height:var(--lh-tight)}
-.d7-day b{font-size:var(--fs-5);color:var(--ink);font-weight:600}
-.d7-row.today .d7-day b{color:var(--amber)}
-.d7-day i{font-size:var(--fs-2);color:var(--muted);font-style:normal;
-  font-variant-numeric:tabular-nums}
-.d7-cond{display:flex;align-items:center;gap:.4rem;min-width:0}
-.d7-ico{flex:none;height:22px;display:flex;align-items:center}
-.d7-svg{width:21px;height:21px;color:var(--ink2)}
-.d7-row.today .d7-svg{color:var(--amber)}
-.d7-cond em{font-style:normal;font-size:var(--fs-2);color:var(--ink2);
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.d7-track{position:relative;height:2.4rem}
-.d7-haze{position:absolute;top:1.02rem;height:.62rem;border-radius:.31rem;
-  background:linear-gradient(90deg,var(--rust),var(--teal));opacity:0}
-.d7-line{position:absolute;top:1.19rem;height:.28rem;border-radius:.14rem;
-  background:linear-gradient(90deg,var(--rust),var(--teal))}
-.d7-dot{position:absolute;top:.95rem;width:.78rem;height:.78rem;
-  border-radius:50%;transform:translateX(50%)}
-.d7-dot.lo{background:var(--teal)}
-.d7-dot.hi{background:var(--rust)}
-.d7-v{position:absolute;font-size:var(--fs-3);font-weight:600;
-  font-variant-numeric:tabular-nums;transform:translateX(50%);white-space:nowrap}
-.d7-v.lov{top:-.05rem;color:var(--teal)}
-.d7-v.hiv{top:-.05rem;color:var(--rust)}
-#liveDaily:not(.d7-ready) .d7-day b,
-#liveDaily:not(.d7-ready) .d7-day i,
-#liveDaily:not(.d7-ready) .d7-cond em{background:linear-gradient(90deg,
-   var(--line) 25%,var(--panel2) 37%,var(--line) 63%);
-  background-size:400% 100%;border-radius:5px;color:transparent;
-  animation:lvshine 1.4s ease infinite}
-#liveDaily:not(.d7-ready) .d7-day b{width:3.2rem;height:.9em}
-#liveDaily:not(.d7-ready) .d7-day i{width:4.2rem;height:.8em}
-#liveDaily:not(.d7-ready) .d7-cond em{width:5.4rem;height:.85em}
-#liveDaily:not(.d7-ready) .d7-ico{opacity:.18}
-#liveDaily:not(.d7-ready) .d7-line{inset-inline-start:22%;width:46%;opacity:.25}
-/* النقطتان والقيمتان تُخفيان قبل الردّ: نقطة عند موضع افتراضي تُقرأ درجةً
-   حقيقية — نفس قاعدة إخفاء الإبر في «الطقس الآن». وvisibility لا opacity
-   حتى يبقى الحيّز محجوزاً فلا ينزاح شيء. */
-#liveDaily:not(.d7-ready) .d7-dot,
-#liveDaily:not(.d7-ready) .d7-v{visibility:hidden}
 /* ═══ الشمس والقمر — سبعة أيام محسوبة مسبقاً ═══
    لا هيكل عظمي ولا حالة فشل هنا: القسم مولَّد كاملاً وقت البناء. */
 .sm-week{list-style:none;margin:1rem 0 0;padding:0;display:grid;
@@ -466,27 +370,104 @@ svg.dial{width:100%;height:auto;display:block}
 .sm-rows dd{margin:0;font-size:var(--fs-3);font-weight:600;color:var(--ink);
   font-variant-numeric:tabular-nums;white-space:nowrap}
 
-.d7-fail{margin-top:.6rem;padding:.8rem 1rem;border-radius:10px;
+/* ═══ الحالة الآن: الحرارة والأيقونة والعظمى/الصغرى في صفٍّ واحد ═══
+   العظمى والصغرى **بجوار** الحرارة عمداً — القارئ يسألهما معها. */
+.lv-hero{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+  margin:.2rem 0 1.1rem}
+.lv-icon{flex:none;display:flex;align-items:center}
+.lv-bigsvg{width:62px;height:62px;color:var(--amber)}
+.lv-temp{font-family:var(--f-mono);font-size:3.1rem;line-height:1;font-weight:700;
+  color:var(--ink);font-variant-numeric:tabular-nums}
+.lv-side{display:flex;flex-direction:column;gap:.18rem;min-width:0}
+.lv-cond{font-family:var(--f-head);font-size:var(--fs-6);color:var(--ink2);
+  font-weight:700}
+.lv-mm{display:flex;align-items:baseline;gap:.35rem;flex-wrap:wrap;
+  font-variant-numeric:tabular-nums}
+.lv-mm i{font-style:normal;font-size:var(--fs-1);color:var(--muted)}
+.lv-mm b{font-size:var(--fs-5);color:var(--rust);font-weight:700}
+.lv-mm b + i + b{color:var(--teal)}
+.lv-mm.sub b{font-size:var(--fs-3);color:var(--ink2);font-weight:600}
+#liveNow:not(.lv-ready) .lv-bigsvg{opacity:.18}
+
+/* ═══ الساعات الخمس القادمة — ستّ خانات، ثلاثة أرقام لكلٍّ ═══ */
+.n5-strip{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));gap:.4rem;min-height:104px}
+.n5-cell{background:var(--panel);border:1px solid var(--line);border-radius:11px;
+  padding:.6rem .3rem;display:flex;flex-direction:column;align-items:center;
+  gap:.3rem;text-align:center}
+.n5-cell:first-child{border-color:var(--amber);
+  background:color-mix(in srgb,var(--amber) 10%,var(--panel))}
+.n5-t{font-size:var(--fs-2);color:var(--ink2);font-variant-numeric:tabular-nums;
+  white-space:nowrap}
+.n5-cell:first-child .n5-t{color:var(--amber);font-weight:700}
+.n5-i{height:26px;display:flex;align-items:center}
+.n5-svg{width:24px;height:24px;color:var(--ink2)}
+.n5-cell:first-child .n5-svg{color:var(--amber)}
+.n5-v{font-size:var(--fs-6);font-weight:700;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+#liveNext5:not(.n5-ready) .n5-t,#liveNext5:not(.n5-ready) .n5-v{opacity:.25}
+@media (max-width:38rem){
+  .n5-strip{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* ═══ ٤٨ ساعة بفترات اليوم — جدول يُمرَّر أفقياً، والزمن يمينَ يسار ═══
+   التمرير داخل الصندوق وحده فلا تُجرّ الصفحة، والعمود الأول لاصقٌ فتبقى
+   أسماء الصفوف مرئية مع التمرير. */
+.pt-scroll{overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;
+  -webkit-overflow-scrolling:touch;min-height:340px}
+.pt-table{border-collapse:collapse;width:max-content;min-width:100%;
+  font-variant-numeric:tabular-nums}
+.pt-table th,.pt-table td{padding:.4rem .7rem;text-align:center;
+  border-bottom:1px solid var(--line);white-space:nowrap;font-size:var(--fs-3)}
+.pt-table tbody tr:last-child td,.pt-table tbody tr:last-child th{border-bottom:none}
+.pt-h{position:sticky;inset-inline-start:0;z-index:2;background:var(--bg);
+  text-align:right;color:var(--muted);font-size:var(--fs-2);font-weight:600;
+  border-inline-end:1px solid var(--line)}
+body.weather-light .pt-h{background:var(--paper,#EAF3FB)}
+.pt-day{font-family:var(--f-head);font-size:var(--fs-5);color:var(--ink);
+  border-bottom:2px solid var(--amber)}
+.pt-day i{font-style:normal;font-size:var(--fs-2);color:var(--muted);
+  margin-inline-start:.35rem}
+.pt-part{color:var(--ink2);font-weight:600;font-size:var(--fs-2)}
+.pt-part i{display:block;font-style:normal;font-size:var(--fs-1);color:var(--muted)}
+.pt-ico{padding-block:.2rem}
+.pt-svg{width:22px;height:22px;color:var(--amber)}
+#liveParts:not(.pt-ready) .pt-scroll{opacity:.25}
+
+/* ═══ أربعة عشر يوماً — بطاقة لكل يوم، بأربع مجموعات ═══ */
+.dq-list{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(15.5rem,1fr));gap:.7rem}
+.dq-card{background:var(--panel);border:1px solid var(--line);border-radius:13px;
+  padding:.85rem .9rem;display:flex;flex-direction:column;gap:.5rem}
+.dq-head{display:flex;align-items:baseline;gap:.45rem;
+  border-bottom:1px solid var(--line);padding-bottom:.45rem}
+.dq-ico{flex:none;align-self:center;display:flex}
+.dq-svg{width:26px;height:26px;color:var(--amber)}
+.dq-head b{font-family:var(--f-head);font-size:var(--fs-5);color:var(--ink)}
+.dq-head i{font-style:normal;font-size:var(--fs-2);color:var(--muted);
+  margin-inline-start:auto;font-variant-numeric:tabular-nums}
+.dq-g h4{margin:0 0 .15rem;font-family:var(--f-body);font-size:var(--fs-1);
+  color:var(--muted);font-weight:600}
+.dq-g dl{margin:0;display:flex;flex-direction:column;gap:.12rem}
+.dq-g dl > div{display:flex;justify-content:space-between;gap:.6rem}
+.dq-g dt{margin:0;font-size:var(--fs-2);color:var(--ink2)}
+.dq-g dd{margin:0;font-size:var(--fs-3);font-weight:600;color:var(--ink);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+#liveDays:not(.dq-ready) .dq-card{opacity:.3}
+
+/* رسالة فشل موحَّدة لأقسام الطقس الحيّة الأربعة */
+.wx-fail{margin-top:.8rem;padding:.85rem 1rem;border-radius:10px;
   border:1px solid var(--rust);background:color-mix(in srgb,var(--rust) 10%,transparent);
   font-size:var(--fs-5);line-height:var(--lh-ui)}
-@media (max-width:640px){
-  .d7-row{grid-template-columns:4.6rem 1fr;height:auto;padding:.45rem .5rem;
-    row-gap:.15rem}
-  .d7-cond{grid-column:2}
-  .d7-track{grid-column:1 / -1;height:2.2rem}
-  .d7-axis-in{margin-inline-start:0}
-  .d7-cond em{font-size:var(--fs-2)}}
-@media (prefers-reduced-motion:reduce){
-  #liveDaily:not(.d7-ready) .d7-day b,#liveDaily:not(.d7-ready) .d7-day i,
-  #liveDaily:not(.d7-ready) .d7-cond em{animation:none}}
-
-.hr-fail{margin-top:.6rem;padding:.8rem 1rem;border-radius:10px;
-  border:1px solid var(--rust);background:color-mix(in srgb,var(--rust) 10%,transparent);
-  font-size:var(--fs-5);line-height:var(--lh-ui)}
-@media (max-width:640px){.hr-cell{flex-basis:56px}}
-@media (prefers-reduced-motion:reduce){
-  #liveHourly:not(.hr-ready) .hr-t,#liveHourly:not(.hr-ready) .hr-v{animation:none}}
-
+.wx-fail[hidden]{display:none}
+.wx-age{margin-top:.6rem;padding:.5rem .8rem;border-radius:8px;
+  border:1px solid var(--amber);background:color-mix(in srgb,var(--amber) 8%,transparent);
+  font-size:var(--fs-2);color:var(--ink2)}
+.wx-age[hidden]{display:none}
+.wx-attrib{margin-top:.7rem;padding-top:.6rem;border-top:1px solid var(--line)}
+.wx-fail button{margin-inline-start:.6rem;font:inherit;font-size:var(--fs-4);
+  color:var(--bg);background:var(--amber);border:none;border-radius:7px;
+  padding:.22rem .8rem;cursor:pointer}
+.wx-fail button:hover{filter:brightness(1.08)}
 .lv-fail{margin-top:.8rem;padding:.85rem 1rem;border-radius:10px;
   border:1px solid var(--rust);background:color-mix(in srgb,var(--rust) 10%,transparent);
   font-size:var(--fs-5);line-height:var(--lh-ui)}
@@ -525,21 +506,6 @@ svg.rainbars{width:100%;height:auto;display:block}
 .rblbl{font-family:var(--f-body);font-size:11px;fill:var(--muted)}
 .rbval{font-family:var(--f-mono);font-size:10.5px;fill:var(--ink2);font-variant-numeric:tabular-nums}
 .rbaxis{stroke:var(--line);stroke-width:1}
-.fc10-list{display:flex;flex-direction:column;gap:.15rem}
-.fc10-row{display:grid;grid-template-columns:5rem 8rem 2.4rem 1fr 2.4rem;
-  align-items:center;gap:.7rem;padding:.55rem .3rem;border-bottom:1px solid var(--line)}
-.fc10-row:last-child{border-bottom:none}
-.fc10-day{font-family:var(--f-head);font-size:var(--fs-4);color:var(--ink)}
-.fc10-cond{color:var(--muted);font-size:var(--fs-3)}
-.fc10-lo{font-family:var(--f-mono);color:var(--teal);text-align:center;font-variant-numeric:tabular-nums}
-.fc10-hi{font-family:var(--f-mono);color:var(--rust);text-align:center;font-variant-numeric:tabular-nums}
-.fc10-track{position:relative;height:6px;border-radius:4px;background:var(--line)}
-.fc10-bar{position:absolute;top:0;height:100%;border-radius:4px;
-  background:linear-gradient(90deg,var(--teal),var(--amber),var(--rust))}
-@media (max-width:36rem){
-  .fc10-row{grid-template-columns:3.6rem 1fr 2rem 4.5rem 2rem}
-  .fc10-cond{display:none}
-}
 .nums{display:flex;flex-direction:column;gap:.35rem}
 .nrow{display:flex;justify-content:space-between;gap:.8rem;
   border-bottom:1px dashed var(--line);padding-bottom:.3rem}

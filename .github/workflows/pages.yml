@@ -1,0 +1,87 @@
+# نشر الموقع وتحديث الطقس — آلية واحدة لا آليتان.
+#
+# ينسخه `publish.sh` إلى مستودع النشر في `.github/workflows/pages.yml`.
+# **فالموقع مخرَج لا مصدر**، وهذا الملف مصدره هنا كما `style.css` والخطوط.
+#
+# ╔════════════════════════════════════════════════════════════════════╗
+# ║ لماذا Pages-Actions بدل النشر من الفرع؟                            ║
+# ║ لأن الطقس يُحدَّث كل ربع ساعة. ولو كُتب بالتزام لصار ٩٦ التزاماً في  ║
+# ║ اليوم يُغرقان تاريخ Git. وهنا يُجلَب **أثناء الدورة** ويُنشَر مع     ║
+# ║ الأصول، فلا التزام واحد من المُجدوِل.                               ║
+# ╚════════════════════════════════════════════════════════════════════╝
+#
+# ⚠ يلزمه تحويل مصدر Pages من الفرع إلى Actions مرة واحدة:
+#     gh api -X PUT repos/ibraahimm/zij-sarat-abidah/pages -f build_type=workflow
+#   وبدونه يفشل `deploy-pages`، ويبقى النشر القديم من الفرع عاملاً.
+
+name: نشر الموقع وتحديث الطقس
+
+on:
+  push:
+    branches: [main]          # النشر المعتاد — `publish.sh` يدفع فيُبنى
+  schedule:
+    # فاصل ربع ساعة، لكن **بعيداً عن رأس الساعة**: الدقائق ٠ و١٥ و٣٠ و٤٥
+    # أزحمُ ما يكون على مُجدوِل Actions، فتتأخر الدورة هناك أكثر.
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch:          # تشغيل يدوي عند الحاجة
+
+# لا نشرتان متزامنتان تتسابقان على الموقع؛ والجارية تُكمل ما بدأت.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # النداء المركزيّ الوحيد. يفشل بلا كتابة إن لم يجتز العقد، فتبقى
+      # النسخة الملتزَمة في المستودع كما هي.
+      - name: جلب الطقس مركزياً
+        id: wx
+        continue-on-error: true
+        # الجالبُ تحت `.github/` عمداً: `upload-pages-artifact` يستثني هذا
+        # المجلّد، فلا يُخدَم ملفُّ تشغيلٍ على الموقع بلا حاجة.
+        run: python3 .github/scripts/fetch_weather.py weather-live.json
+
+      - name: تقرير حال الجلب
+        run: |
+          if [ "${{ steps.wx.outcome }}" = "success" ]; then
+            echo "✓ جُلبت نسخة جديدة"; head -c 200 weather-live.json; echo
+          else
+            echo "⚠ تعذّر الجلب — تُنشَر النسخة الملتزَمة في المستودع"
+          fi
+
+      # دورةٌ مجدولة فشل جلبها لا تنشر شيئاً: النسخة الحيّة تبقى كما هي،
+      # فلا نستبدل سليمةً بأقدم منها. أمّا الدفع اليدوي فيُنشَر دائماً،
+      # لأن غرضه صفحاتُ الموقع لا الطقس.
+      - uses: actions/configure-pages@v5
+        if: steps.wx.outcome == 'success' || github.event_name != 'schedule'
+
+      - uses: actions/upload-pages-artifact@v4
+        if: steps.wx.outcome == 'success' || github.event_name != 'schedule'
+        with:
+          path: .
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
+        if: steps.wx.outcome == 'success' || github.event_name != 'schedule'
+
+      - name: إيقاف الدورة عند فشل الجلب المجدول
+        if: steps.wx.outcome != 'success' && github.event_name == 'schedule'
+        run: |
+          echo "::warning::فشل الجلب المركزي — لم يُنشر شيء، والنسخة الحيّة باقية"
+          exit 1
