@@ -37,15 +37,28 @@ CURRENT = ['temperature_2m', 'apparent_temperature', 'relative_humidity_2m',
            'pressure_msl', 'visibility', 'wind_speed_10m', 'wind_direction_10m',
            'wind_gusts_10m', 'precipitation', 'precipitation_probability']
 
+# `precipitation` هو **الإجمالي المنقول** عن المصدر بنصّ وثائقه:
+# «Total precipitation (rain, showers, snow) sum of the preceding hour» [mm].
+# ويُضاف ولا يُشتقّ لأن الاشتقاق `rain + showers` **يُسقط الثلج**: وحدتُه
+# سنتيمترات لا مليمترات، ومكافئُه المائيّ = ÷٧ بنصّ الوثائق نفسها. وسراة
+# عبيدة لا تكاد تعرف ثلجاً، لكن الرقم المنقول لا يحتاج إلى هذا الافتراض.
+# **و`rain` و`showers` يبقيان** — بهما وحدهما يُصنَّف نوع الهطول لاحقاً
+# (نظامٌ واسع مقابل حَمْل موضعيّ)، ولا يُغني الإجمالي عنهما.
 HOURLY = ['temperature_2m', 'apparent_temperature', 'relative_humidity_2m',
           'dew_point_2m', 'weather_code', 'wind_speed_10m', 'wind_direction_10m',
-          'visibility', 'precipitation_probability', 'rain', 'showers',
-          'snowfall', 'is_day']
+          'visibility', 'precipitation_probability', 'precipitation', 'rain',
+          'showers', 'snowfall', 'is_day']
 
+# و`rain_sum`/`showers_sum` هما وحدهما ما يفتح تصنيف النوع على أفق الأيام
+# الخمسة عشر — فالفصل الساعيّ محبوسٌ في ثمانٍ وأربعين ساعة.
+# و`precipitation_hours` «عدد الساعات التي فيها مطر» — **ولا نصّ واجهة له
+# في هذه المرحلة**؛ وحين يُعرض فبصيغة «ساعاتٌ فيها هطول» لا «مدة المطر»،
+# فالساعات قد تكون متفرّقة لا متّصلة.
 DAILY = ['weather_code', 'temperature_2m_max', 'temperature_2m_min',
          'apparent_temperature_max', 'apparent_temperature_min',
          'relative_humidity_2m_mean', 'precipitation_probability_max',
-         'precipitation_sum', 'wind_speed_10m_max', 'wind_gusts_10m_max',
+         'precipitation_sum', 'rain_sum', 'showers_sum', 'precipitation_hours',
+         'wind_speed_10m_max', 'wind_gusts_10m_max',
          'wind_direction_10m_dominant', 'sunrise', 'sunset',
          'sunshine_duration', 'uv_index_max']
 
@@ -68,13 +81,15 @@ PARAMS = {
 EXPECT_UNITS = {
     'hourly': {'temperature_2m': '°C', 'apparent_temperature': '°C',
                'dew_point_2m': '°C', 'wind_speed_10m': 'km/h',
-               'visibility': 'm', 'rain': 'mm', 'showers': 'mm',
-               'snowfall': 'cm', 'relative_humidity_2m': '%',
+               'visibility': 'm', 'precipitation': 'mm', 'rain': 'mm',
+               'showers': 'mm', 'snowfall': 'cm', 'relative_humidity_2m': '%',
                'precipitation_probability': '%'},
     'daily': {'temperature_2m_max': '°C', 'temperature_2m_min': '°C',
               'apparent_temperature_max': '°C', 'apparent_temperature_min': '°C',
               'wind_speed_10m_max': 'km/h', 'wind_gusts_10m_max': 'km/h',
-              'precipitation_sum': 'mm', 'sunshine_duration': 's',
+              'precipitation_sum': 'mm', 'rain_sum': 'mm',
+              'showers_sum': 'mm', 'precipitation_hours': 'h',
+              'sunshine_duration': 's',
               'relative_humidity_2m_mean': '%', 'precipitation_probability_max': '%'},
     'current': {'temperature_2m': '°C', 'apparent_temperature': '°C',
                 'dew_point_2m': '°C', 'wind_speed_10m': 'km/h',
@@ -151,6 +166,26 @@ def validate(d):
             got = u.get(k)
             if got != exp:
                 bad.append(f'{sec}_units.{k} = {got!r} والعارض يفترض {exp!r}')
+
+    # **والقيمة عدديّة حيث تُعلَن وحدتُها.** فوحدةٌ صحيحة فوق نصٍّ لا تنفع:
+    # العارض يجمع ويقارن، ونصٌّ مكان رقمٍ يمرّ صامتاً إلى القارئ. وكلُّ ما في
+    # `EXPECT_UNITS` كميّةٌ مقيسة — والفراغ (`null`) مقبولٌ فالمصدر يرسله عند
+    # حدود الأفق، ويتخطّاه العارض أصلاً.
+    def _num(v):
+        return v is None or (isinstance(v, (int, float)) and not isinstance(v, bool))
+
+    for sec, want in EXPECT_UNITS.items():
+        s = d.get(sec)
+        if not isinstance(s, dict):
+            continue
+        for k in want:
+            v = s.get(k)
+            if isinstance(v, list):
+                off = [i for i, x in enumerate(v) if not _num(x)]
+                if off:
+                    bad.append(f'{sec}.{k} فيه قيمة غير عددية عند {off[:3]}')
+            elif v is not None and not _num(v):
+                bad.append(f'{sec}.{k} قيمة غير عددية: {v!r}')
     return bad
 
 
