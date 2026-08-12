@@ -53,20 +53,27 @@
     });
   }
   /* الشمس والقمر — الأفق محسوبٌ بمحرّكنا وقت البناء، والمتصفّح يختار يومه
-     منه. فلا حساب فلكيّ هنا ولا قاعدة رسمٍ مُعادة: المسار `p` يأتي جاهزاً. */
-  function smRender() {
-    var tag = document.getElementById('sm-data');
+     منه. فلا حساب فلكيّ هنا ولا قاعدة رسمٍ مُعادة: المسار `p` يأتي جاهزاً.
+
+     **ومركَّبٌ على جذرٍ منذ المرحلة ٩** — كان مقيَّداً بأربعة معرّفات عامة،
+     فلا يعمل على `sun-moon.html` ولا في ملخّص الرئيسية إلا بنسخةٍ ثانية.
+     وعددُ البطاقات من الجذر نفسه (`data-sm-cards`)، فالرئيسية بطاقةٌ واحدة
+     وحمولةُ سبعة أيام، والتفصيل سبعٌ وحمولةُ الأفق كلّه. */
+  function mountSunMoon(root) {
+    var tag = root.querySelector('[data-sm-data]');
     if (!tag) return;
     var rows;
     try { rows = JSON.parse(tag.textContent); } catch (e) { return; }
     var iso = riyadhToday();
     var i = -1;
     for (var j = 0; j < rows.length; j++) { if (rows[j].d === iso) { i = j; break; } }
-    var stale = document.getElementById('sm-stale');
-    /* خارج الأفق — أو في آخر ستّة أيام منه فلا يكتمل الأسبوع بعده: يُترك ما
-       بناه الخادم ويُصرَّح بأنه يوم النشر لا يوم القارئ. وبغير هذا الحدّ
-       يُكرَّر آخرُ يومٍ سبع مرّات في صفّ الأسبوع. */
-    if (i < 0 || i > rows.length - 7) {
+    var stale = root.querySelector('[data-sm-stale]');
+    var cards = root.querySelectorAll('.sm-card');
+    var need = +root.getAttribute('data-sm-cards') || cards.length || 1;
+    /* خارج الأفق — أو أقربَ إلى آخره من أن يكتمل الشريط بعده: يُترك ما بناه
+       الخادم ويُصرَّح بأنه يوم النشر لا يوم القارئ. وبغير هذا الحدّ يُكرَّر
+       آخرُ يومٍ مراراً في الشريط. */
+    if (i < 0 || i > rows.length - need) {
       if (stale) stale.hidden = false;
       return;
     }
@@ -81,13 +88,18 @@
         else n.textContent = v;
       });
     }
-    var now = document.getElementById('sm-now');
+    var now = root.querySelector('[data-sm-now]');
     if (now) fill(now, rows[i], true);
-    document.querySelectorAll('#sm-week .sm-card').forEach(function (card, k) {
+    cards.forEach(function (card, k) {
       var row = rows[Math.min(i + k, rows.length - 1)];
       card.classList.toggle('today', k === 0);
       fill(card, row, k === 0);
     });
+  }
+  if (typeof window !== 'undefined') window.mountSunMoon = mountSunMoon;
+
+  function smRender() {
+    document.querySelectorAll('[data-sm-root]').forEach(mountSunMoon);
   }
 
   markToday(); smRender();
@@ -138,6 +150,24 @@ var WX = (function () {
               61: 9, 80: 10, 63: 11, 81: 12, 65: 13, 82: 14,
               95: 15, 96: 16, 99: 17 };
   var PARTS = ['الليل', 'الصباح', 'بعد الظهر', 'المساء'];
+
+  /* ═══ أكواد الرعد — مولَّدةٌ من `WMO_CODES` في بايثون ═══
+     لا جدول ثانٍ، ولا استنتاجَ رعدٍ من كميةِ هطولٍ ولا من احتماله. */
+  var THUNDER = [95, 96, 99];
+  function isThunder(code) {
+    for (var i = 0; i < THUNDER.length; i++) if (THUNDER[i] === code) return true;
+    return false;
+  }
+
+  /* ═══ قواعدُ عرضٍ تحريريّة للموقع — لا تعريفاتٌ من المصدر ═══
+     **`POP_MIN` عتبةُ «الفرصة المعتبَرة»: ٣٠٪ فأعلى.** اختيارُنا نحن، وتُعلَن
+     على الصفحة كذلك — فـOpen-Meteo يرسل احتمالاً لا حكماً. و‎٢٩٪‎ دونها
+     و‎٣٠٪‎ تبلغها، والحدّ مفحوصٌ عند الرقمين.
+
+     **وتصنيف نوع الهطول قاعدةٌ مشتقّة للموقع**، حتميّة، ولا تُطبَّق تحت
+     ملّيمترٍ واحد — فالنسبة عند الكميات الضئيلة ضجيجٌ لا دلالة. */
+  var POP_MIN = 30;
+  var TYPE_MIN_MM = 1, TYPE_SHOWERS = 0.70, TYPE_WIDE = 0.30;
 
   function sev(code) { var v = SEV[code]; return v === undefined ? -1 : v; }
   function ok(v) { return v !== null && v !== undefined && !isNaN(v); }
@@ -201,12 +231,20 @@ var WX = (function () {
     }
     var rain = sum(col(H, 'rain', I)), sh = sum(col(H, 'showers', I));
     var wet = (rain === null && sh === null) ? null : (rain || 0) + (sh || 0);
+    /* `prcp` هو **الإجمالي المنقول** عن المصدر (`precipitation`) — أُضيف في
+       المرحلة ٨أ لصفحة الأمطار، **ولم يُستبدل به `rain`**: ذاك يحمل
+       `rain + showers` ويقرؤه جدولُ فترات `weather.html` بلفظه «كمية المطر»،
+       ودلالتُه لم تتغيّر. والصفحتان تقرآن حقلين مختلفين عن قصد. */
+    var codes2 = codes, th = false;
+    for (i = 0; i < codes2.length; i++) if (isThunder(codes2[i])) th = true;
     return {
       day: g.day, part: g.part, name: PARTS[g.part], hours: I.length,
       from: (H.time[I[0]] || '').slice(11, 16),
       to: (H.time[I[I.length - 1]] || '').slice(11, 16),
       code: (H.weather_code || [])[at],
       isDay: (H.is_day || [])[at],
+      prcp: sum(col(H, 'precipitation', I)),
+      thunder: th,
       temp: mean(col(H, 'temperature_2m', I)),
       feels: mean(col(H, 'apparent_temperature', I)),
       hum: mean(col(H, 'relative_humidity_2m', I)),
@@ -254,15 +292,176 @@ var WX = (function () {
     return Math.floor(m / 60) + ' س ' + ('0' + (m % 60)).slice(-2) + ' د';
   }
 
+  /* ═══════════ نواةُ الأمطار (المرحلة ٨أ) ═══════════
+     **والساعيّ لا يُخلط باليوميّ.** النوافذ هنا **متدحرجة من الساعة الحالية**
+     (٢٤ و٤٨ ساعة)، و`daily[0]` يومٌ تقويميّ كامل مضى بعضُه — فمجموعُ ما بقي
+     من الساعات **لا يساوي** `daily[0].precipitation_sum` ولا يُقارَن به.
+     ولذلك تُعلن كلُّ نافذةٍ مداها الحقيقيّ (`from`–`to`) لا اسمَها فحسب. */
+
+  /* خلاصةُ نافذةٍ ساعية. **والاحتمالُ والكميةُ قيمتان منفصلتان** لا تُشتقّ
+     إحداهما من الأخرى: الأولى `precipitation_probability` بأقصاها في النافذة،
+     والثانية `precipitation` — **الإجماليّ المنقول** عن المصدر، لا
+     `rain + showers` (فذاك يُسقط الثلج، ومكافئُه المائيّ غيرُ وحدته). */
+  function rainWindow(H, idx) {
+    var empty = { hours: 0, from: '', to: '', pop: null, amount: null,
+                  wetHours: 0, thunder: false };
+    if (!H || !H.time || !idx || !idx.length) return empty;
+    var pr = col(H, 'precipitation', idx), codes = col(H, 'weather_code', idx);
+    var wet = 0, th = false, i;
+    for (i = 0; i < pr.length; i++) if (ok(pr[i]) && pr[i] > 0) wet++;
+    for (i = 0; i < codes.length; i++) if (isThunder(codes[i])) th = true;
+    return {
+      hours: idx.length,
+      from: (H.time[idx[0]] || '').slice(0, 16),
+      to: (H.time[idx[idx.length - 1]] || '').slice(0, 16),
+      pop: maxOf(col(H, 'precipitation_probability', idx)),
+      amount: sum(pr),
+      wetHours: wet,
+      thunder: th
+    };
+  }
+
+  /* أقربُ فرصةٍ معتبَرة — **أولُ** ساعةٍ يبلغ احتمالُها العتبة، لا أعلاها.
+     فالسؤال «متى» لا «كم أقصى ما يبلغ». و`null` تعني: لا فرصة في النافذة،
+     وهي نتيجةٌ تُعرض صريحةً لا فراغاً. */
+  function nearestChance(H, idx) {
+    if (!H || !H.time || !idx) return null;
+    var P = H.precipitation_probability || [];
+    for (var k = 0; k < idx.length; k++) {
+      var i = idx[k];
+      if (ok(P[i]) && P[i] >= POP_MIN) {
+        return { i: i, iso: H.time[i], pop: P[i],
+                 amount: (H.precipitation || [])[i],
+                 code: (H.weather_code || [])[i] };
+      }
+    }
+    return null;
+  }
+
+  /* أقوى كميةٍ ساعية في النافذة — **وأولُ ساعةٍ بلغتها ممثّلتُها**، كقاعدة
+     `summarize` نفسها، فلا يتأرجح الاختيار عند التساوي. */
+  function strongestHour(H, idx) {
+    if (!H || !H.time || !idx) return null;
+    var A = H.precipitation || [], best = null;
+    for (var k = 0; k < idx.length; k++) {
+      var i = idx[k];
+      if (!ok(A[i]) || A[i] <= 0) continue;
+      if (best === null || A[i] > best.amount) {
+        best = { i: i, iso: H.time[i], amount: A[i],
+                 pop: (H.precipitation_probability || [])[i],
+                 code: (H.weather_code || [])[i] };
+      }
+    }
+    return best;
+  }
+
+  /* نوع الهطول — `showers` · `widespread` · `mixed` · و`null` دون العتبة.
+     **قاعدةٌ للموقع لا نصٌّ من المصدر**، ومكتوبةٌ هنا في موضعٍ واحد. */
+  function precipType(rainSum, showersSum) {
+    var r = ok(rainSum) ? rainSum : 0, s = ok(showersSum) ? showersSum : 0;
+    var q = r + s;
+    if (q < TYPE_MIN_MM) return null;
+    var f = s / q;
+    if (f >= TYPE_SHOWERS) return 'showers';
+    if (f <= TYPE_WIDE) return 'widespread';
+    return 'mixed';
+  }
+
+  /* أفي الأفق كودٌ رعديّ؟ — يُسأل عن قائمة أكواد، مصدرُها `weather_code`. */
+  function thunderIn(codes) {
+    if (!codes) return false;
+    for (var i = 0; i < codes.length; i++) if (isThunder(codes[i])) return true;
+    return false;
+  }
+
   return { SEV: SEV, PARTS: PARTS, sev: sev, mean: mean, sum: sum, maxOf: maxOf,
            circMean: circMean, summarize: summarize, dayparts: dayparts,
-           nextHours: nextHours, fmtDur: fmtDur };
+           nextHours: nextHours, fmtDur: fmtDur,
+           POP_MIN: POP_MIN, TYPE_MIN_MM: TYPE_MIN_MM,
+           TYPE_SHOWERS: TYPE_SHOWERS, TYPE_WIDE: TYPE_WIDE,
+           THUNDER: THUNDER, isThunder: isThunder, thunderIn: thunderIn,
+           rainWindow: rainWindow, nearestChance: nearestChance,
+           strongestHour: strongestHour, precipType: precipType };
 })();
 if (typeof window !== 'undefined') window.WX = WX;
 
-(function () {
-  var root = document.getElementById('liveNow');
+/* ═══════════ التعريب — مصدرُ حقيقةٍ واحد ═══════════
+   جدولا WMO والاتجاهات **يُولَّدان من بايثون** (`WMO_CODES` و`DIRS`) عند
+   البناء، ولا مرآةَ يدوية هنا تفترق عنهما. وكانا يُحقنان في سكربتٍ مضمَّن
+   داخل صفحة الطقس وحدها (`window.WMO`/`window.WDIRS`) — فمكوّنٌ يُركَّب على
+   صفحةٍ أخرى كان يخرج بلا تعريب. وصارا في هذا الملفّ، يقرؤهما كل مستهلك.
+
+   **والقاعدة واحدة كذلك لا الجدول وحده:** قسمة الزاوية على ٤٥ وتقريبها —
+   وكانت مكتوبةً هنا وفي `wind_dir_name` ببايثون، فوُحِّدت صياغتُها. */
+var WXL = (function () {
+  var WMO = {"0": "صحو", "1": "صحو غالباً", "2": "غائم جزئياً", "3": "غائم كلياً", "45": "ضباب", "48": "ضباب متجمّد", "51": "رذاذ خفيف", "53": "رذاذ متوسط", "55": "رذاذ كثيف", "61": "مطر خفيف", "63": "مطر متوسط", "65": "مطر غزير", "80": "زخّات مطر خفيفة", "81": "زخّات مطر متوسطة", "82": "زخّات مطر عنيفة", "95": "عاصفة رعدية", "96": "عاصفة رعدية مع برَد", "99": "عاصفة رعدية شديدة مع برَد"};
+  var DIRS = ["شمال", "شمال شرق", "شرق", "جنوب شرق", "جنوب", "جنوب غرب", "غرب", "شمال غرب"];
+
+  /* الحالة الجوية نصّاً. والمجهول يُسمّى مجهولاً ولا يُخمَّن. */
+  function condition(code) {
+    if (code === null || code === undefined) return 'غير معروفة';
+    return WMO[String(code)] || 'غير معروفة';
+  }
+
+  /* الاتجاه من الزاوية — ثمانية قطاعات، كلٌّ ٤٥°، ومركزُ الأول شمالٌ تامّ.
+     **والتطبيع يسبق القسمة**: الزاوية قد تأتي سالبة أو فوق ٣٦٠ من مصدرٍ
+     أو من متوسّطٍ دائريّ، و`%` في جافاسكربت يُبقي إشارة السالب. */
+  function windDir(deg) {
+    if (deg === null || deg === undefined) return '';
+    var d = Number(deg);
+    if (!isFinite(d)) return '';
+    d = ((d % 360) + 360) % 360;
+    return DIRS[Math.round(d / 45) % 8] || '';
+  }
+  return { WMO: WMO, DIRS: DIRS, condition: condition, windDir: windDir };
+})();
+if (typeof window !== 'undefined') window.WXL = WXL;
+
+/* ═══════════ أيقونات الحالة — بياناتُ عرضٍ، لا تعريب ═══════════
+   **العطب الذي تعالجه:** كان `condSvg` يقرأ `window.CONDSVG` و`CONDKEY`
+   و`CONDNIGHT` — **ولم تُعرَّف قطّ في أي مخرَج**، بينما `COND_ICONS` و
+   `COND_KEY` و`NIGHT_SWAP` معرَّفةٌ في المولّد ولا تُرسَل. فكانت كل أيقونة
+   `<svg>` فارغاً على الموقع المنشور.
+
+   والعلاج **توليدُ البيانات من مصدرها في بايثون**، لا إعادةُ متغيّراتٍ
+   عامة كما كانت. وهي منفصلة عن `WXL` عمداً: ذاك دلالةٌ ونصّ، وهذه شكل —
+   فلا يولّد جدولٌ واحد النصَّ والترميزَ معاً. */
+var WXI = (function () {
+  var ICONS = {"sun": "<circle cx=\"12\" cy=\"12\" r=\"4.3\" fill=\"currentColor\" stroke=\"none\"/><line x1=\"18.6\" y1=\"12.0\" x2=\"21.2\" y2=\"12.0\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><line x1=\"16.7\" y1=\"16.7\" x2=\"18.5\" y2=\"18.5\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><line x1=\"12.0\" y1=\"18.6\" x2=\"12.0\" y2=\"21.2\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><line x1=\"7.3\" y1=\"16.7\" x2=\"5.5\" y2=\"18.5\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><line x1=\"5.4\" y1=\"12.0\" x2=\"2.8\" y2=\"12.0\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><line x1=\"7.3\" y1=\"7.3\" x2=\"5.5\" y2=\"5.5\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><line x1=\"12.0\" y1=\"5.4\" x2=\"12.0\" y2=\"2.8\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><line x1=\"16.7\" y1=\"7.3\" x2=\"18.5\" y2=\"5.5\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"/>", "moon": "<path d=\"M20 14.2A8.2 8.2 0 0 1 9.8 4 8.6 8.6 0 1 0 20 14.2Z\" fill=\"currentColor\" stroke=\"none\"/>", "partsun": "<circle cx=\"9\" cy=\"9\" r=\"3.2\" fill=\"currentColor\" stroke=\"none\"/><line x1=\"14.1\" y1=\"9.0\" x2=\"16.1\" y2=\"9.0\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"12.6\" y1=\"12.6\" x2=\"14.0\" y2=\"14.0\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"9.0\" y1=\"14.1\" x2=\"9.0\" y2=\"16.1\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"5.4\" y1=\"12.6\" x2=\"4.0\" y2=\"14.0\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"3.9\" y1=\"9.0\" x2=\"1.9\" y2=\"9.0\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"5.4\" y1=\"5.4\" x2=\"4.0\" y2=\"4.0\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"9.0\" y1=\"3.9\" x2=\"9.0\" y2=\"1.9\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"12.6\" y1=\"5.4\" x2=\"14.0\" y2=\"4.0\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><path d=\"M8.4 19.6h9.2a3.3 3.3 0 0 0 .2-6.6 4.9 4.9 0 0 0-9.2-1.1 3.4 3.4 0 0 0-.2 7.7Z\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\" fill=\"var(--panel)\"/>", "partmoon": "<path d=\"M17.6 10.4A6 6 0 0 1 10 3a6.3 6.3 0 1 0 7.6 7.4Z\" fill=\"currentColor\" stroke=\"none\"/><path d=\"M8.4 19.6h9.2a3.3 3.3 0 0 0 .2-6.6 4.9 4.9 0 0 0-9.2-1.1 3.4 3.4 0 0 0-.2 7.7Z\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\" fill=\"var(--panel)\"/>", "cloud": "<path d=\"M7 18.5h10.2a3.7 3.7 0 0 0 .2-7.4 5.5 5.5 0 0 0-10.4-1.2A3.8 3.8 0 0 0 7 18.5Z\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/>", "fog": "<path d=\"M7.5 14.5h9.2a3.5 3.5 0 0 0 .2-7 5.2 5.2 0 0 0-9.8-1.1 3.6 3.6 0 0 0 .4 8.1Z\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/><path d=\"M4.5 18h15M6.5 21h11\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"/>", "drizzle": "<path d=\"M7 14.5h10a3.5 3.5 0 0 0 .2-7 5.2 5.2 0 0 0-9.8-1.1A3.6 3.6 0 0 0 7 14.5Z\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/><path d=\"M9.5 17.6v1.8M13 18v2.2M16.5 17.6v1.8\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"/>", "rain": "<path d=\"M7 14.5h10a3.5 3.5 0 0 0 .2-7 5.2 5.2 0 0 0-9.8-1.1A3.6 3.6 0 0 0 7 14.5Z\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/><path d=\"M9 17.4l-1 3.4M13 17.4l-1 3.4M17 17.4l-1 3.4\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"/>", "storm": "<path d=\"M7 13.8h10a3.5 3.5 0 0 0 .2-7 5.2 5.2 0 0 0-9.8-1.1A3.6 3.6 0 0 0 7 13.8Z\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/><path d=\"M13.2 16.2l-3.4 4.2h3l-1 3.1\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/>"};
+  var KEY = {"0": "sun", "1": "sun", "2": "partsun", "3": "cloud", "45": "fog", "48": "fog", "51": "drizzle", "53": "drizzle", "55": "drizzle", "61": "rain", "63": "rain", "65": "rain", "80": "rain", "81": "rain", "82": "rain", "95": "storm", "96": "storm", "99": "storm"};
+  var NIGHT = {"sun": "moon", "partsun": "partmoon"};
+
+  /* المفتاح من كود WMO. **والمجهول غيمٌ** — وهو الاحتياط الذي كان في
+     الكود، أُبقي بحرفه. والليل يُبدَّل حيث له نسخة (الصافي وقليل الغيم). */
+  function iconKey(code, isDay) {
+    var k = KEY[String(code)] || 'cloud';
+    if (isDay === 0 && NIGHT[k]) k = NIGHT[k];
+    return k;
+  }
+  function svg(code, isDay, cls) {
+    return '<svg viewBox="0 0 24 24" class="' + cls + '" aria-hidden="true">' +
+           (ICONS[iconKey(code, isDay)] || '') + '</svg>';
+  }
+  return { ICONS: ICONS, KEY: KEY, NIGHT: NIGHT, iconKey: iconKey, svg: svg };
+})();
+if (typeof window !== 'undefined') window.WXI = WXI;
+
+/* ═══════════ العارض الحيّ — مكوّنٌ يُركَّب على جذرٍ يُمرَّر إليه ═══════════
+   كان مقيَّداً بـ`#liveNow` وبأربعة معرّفات عامة، فلا يقبل نسختين في صفحة
+   ولا يُركَّب على صفحةٍ أخرى. صار: **كل عنصرٍ يمسّه يُستخرج من جذره**
+   بـ`[data-wx-part]` و`[data-wx-role]`، ولا `document.getElementById` فيه.
+   والبحث عن نقطة التركيب وحده يعرف الصفحة — في المُهيّئ آخر الملفّ. */
+function mountWeather(root) {
   if (!root || !window.fetch) return;
+  function part(name) { return root.querySelector('[data-wx-part="' + name + '"]'); }
+  /* **الأجزاء اختيارية.** كان الجذر يُشترط فيه جزءُ «الآن»، فصفحةٌ تحمل
+     الأيام وحدها (`forecast.html`) لا تُركَّب. والشرط الآن: جزءٌ معروف واحد
+     على الأقل — وكلُّ عرضٍ يفحص جزأه بنفسه. */
+  var PARTS = ['now', 'next5', 'parts', 'days', 'days-summary', 'rain-forecast',
+               'brief', 'rain-brief'];
+  var nowBox = part('now');
+  if (!PARTS.some(part)) return;
+  var ready = false;             /* بلغت الصفحة قراءةً سليمة مرّةً */
 
   var MON = ['يناير','فبراير','مارس','أبريل','مايو','يونيو',
              'يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
@@ -275,17 +474,9 @@ if (typeof window !== 'undefined') window.WX = WX;
     return (Math.round(v * Math.pow(10, d)) / Math.pow(10, d)).toFixed(d)
            .replace(/\.0+$/, '');
   }
-  function dirName(deg) {
-    if (deg === null || deg === undefined) return '';
-    return (window.WDIRS || [])[Math.round(deg / 45) % 8] || '';
-  }
-  function condText(code) { return (window.WMO || {})[String(code)] || 'غير معروفة'; }
-  function condSvg(code, isDay, cls) {
-    var key = (window.CONDKEY || {})[String(code)] || 'cloud';
-    if (isDay === 0 && (window.CONDNIGHT || {})[key]) key = window.CONDNIGHT[key];
-    return '<svg viewBox="0 0 24 24" class="' + cls + '" aria-hidden="true">' +
-           ((window.CONDSVG || {})[key] || '') + '</svg>';
-  }
+  function dirName(deg) { return WXL.windDir(deg); }
+  function condText(code) { return WXL.condition(code); }
+  function condSvg(code, isDay, cls) { return WXI.svg(code, isDay, cls); }
   /* وقت جلبنا المركزيّ بتوقيت الرياض — وهو غير وقت القراءة نفسها:
      الأول متى حدّثنا، والثاني اللحظة التي يصفها الرقم. */
   function riyadhTime(iso) {
@@ -332,8 +523,8 @@ if (typeof window !== 'undefined') window.WX = WX;
     var el = box.querySelector('[data-k="' + key + '"]');
     if (el) el.textContent = text;
   }
-  function fail(id, on) {
-    var box = document.getElementById(id);
+  function fail(name, on) {
+    var box = part(name);
     if (!box) return;
     var f = box.querySelector('.wx-fail');
     if (f) f.hidden = !on;
@@ -341,44 +532,45 @@ if (typeof window !== 'undefined') window.WX = WX;
 
   /* ═══ ١ · الحالة الآن ومعها اليوم ═══ */
   function renderCurrentToday(data) {
+    if (!nowBox) return;
     var c = data.current, D = data.daily;
     if (!c) throw new Error('no current');
-    root.querySelector('.lv-when').textContent = whenText(c.time);
+    nowBox.querySelector('.lv-when').textContent = whenText(c.time);
     /* وقت التحديث المركزيّ من `generated_at` لا من وقت القراءة — والفرق
        بينهما دقائق، وخلطُهما يوهم القارئ أن الرقم أحدثُ أو أقدمُ مما هو. */
-    var up = root.querySelector('.lv-upd');
+    var up = nowBox.querySelector('.lv-upd');
     if (up) {
       var ut = riyadhTime(data.generated_at);
       up.textContent = ut ? ' · آخر تحديث ' + ut + ' بتوقيت سراة عبيدة' : '';
     }
-    root.querySelector('.lv-cond').textContent = condText(c.weather_code);
-    root.querySelector('.lv-icon').innerHTML = condSvg(c.weather_code, c.is_day, 'lv-bigsvg');
-    root.querySelector('.lv-temp').textContent = nf(c.temperature_2m, 1) + '°';
+    nowBox.querySelector('.lv-cond').textContent = condText(c.weather_code);
+    nowBox.querySelector('.lv-icon').innerHTML = condSvg(c.weather_code, c.is_day, 'lv-bigsvg');
+    nowBox.querySelector('.lv-temp').textContent = nf(c.temperature_2m, 1) + '°';
 
     /* العظمى والصغرى بجوار الحرارة الحالية — لا في قسمٍ أسفل الصفحة */
     var hasD = D && D.temperature_2m_max && D.temperature_2m_max.length;
-    set(root, 'tmax', hasD ? nf(D.temperature_2m_max[0], 0) + '°' : '—');
-    set(root, 'tmin', hasD ? nf(D.temperature_2m_min[0], 0) + '°' : '—');
-    set(root, 'fmax', hasD ? nf(D.apparent_temperature_max[0], 0) + '°' : '—');
-    set(root, 'fmin', hasD ? nf(D.apparent_temperature_min[0], 0) + '°' : '—');
+    set(nowBox, 'tmax', hasD ? nf(D.temperature_2m_max[0], 0) + '°' : '—');
+    set(nowBox, 'tmin', hasD ? nf(D.temperature_2m_min[0], 0) + '°' : '—');
+    set(nowBox, 'fmax', hasD ? nf(D.apparent_temperature_max[0], 0) + '°' : '—');
+    set(nowBox, 'fmin', hasD ? nf(D.apparent_temperature_min[0], 0) + '°' : '—');
 
-    set(root, 'feels', nf(c.apparent_temperature, 1) + '°');
-    set(root, 'hum', nf(c.relative_humidity_2m, 0) + '٪');
-    set(root, 'dew', nf(c.dew_point_2m, 1) + '°');
-    set(root, 'cloud', nf(c.cloud_cover, 0) + '٪');
-    set(root, 'vis', (c.visibility === null || c.visibility === undefined)
+    set(nowBox, 'feels', nf(c.apparent_temperature, 1) + '°');
+    set(nowBox, 'hum', nf(c.relative_humidity_2m, 0) + '٪');
+    set(nowBox, 'dew', nf(c.dew_point_2m, 1) + '°');
+    set(nowBox, 'cloud', nf(c.cloud_cover, 0) + '٪');
+    set(nowBox, 'vis', (c.visibility === null || c.visibility === undefined)
         ? '—' : nf(c.visibility / 1000, 1) + ' كم');
-    set(root, 'pop', nf(c.precipitation_probability, 0) + '٪');
+    set(nowBox, 'pop', nf(c.precipitation_probability, 0) + '٪');
 
     /* كمية الهطول: تظهر خانتها حين يكون هناك هطول فعلاً */
-    var pr = root.querySelector('[data-lv="prcp"]');
+    var pr = nowBox.querySelector('[data-lv="prcp"]');
     if (pr) {
       var has = (c.precipitation !== null && c.precipitation !== undefined && c.precipitation > 0);
       pr.hidden = !has;
-      if (has) set(root, 'prcp', nf(c.precipitation, 1) + ' مم');
+      if (has) set(nowBox, 'prcp', nf(c.precipitation, 1) + ' مم');
     }
 
-    var ws = root.querySelector('[data-lv="wind"] svg');
+    var ws = nowBox.querySelector('[data-lv="wind"] svg');
     if (ws && c.wind_direction_10m !== undefined && c.wind_direction_10m !== null) {
       ws.querySelector('.lv-needle').setAttribute('transform',
         'rotate(' + c.wind_direction_10m + ' ' + ws.dataset.cx + ' ' + ws.dataset.cy + ')');
@@ -386,11 +578,11 @@ if (typeof window !== 'undefined') window.WX = WX;
       ws.setAttribute('aria-label', 'اتجاه الرياح ' + Math.round(c.wind_direction_10m) +
         ' درجة، السرعة ' + nf(c.wind_speed_10m, 0) + ' كم/س');
     }
-    root.querySelector('.lv-wind').textContent = 'الرياح ' + nf(c.wind_speed_10m, 1) +
+    nowBox.querySelector('.lv-wind').textContent = 'الرياح ' + nf(c.wind_speed_10m, 1) +
       ' كم/س، من ' + dirName(c.wind_direction_10m) +
       (c.wind_gusts_10m ? ' · هبّات ' + nf(c.wind_gusts_10m, 0) : '');
 
-    var ps = root.querySelector('[data-lv="pres"] svg');
+    var ps = nowBox.querySelector('[data-lv="pres"] svg');
     if (ps && c.pressure_msl !== undefined && c.pressure_msl !== null) {
       var a0 = +ps.dataset.a0, a1 = +ps.dataset.a1,
           v0 = +ps.dataset.vmin, v1 = +ps.dataset.vmax;
@@ -400,10 +592,10 @@ if (typeof window !== 'undefined') window.WX = WX;
       ps.querySelector('.lv-gval').textContent = nf(c.pressure_msl, 1);
       ps.setAttribute('aria-label', 'الضغط ' + nf(c.pressure_msl, 1) + ' هكتوباسكال');
     }
-    root.querySelector('.lv-pres').textContent = 'الضغط ' + nf(c.pressure_msl, 1) + ' هكتوباسكال';
+    nowBox.querySelector('.lv-pres').textContent = 'الضغط ' + nf(c.pressure_msl, 1) + ' هكتوباسكال';
 
     /* أقصى UV **اليوم** من daily[0] — لا من current، فالقيمة اللحظية ليلاً صفر */
-    var us = root.querySelector('[data-lv="uv"] svg');
+    var us = nowBox.querySelector('[data-lv="uv"] svg');
     var uv = hasD && D.uv_index_max ? D.uv_index_max[0] : null;
     if (us && uv !== null && uv !== undefined) {
       var fu = Math.max(0, Math.min(1, uv / +us.dataset.vmax));
@@ -412,16 +604,16 @@ if (typeof window !== 'undefined') window.WX = WX;
       mk.setAttribute('visibility', 'visible');
       us.setAttribute('aria-label', 'أقصى مؤشّر UV اليوم ' + nf(uv, 1));
     }
-    root.querySelector('.lv-uv-l').textContent = 'أقصى UV اليوم ' + nf(uv, 1);
+    nowBox.querySelector('.lv-uv-l').textContent = 'أقصى UV اليوم ' + nf(uv, 1);
 
-    root.classList.add('lv-ready');
-    root.classList.remove('lv-loading');
-    fail('liveNow', false);
+    nowBox.classList.add('lv-ready');
+    nowBox.classList.remove('lv-loading');
+    fail('now', false);
   }
 
   /* ═══ ٢ · الساعات الخمس القادمة — نظرة سريعة، ثلاثة أرقام لا أكثر ═══ */
   function renderNext5(data) {
-    var box = document.getElementById('liveNext5');
+    var box = part('next5');
     if (!box) return;
     var H = data.hourly, c = data.current;
     if (!H || !H.time || !c) throw new Error('no hourly');
@@ -446,7 +638,7 @@ if (typeof window !== 'undefined') window.WX = WX;
       cell.querySelector('.n5-v').textContent = nf(H.temperature_2m[i], 0) + '°';
     });
     box.classList.add('n5-ready');
-    fail('liveNext5', false);
+    fail('next5', false);
   }
 
   /* ═══ ٣ · ٤٨ ساعة مجمَّعة إلى فترات اليوم ═══ */
@@ -466,7 +658,7 @@ if (typeof window !== 'undefined') window.WX = WX;
   ];
 
   function renderParts(data) {
-    var box = document.getElementById('liveParts');
+    var box = part('parts');
     if (!box) return;
     var H = data.hourly, c = data.current;
     if (!H || !H.time || !c) throw new Error('no hourly');
@@ -510,29 +702,70 @@ if (typeof window !== 'undefined') window.WX = WX;
     box.querySelector('.pt-table').innerHTML =
       '<thead>' + h1 + h2 + ico + '</thead><tbody>' + body + '</tbody>';
     box.classList.add('pt-ready');
-    fail('liveParts', false);
+    fail('parts', false);
   }
 
   /* ═══ ٤ · أربعة عشر يوماً — daily[1..14]، واليوم عُرض أعلاه ═══ */
+  /* ═══ الأفق المعروض: **أربعة عشر يوماً مستقبلية** ═══
+     `daily[0]` هو اليوم وقد عُرض في «الطقس الآن»، فالعرض `daily[1..14]`.
+     والقيمة هنا لا تُكرَّر في مكانين: التفصيل والملخّص يقرآن من `dayBase`
+     نفسها — فلا ينفرد أحدهما بتاريخٍ أو حرارةٍ تخالف الآخر. */
+  var DAY_FROM = 1, DAY_N = 14;
+
+  function dayBase(D, i) {
+    var iso = D.time[i];
+    return { iso: iso, day: dayName(iso), date: dayShort(iso),
+             code: D.weather_code[i],
+             tmax: nf(D.temperature_2m_max[i], 0) + '°',
+             tmin: nf(D.temperature_2m_min[i], 0) + '°',
+             /* احتمال الهطول حقلٌ ثابت — يُعرض ولو كان صفراً، فالصفر خبرٌ
+                لا فراغ، واختفاؤه يجعل الخانات غير متساوية فتُقرأ معطوبة. */
+             pop: nf(D.precipitation_probability_max[i], 0) + '٪' };
+  }
+
+  /* ═══ ٤-ب · ملخّص الأيام: خمسة حقول لا أكثر ═══ */
+  function renderDaysSummary(data) {
+    var box = part('days-summary');
+    if (!box) return;
+    var D = data.daily;
+    if (!D || !D.time) throw new Error('no daily');
+    box.querySelectorAll('.ds-cell').forEach(function (cell, k) {
+      var i = DAY_FROM + k;
+      if (i >= D.time.length) { cell.hidden = true; return; }
+      cell.hidden = false;
+      var b = dayBase(D, i);
+      set(cell, 'day', b.day);
+      set(cell, 'date', b.date);
+      var ie = cell.querySelector('[data-k="ico"]');
+      if (ie) ie.innerHTML = condSvg(b.code, 1, 'ds-svg');
+      set(cell, 'tmax', b.tmax);
+      set(cell, 'tmin', b.tmin);
+      set(cell, 'pop', b.pop);
+    });
+    box.classList.add('ds-ready');
+    fail('days-summary', false);
+  }
+
   function renderDays(data) {
-    var box = document.getElementById('liveDays');
+    var box = part('days');
     if (!box) return;
     var D = data.daily;
     if (!D || !D.time) throw new Error('no daily');
     var cards = box.querySelectorAll('.dq-card');
 
     cards.forEach(function (card, k) {
-      var i = k + 1;                        /* daily[0] هو اليوم، وقد عُرض */
+      var i = DAY_FROM + k;
       if (i >= D.time.length) { card.hidden = true; return; }
       card.hidden = false;
-      var iso = D.time[i];
-      set(card, 'day', dayName(iso));
-      set(card, 'date', dayShort(iso));
+      var b = dayBase(D, i);
+      set(card, 'day', b.day);
+      set(card, 'date', b.date);
       var ie = card.querySelector('[data-k="ico"]');
-      if (ie) ie.innerHTML = condSvg(D.weather_code[i], 1, 'dq-svg');
-      set(card, 'cond', condText(D.weather_code[i]));
-      set(card, 'tmax', nf(D.temperature_2m_max[i], 0) + '°');
-      set(card, 'tmin', nf(D.temperature_2m_min[i], 0) + '°');
+      if (ie) ie.innerHTML = condSvg(b.code, 1, 'dq-svg');
+      set(card, 'cond', condText(b.code));
+      set(card, 'tmax', b.tmax);
+      set(card, 'tmin', b.tmin);
+      set(card, 'pop', b.pop);
       set(card, 'fmax', nf(D.apparent_temperature_max[i], 0) + '°');
       set(card, 'fmin', nf(D.apparent_temperature_min[i], 0) + '°');
       set(card, 'hum', nf(D.relative_humidity_2m_mean[i], 0) + '٪');
@@ -541,7 +774,6 @@ if (typeof window !== 'undefined') window.WX = WX;
       var dd = D.wind_direction_10m_dominant[i];
       set(card, 'dir', dd === null || dd === undefined
           ? '—' : dirName(dd) + ' ' + nf(dd, 0) + '°');
-      set(card, 'pop', nf(D.precipitation_probability_max[i], 0) + '٪');
       set(card, 'prcp', nf(D.precipitation_sum[i], 1) + ' مم');
       set(card, 'uv', nf(D.uv_index_max[i], 1));
       set(card, 'rise', (D.sunrise[i] || '').slice(11, 16) || '—');
@@ -549,19 +781,207 @@ if (typeof window !== 'undefined') window.WX = WX;
       set(card, 'sun', WX.fmtDur(D.sunshine_duration[i]));
     });
     box.classList.add('dq-ready');
-    fail('liveDays', false);
+    fail('days', false);
+  }
+
+  /* ═══ ٥ · توقّعات الأمطار — متى يُتوقَّع الهطول؟ وكم؟ وما طبيعته؟ ═══
+     تجيب هذه الصفحة سؤالاً غير سؤال `forecast.html`: تلك «كيف سيكون يوم
+     الخميس؟» وهذه «متى تمطر وكم؟». فلا يُنسَخ جدولُها هنا. */
+  var TYPE_AR = { showers: 'الغالب زخات',
+                  widespread: 'الغالب مطر من نظم واسعة النطاق',
+                  mixed: 'خليط' };
+
+  function num(v) { return v !== null && v !== undefined && !isNaN(v); }
+
+  /* **«رذاذ» لا تُقال للكمية الصغيرة**: هي نوعُ هطولٍ له كودُه في المصدر
+     (٥١–٥٥)، لا وصفٌ لقلّة الملّيمترات. والقليل يُقال فيه «كمية ضئيلة». */
+  function mmText(v) {
+    if (!num(v)) return '—';
+    if (v <= 0) return '0 مم';
+    if (v < 1) return nf(v, 1) + ' مم · كمية ضئيلة';
+    return nf(v, 1) + ' مم';
+  }
+  function popText(v) { return num(v) ? nf(v, 0) + '٪' : '—'; }
+  function hourText(iso) {
+    return iso ? dayName(iso) + ' ' + dayShort(iso) + ' · ' + iso.slice(11, 16) : '—';
+  }
+  /* المدى الحقيقيّ للنافذة يُعلَن — فاسمُها «٤٨ ساعة» وصفٌ، وهذا هو القياس */
+  function spanText(a, b) {
+    if (!a || !b) return '—';
+    return dayShort(a) + ' ' + a.slice(11, 16) + ' ← ' + dayShort(b) + ' ' + b.slice(11, 16);
+  }
+
+  function renderRainForecast(data) {
+    var box = part('rain-forecast');
+    if (!box) return;
+    var H = data.hourly, D = data.daily, c = data.current;
+    if (!H || !H.time || !c) throw new Error('no hourly');
+    if (!D || !D.time) throw new Error('no daily');
+    var key = (c.time || '').slice(0, 13);
+    var i24 = WX.nextHours(H, key, 24), i48 = WX.nextHours(H, key, 48);
+    if (!i48.length) throw new Error('no future hours');
+    var w24 = WX.rainWindow(H, i24), w48 = WX.rainWindow(H, i48);
+
+    /* ١ · أقربُ فرصةٍ معتبَرة — أو إعلانُ غيابها صريحاً */
+    var lead = box.querySelector('[data-rf="lead"]');
+    var nc = WX.nearestChance(H, i48);
+    var lico = lead.querySelector('[data-k="ico"]');
+    if (nc) {
+      set(lead, 'when', hourText(nc.iso));
+      set(lead, 'pop', popText(nc.pop));
+      set(lead, 'amt', mmText(nc.amount));
+      set(lead, 'note', 'أولُ ساعةٍ يبلغ احتمالُها ' + WX.POP_MIN +
+                        '٪ فأعلى، خلال النافذة كلّها.');
+      if (lico) lico.innerHTML = condSvg(nc.code, 1, 'rf-svg');
+      lead.classList.remove('rf-none');
+    } else {
+      set(lead, 'when', 'لا فرصةَ هطولٍ معتبَرة خلال النافذة');
+      set(lead, 'pop', '—');
+      set(lead, 'amt', '—');
+      set(lead, 'note', 'لم يبلغ احتمالُ أيّ ساعةٍ ' + WX.POP_MIN +
+                        '٪ — وهذه نتيجةٌ لا فراغ.');
+      if (lico) lico.innerHTML = condSvg(0, 1, 'rf-svg');
+      lead.classList.add('rf-none');
+    }
+
+    /* ٢ و٣ · نافذتان متدحرجتان من الساعة الحالية — لا يومان تقويميّان */
+    [[24, w24], [48, w48]].forEach(function (p) {
+      var el = box.querySelector('[data-w="' + p[0] + '"]');
+      if (!el) return;
+      var w = p[1];
+      set(el, 'span', spanText(w.from, w.to) + ' · ' + w.hours + ' ساعة');
+      set(el, 'pop', popText(w.pop));
+      set(el, 'amt', mmText(w.amount));
+      set(el, 'wet', String(w.wetHours));
+    });
+
+    /* ٤ · فترات اليوم داخل الـ٤٨ — بالتقسيم نفسه الذي في «الطقس» */
+    var ps = WX.dayparts(H, key), rows = '';
+    ps.forEach(function (p) {
+      rows += '<tr><th scope="row"><b>' + dayName(p.day) + '</b>' +
+              '<i>' + p.name + '</i><span>' + p.from + '–' + p.to + '</span></th>' +
+              '<td class="rf-c">' + condSvg(p.code, p.isDay, 'rf-psvg') +
+              '<span>' + condText(p.code) + '</span></td>' +
+              '<td>' + popText(p.pop) + '</td>' +
+              '<td>' + mmText(p.prcp) + '</td></tr>';
+    });
+    var tb = box.querySelector('.rf-parts tbody');
+    if (tb) tb.innerHTML = rows;
+
+    /* ٥ · أقوى كميةٍ ساعية داخل النافذة */
+    var peak = box.querySelector('[data-rf="peak"]');
+    var sh = WX.strongestHour(H, i48);
+    if (peak) {
+      if (sh) {
+        set(peak, 'when', hourText(sh.iso));
+        set(peak, 'amt', mmText(sh.amount));
+        set(peak, 'pop', popText(sh.pop));
+      } else {
+        set(peak, 'when', 'لا ساعةَ فيها كميةٌ تُذكر');
+        set(peak, 'amt', '0 مم');
+        set(peak, 'pop', '—');
+      }
+    }
+
+    /* ٧ و٨ · الأفق اليوميّ `daily[1..14]`، والنوع حيث يصحّ تصنيفُه */
+    box.querySelectorAll('.rf-day').forEach(function (li, k) {
+      var i = DAY_FROM + k;
+      if (i >= D.time.length) { li.hidden = true; return; }
+      li.hidden = false;
+      var iso = D.time[i];
+      set(li, 'day', dayName(iso));
+      set(li, 'date', dayShort(iso));
+      set(li, 'pop', popText((D.precipitation_probability_max || [])[i]));
+      set(li, 'sum', mmText((D.precipitation_sum || [])[i]));
+      var ph = (D.precipitation_hours || [])[i];
+      set(li, 'hrs', num(ph) ? nf(ph, 0) : '—');
+      var t = WX.precipType((D.rain_sum || [])[i], (D.showers_sum || [])[i]);
+      var te = li.querySelector('[data-k="type"]');
+      if (te) { te.textContent = t ? TYPE_AR[t] : ''; te.hidden = !t; }
+    });
+
+    /* ٩ · الرعد — من `weather_code` وحده، ولا يُستنتج من كميةٍ ولا احتمال */
+    var dc = [];
+    for (var j = DAY_FROM; j < D.time.length; j++) dc.push((D.weather_code || [])[j]);
+    var thD = WX.thunderIn(dc);
+    var tbx = box.querySelector('[data-rf="thunder"]');
+    if (tbx) {
+      var on = w48.thunder || thD;
+      tbx.hidden = !on;
+      if (on) {
+        set(tbx, 'txt', w48.thunder
+          ? ('في نافذة الساعات كودُ عاصفةٍ رعدية' +
+             (thD ? '، وفي الأفق اليوميّ كذلك.' : '.'))
+          : 'في الأفق اليوميّ كودُ عاصفةٍ رعدية.');
+      }
+    }
+
+    box.classList.add('rf-ready');
+    fail('rain-forecast', false);
+  }
+
+  /* ═══ ٦ · ملخّصا الرئيسية (المرحلة ٩) — بوّابتان لا لوحتا معلومات ═══
+     **المعلومةُ نفسها هي البوابة**، فلا شبكةَ بطاقاتِ مجالات. وكلاهما يقرأ
+     النسخةَ المركزية نفسها، ولا نداءَ ثالث. */
+  function renderBrief(data) {
+    var box = part('brief');
+    if (!box) return;
+    var c = data.current, D = data.daily;
+    if (!c) throw new Error('no current');
+    var ie = box.querySelector('[data-k="ico"]');
+    if (ie) ie.innerHTML = condSvg(c.weather_code, c.is_day, 'brf-svg');
+    set(box, 'temp', nf(c.temperature_2m, 0) + '°');
+    set(box, 'cond', condText(c.weather_code));
+    var hasD = D && D.temperature_2m_max && D.temperature_2m_max.length;
+    set(box, 'tmax', hasD ? nf(D.temperature_2m_max[0], 0) + '°' : '—');
+    set(box, 'tmin', hasD ? nf(D.temperature_2m_min[0], 0) + '°' : '—');
+    box.classList.add('brf-ready');
+    fail('brief', false);
+  }
+
+  /* **بطاقةُ الأمطار بترتيبٍ ملزم** (العقد، القسم ٥): إن كانت في الأفق فرصةٌ
+     معتبَرة فالمعروضُ أقربُها ووجهتُها صفحةُ التوقّع؛ وإلا فسطرٌ موسميّ من
+     السجلّ ووجهتُه السجلّ. **والافتراضُ المبنيّ هو الثاني** — فمن عطّل
+     الجافاسكربت يرى رقماً تاريخياً صحيحاً ورابطاً حيّاً، لا فراغاً. */
+  function renderRainBrief(data) {
+    var box = part('rain-brief');
+    if (!box) return;
+    var H = data.hourly, c = data.current;
+    if (!H || !H.time || !c) throw new Error('no hourly');
+    var idx = WX.nextHours(H, (c.time || '').slice(0, 13), 48);
+    var nc = WX.nearestChance(H, idx);
+    var link = box.querySelector('[data-k="go"]');
+    if (nc) {
+      set(box, 'head', 'أقربُ فرصةِ هطول');
+      set(box, 'when', hourText(nc.iso));
+      set(box, 'pop', popText(nc.pop));
+      set(box, 'amt', mmText(nc.amount));
+      if (link) { link.setAttribute('href', 'rain-forecast.html');
+                  link.textContent = 'توقعات الأمطار ←'; }
+      box.classList.add('rb-live');
+    } else {
+      set(box, 'head', 'لا هطولَ معتبَراً في ثمانٍ وأربعين ساعة');
+      set(box, 'when', 'والاحتمال دون ' + WX.POP_MIN + '٪ في النافذة كلّها');
+      set(box, 'pop', '—');
+      set(box, 'amt', '—');
+      if (link) { link.setAttribute('href', 'rain.html');
+                  link.textContent = 'سجلّ الأمطار ←'; }
+      box.classList.remove('rb-live');
+    }
+    box.classList.add('rb-ready');
+    fail('rain-brief', false);
   }
 
   /* ═══ التنسيق: كل قسم يفشل وحده، ولا ينتظر ما قبله ═══ */
-  function safe(id, fn, data) {
+  function safe(name, fn, data) {
     try { fn(data); return true; }
-    catch (e) { fail(id, true); return false; }
+    catch (e) { fail(name, true); return false; }
   }
   /* حداثة النسخة المشتركة من ختمها هي، لا من وقت بناء الموقع ولا من آخر
      قراءةٍ ناجحة: القراءة قد تنجح على ملفٍ لم يُحدَّث مركزياً منذ ساعات. */
   var STALE = 45 * 60 * 1000;              /* ثلاث دورات فائتة */
   function showAge(data, note) {
-    var el = document.getElementById('wx-age');
+    var el = root.querySelector('[data-wx-role="age"]');
     if (!el) return;
     var g = data && data.generated_at ? Date.parse(data.generated_at) : NaN;
     var age = isNaN(g) ? NaN : Date.now() - g;
@@ -576,18 +996,24 @@ if (typeof window !== 'undefined') window.WX = WX;
   }
 
   function renderWeather(data) {
-    var a = safe('liveNow', renderCurrentToday, data);
-    var b = safe('liveNext5', renderNext5, data);
-    var cc = safe('liveParts', renderParts, data);
-    var d = safe('liveDays', renderDays, data);
-    if (a || b || cc || d) { lastOk = Date.now(); lastData = data; }
+    var a = safe('now', renderCurrentToday, data);
+    var b = safe('next5', renderNext5, data);
+    var cc = safe('parts', renderParts, data);
+    var d = safe('days', renderDays, data);
+    var e = safe('days-summary', renderDaysSummary, data);
+    var f = safe('rain-forecast', renderRainForecast, data);
+    var g = safe('brief', renderBrief, data);
+    var h = safe('rain-brief', renderRainBrief, data);
+    if (a || b || cc || d || e || f || g || h) {
+      lastOk = Date.now(); lastData = data; ready = true;
+    }
     showAge(data, false);
   }
 
   function load() {
     if (busy) return;
     busy = true;
-    if (!root.classList.contains('lv-ready')) root.classList.add('lv-loading');
+    if (nowBox && !nowBox.classList.contains('lv-ready')) nowBox.classList.add('lv-loading');
     var ctl = ('AbortController' in window) ? new AbortController() : null;
     var to = setTimeout(function () { if (ctl) ctl.abort(); }, 12000);
     fetch(url(), ctl ? { signal: ctl.signal } : undefined)
@@ -595,23 +1021,23 @@ if (typeof window !== 'undefined') window.WX = WX;
       .then(function (d) { clearTimeout(to); renderWeather(d); })
       .catch(function () {
         clearTimeout(to);
-        root.classList.remove('lv-loading');
+        if (nowBox) nowBox.classList.remove('lv-loading');
         /* **فشل التحديث لا يمحو آخر بيانات ناجحة.** إن كانت الشاشة تحمل
            قراءةً سليمة تُترك ويُعلَن تعذّر التحديث؛ وإن لم تحمل شيئاً
            فشرطة صريحة — الفارغ يُقرأ «لم يكتمل الرسم» والشرطة «لا قيمة». */
-        if (!root.classList.contains('lv-ready')) {
-          root.querySelector('.lv-when').textContent = '';
-          var u0 = root.querySelector('.lv-upd');
-          if (u0) u0.textContent = '';
-          root.querySelector('.lv-cond').textContent = '';
-          root.querySelector('.lv-temp').textContent = '—';
-          root.querySelectorAll('.lv-v').forEach(function (e) { e.textContent = '—'; });
-          root.querySelector('.lv-wind').textContent = 'الرياح —';
-          root.querySelector('.lv-pres').textContent = 'الضغط —';
-          root.querySelector('.lv-uv-l').textContent = 'أقصى UV اليوم —';
-          ['liveNow', 'liveNext5', 'liveParts', 'liveDays'].forEach(function (id) {
-            fail(id, true);
-          });
+        if (!ready) {
+          if (nowBox) {
+            nowBox.querySelector('.lv-when').textContent = '';
+            var u0 = nowBox.querySelector('.lv-upd');
+            if (u0) u0.textContent = '';
+            nowBox.querySelector('.lv-cond').textContent = '';
+            nowBox.querySelector('.lv-temp').textContent = '—';
+            nowBox.querySelectorAll('.lv-v').forEach(function (e) { e.textContent = '—'; });
+            nowBox.querySelector('.lv-wind').textContent = 'الرياح —';
+            nowBox.querySelector('.lv-pres').textContent = 'الضغط —';
+            nowBox.querySelector('.lv-uv-l').textContent = 'أقصى UV اليوم —';
+          }
+          PARTS.forEach(function (name) { fail(name, true); });
         } else {
           /* الشاشة تحمل قراءةً سليمة: تبقى كما هي، ويُعلَن تعذّر التحديث
              في سطرٍ صغير — لا رسالة فشل تحجب توقّعاً صالحاً. */
@@ -621,7 +1047,7 @@ if (typeof window !== 'undefined') window.WX = WX;
       .then(function () { busy = false; });
   }
 
-  var rb = root.querySelector('.lv-retry');
+  var rb = nowBox && nowBox.querySelector('.lv-retry');
   if (rb) rb.addEventListener('click', load);
 
   /* التحديث: ربع ساعة مؤقّتاً، ومثلها شرطاً عند العودة إلى اللسان.
@@ -639,4 +1065,14 @@ if (typeof window !== 'undefined') window.WX = WX;
   });
   startTimer();
   load();
-})();
+  return { reload: load, root: root };
+}
+if (typeof window !== 'undefined') window.mountWeather = mountWeather;
+
+/* المُهيّئ — **وهو وحده يعرف الصفحة.** يبحث عن نقاط التركيب ويسلّمها
+   للمكوّن. ولو تعدّدت في صفحةٍ واحدة عمل كلٌّ مستقلاً عن أخيه. */
+if (typeof document !== 'undefined') {
+  document.querySelectorAll('[data-wx-root]').forEach(function (el) {
+    mountWeather(el);
+  });
+}

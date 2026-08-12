@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>تقويم سراة عبيدة الفلكي — نحسب ولا ننقل</title>
-<meta name="description" content="جداول فلكية تخص منطقة سراة عبيدة، محسوبة ومعايرة ومتحقَّق منها.">
+<title>طقس وفلك سراة عبيدة</title>
+<meta name="description" content="طقس سراة عبيدة الآن وتوقّعها وأمطارها، وشمسها وقمرها وأحداثها الفلكية — لكلٍّ صفحتُه، وكلُّ رقمٍ بمصدره المُعلَن.">
 <link rel="canonical" href="https://ibraahimm.github.io/zij-sarat-abidah/index.html">
-<meta property="og:title" content="تقويم سراة عبيدة الفلكي — نحسب ولا ننقل">
-<meta property="og:description" content="جداول فلكية تخص منطقة سراة عبيدة، محسوبة ومعايرة ومتحقَّق منها.">
+<meta property="og:title" content="طقس وفلك سراة عبيدة">
+<meta property="og:description" content="طقس سراة عبيدة الآن وتوقّعها وأمطارها، وشمسها وقمرها وأحداثها الفلكية — لكلٍّ صفحتُه، وكلُّ رقمٍ بمصدره المُعلَن.">
 <meta property="og:image" content="https://ibraahimm.github.io/zij-sarat-abidah/cards/hero_dark.png">
 <meta property="og:url" content="https://ibraahimm.github.io/zij-sarat-abidah/index.html">
 <meta property="og:type" content="website">
@@ -19,212 +19,136 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
 <link rel="preload" href="fonts/sans-ar-400.woff2?v=24f329fc6c" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/amiri-ar-700.woff2?v=bb99562a67" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=98b769e33b">
+<link rel="stylesheet" href="style.css?v=29eb541d40">
 </head>
-<body>
+<body data-domain="home" data-page="landing">
 <div class="sky" aria-hidden="true"></div>
 
 <nav>
   <div class="nav-in">
-    <a class="brand" href="index.html">تقويم سراة عبيدة الفلكي</a>
+    <a class="brand" href="index.html">طقس وفلك سراة عبيدة</a>
     <div class="nav-links">
-      <a href="index.html" class="on">الرئيسية</a><a href="bulletins.html">النشرة الشهرية</a><a href="dashboard.html">لوحة الأحداث</a><a href="suhail.html">سهيل</a><a href="hilal.html">الهلال</a><a href="eclipse.html">خسوف القمر</a><a href="eclipse2027.html" class="star">كسوف ٢٠٢٧ ★</a><a href="rain.html">الأمطار</a><a href="weather.html">الطقس</a>
-      <a href="https://x.com/IBR_NJI" target="_blank" rel="noopener">@IBR_NJI</a>
+      <a class="top on" href="index.html" aria-current="page">الرئيسية</a><a class="top" href="dashboard.html">الأحداث</a><details class="dd-wrap"><summary class="top">النشرات</summary><div class="dd"><a href="bulletins.html">جميع النشرات</a><a href="bulletin-1448-03.html">نشرة ربيع الأول 1448هـ</a></div></details><details class="dd-wrap"><summary class="top">الشمس، القمر والفلك</summary><div class="dd"><a href="astronomy.html">الشمس، القمر والفلك</a><span class="dd-g">الشمس والقمر</span><a href="sun-moon.html">الشمس والقمر</a><a href="hilal.html">الهلال</a><a href="eclipse2027.html" class="star">★ كسوف ٢٠٢٧</a><span class="dd-g">النجوم</span><a href="suhail.html">سهيل</a></div></details><details class="dd-wrap"><summary class="top">الطقس</summary><div class="dd"><a href="weather.html">الطقس الآن</a><a href="forecast.html">توقّع ١٤ يوماً</a><a href="rain-forecast.html">توقعات الأمطار</a><a href="climate.html">المناخ والبيانات التاريخية</a></div></details>
     </div>
   </div>
 </nav>
-<header class="hero tall" id="top">
-  <div class="eyebrow">تقويم فلكي محلي محسوب · سراة عبيدة، عسير</div>
-  <h1>تقويم سراة عبيدة الفلكي</h1>
-  <div class="slogan">نحسب ولا ننقل</div>
-  <p class="sub">جداول فلكية تُحسب لخط عرض <span class="num">18.0993°</span> شمالاً
-    وارتفاع <span class="num">2360</span> متراً — لا تُنقل عن تقويم غيرنا.
-    تُعايَر على تواريخ الأنواء المتوارثة، ويُتحقَّق من كل رقم مقابل مرصد
-    جت بروبلجن قبل نشره.</p>
-  <div class="cta">
-    <a class="btn solid" href="dashboard.html">لوحة الأحداث</a>
-    <a class="btn" href="perseids.html">القادم: البرشاويات</a>
-    <a class="btn ghost" href="events.ics" download>⬇ إضافة إلى التقويم</a>
-  </div>
+
+<header class="hero" id="top">
+  <div class="eyebrow">طقسٌ وفلكٌ محسوبان لموضعٍ بعينه · سراة عبيدة، عسير</div>
+  <h1>طقس وفلك سراة عبيدة</h1>
+  <p class="sub">طقسُ سراة عبيدة الآن وتوقّعُها، ومناخُها منذ ‎1981‎،
+    وشمسُها وقمرُها وأحداثُها الفلكية — كلٌّ محسوبٌ أو منقولٌ بمصدرٍ مُعلَن،
+    ولكلٍّ صفحتُه.</p>
 </header>
 
-<div class="hero-big">
-  <a class="big-cta reveal" href="rain.html" style="border-color:var(--teal);
-     background:linear-gradient(135deg,color-mix(in srgb,var(--teal) 14%,var(--panel)),var(--panel))">
-    <div class="bl" style="color:var(--teal)">الأكثر سؤالاً — أمطار سراة عبيدة</div>
-    <h3>12 يوليو – 10 أغسطس 2026: <span class="num">11.7</span> ملم — أعلى من <span class="num">4%</span> من 46 سنة مقارنة (الوسيط <span class="num">65.4</span> ملم)</h3>
-    <p>من رصد فضائي حقيقي مقابَل بمحطتَي أبها وخميس مشيط، وتوقّع 14 يوماً
-      حقيقي يتجدَّد يومياً، وسجل كل شهر منذ 1981 — بمنهجية مُفصَحة صراحة،
-      لا رقماً بلا مصدر.</p>
-  </a>
-  <a class="big-cta reveal" href="eclipse2027.html" style="margin-top:1.2rem">
-    <div class="bl">الحدث الأكبر · 29 صفر 1449هـ · 2 أغسطس 2027م</div>
-    <h3>كسوف الشمس الكلّي — خمس دقائق وأربع وخمسون ثانية فوق سراة عبيدة</h3>
+<div class="wrap" data-wx-root>
+
+<section class="reveal">
+  <div class="sec-head"><h2>الطقس الآن</h2>
+    <span class="tag">نسخة مركزية محدّثة كل 15 دقيقة</span></div>
+  <div class="brf" data-wx-part="brief">
+    <span class="brf-ico" data-k="ico"></span>
+    <div class="brf-t"><b data-k="temp">—</b><span data-k="cond">…</span></div>
+    <dl class="rf-kv">
+      <div><dt>العظمى اليوم</dt><dd data-k="tmax">—</dd></div>
+      <div><dt>الصغرى</dt><dd data-k="tmin">—</dd></div>
+    </dl>
+    <a class="more" href="weather.html">تفصيلُ الطقس ←</a>
+    <div class="wx-fail" hidden role="alert">
+      <strong>تعذّر قراءة نسخة الطقس.</strong>
+      <a href="weather.html">وصفحةُ الطقس تُعيد المحاولة</a>.
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="sec-head"><h2>الأمطار</h2>
+    <span class="tag">المستقبل أولاً، والسجلّ خلفه</span></div>
+  <div class="rb" data-wx-part="rain-brief">
+    <b data-k="head">سجلّ أمطار سراة عبيدة</b>
+    <span data-k="when">آخر 30 يوماً: <span class="num">11.7</span> ملم — أعلى من <span class="num">4%</span> من <span class="num">46</span> سنة مقارنة</span>
+    <dl class="rf-kv">
+      <div><dt>الاحتمال</dt><dd data-k="pop">—</dd></div>
+      <div><dt>الكمية</dt><dd data-k="amt">—</dd></div>
+    </dl>
+    <a class="more" data-k="go" href="rain.html">سجلّ الأمطار ←</a>
+    <div class="wx-fail" hidden role="alert">
+      <strong>تعذّر قراءة نسخة الطقس.</strong>
+      <a href="rain.html">والسجلّ التاريخيّ يعمل كاملاً</a>.
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="sec-head"><h2>الشمس والقمر اليوم</h2>
+    <span class="tag">بمحرّكنا الحسابي، لا مصدر منقول</span></div>
+  <div class="sm-wrap" data-sm-root data-sm-cards="1">
+  <div class="stats" id="sm-now" data-sm-now>
+    <div class="stat-icon"><div><svg viewBox="0 0 24 24" width="18" height="18" class="wicon" aria-hidden="true"><path d="M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M6 18a6 6 0 0 1 12 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M12 4v3M6.5 8.5l1.8 1.8M17.5 8.5l-1.8 1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><div><b data-k="r">05:48</b><span>شروق الشمس اليوم</span></div></div>
+    <div class="stat-icon"><div><svg viewBox="0 0 24 24" width="18" height="18" class="wicon" aria-hidden="true"><path d="M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M6 18a6 6 0 0 1 12 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M12 7v3M6.5 10.3l1.8-1.8M17.5 10.3l-1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><div><b data-k="s">18:36</b><span>غروب الشمس اليوم</span></div></div>
+    <div class="stat-icon"><div><svg viewBox="0 0 24 24" width="18" height="18" class="wicon" aria-hidden="true"><path d="M15.4 9.6A5.4 5.4 0 0 1 10 4.2a5.7 5.7 0 1 0 5.4 5.4Z" fill="currentColor" stroke="none"/><path d="M3 18h18M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M12 12.4v3.2M10.4 14l1.6 1.6L13.6 14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div><div><b data-k="ms">18:29</b><span>غروب القمر اليوم</span></div></div>
+    <div class="stat-icon"><div><svg viewBox="0 0 24 24" width="18" height="18" class="wicon" aria-hidden="true"><circle cx="12" cy="12" r="6.4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".45"/></svg></div><div><b data-k="nf">16</b><span>يوماً حتى البدر القادم (<span data-k="nfd">الجمعة 28 أغسطس 2026م</span>)</span></div></div>
+  </div>
+  <ul class="sm-week" id="sm-week"><li class="sm-card today" data-i="0">
+      <div class="sm-head"><b data-k="wd">اليوم</b>
+        <i data-k="dm">12 أغسطس</i></div>
+      <div class="sm-moon"><svg viewBox="0 0 46 46" width="46" height="46" role="img" aria-label="طور القمر"><circle cx="23" cy="23" r="21" fill="var(--muted)" stroke="var(--amber)" stroke-width="1" opacity="0.9"/><path data-k="p" d="M 23.0 2.0 A 21.0 21.0 0 0 0 23.0 44.0 A 20.91839952416713 21.0 0 0 1 23.0 2.0 Z" fill="var(--amber)"/></svg>
+        <div class="sm-phase"><b data-k="ph">محاق</b>
+          <span class="num">إضاءة <span data-k="il">0</span>٪</span></div></div>
+      <dl class="sm-rows">
+        <div><dt><svg viewBox="0 0 24 24" width="15" height="15" class="wicon" aria-hidden="true"><path d="M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M6 18a6 6 0 0 1 12 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M12 4v3M6.5 8.5l1.8 1.8M17.5 8.5l-1.8 1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> الشروق</dt><dd class="num" data-k="r">05:48</dd></div>
+        <div><dt><svg viewBox="0 0 24 24" width="15" height="15" class="wicon" aria-hidden="true"><path d="M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M6 18a6 6 0 0 1 12 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M12 7v3M6.5 10.3l1.8-1.8M17.5 10.3l-1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> الغروب</dt><dd class="num" data-k="s">18:36</dd></div>
+        <div><dt><svg viewBox="0 0 24 24" width="15" height="15" class="wicon" aria-hidden="true"><path d="M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M6.5 18a5.5 5.5 0 0 1 11 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M12 5.2v2.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M4.6 9.4 6.3 11M19.4 9.4 17.7 11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg> طول النهار</dt><dd class="num" data-k="dl">12 س 47 د</dd></div>
+      </dl></li></ul>
+  <p class="sm-stale" id="sm-stale" data-sm-stale hidden>مضى على هذه الصفحة أكثر من أفق
+    حسابها، فالمعروض هنا يومُ آخر نشر لا يومَك. وسائرُ القسم يبقى صحيحاً.</p>
+  <script type="application/json" id="sm-data" data-sm-data>[{"d":"2026-08-12","wd":"الأربعاء","dm":"12 أغسطس","r":"05:48","s":"18:36","dl":"12 س 47 د","ms":"18:29","nf":16,"nfd":"الجمعة 28 أغسطس 2026م","il":0,"ph":"محاق","p":"M 23.0 2.0 A 21.0 21.0 0 0 0 23.0 44.0 A 20.91839952416713 21.0 0 0 1 23.0 2.0 Z"},{"d":"2026-08-13","wd":"الخميس","dm":"13 أغسطس","r":"05:49","s":"18:35","dl":"12 س 46 د","ms":"19:11","nf":15,"nfd":"الجمعة 28 أغسطس 2026م","il":1,"ph":"محاق","p":"M 23.0 2.0 A 21.0 21.0 0 0 1 23.0 44.0 A 20.753040060838128 21.0 0 0 0 23.0 2.0 Z"},{"d":"2026-08-14","wd":"الجمعة","dm":"14 أغسطس","r":"05:49","s":"18:34","dl":"12 س 45 د","ms":"19:50","nf":14,"nfd":"الجمعة 28 أغسطس 2026م","il":4,"ph":"محاق","p":"M 23.0 2.0 A 21.0 21.0 0 0 1 23.0 44.0 A 19.448901818494953 21.0 0 0 0 23.0 2.0 Z"},{"d":"2026-08-15","wd":"السبت","dm":"15 أغسطس","r":"05:49","s":"18:34","dl":"12 س 44 د","ms":"20:27","nf":13,"nfd":"الجمعة 28 أغسطس 2026م","il":9,"ph":"هلال متزايد","p":"M 23.0 2.0 A 21.0 21.0 0 0 1 23.0 44.0 A 17.176000852304842 21.0 0 0 0 23.0 2.0 Z"},{"d":"2026-08-16","wd":"الأحد","dm":"16 أغسطس","r":"05:49","s":"18:33","dl":"12 س 44 د","ms":"21:03","nf":12,"nfd":"الجمعة 28 أغسطس 2026م","il":16,"ph":"هلال متزايد","p":"M 23.0 2.0 A 21.0 21.0 0 0 1 23.0 44.0 A 14.150026483977461 21.0 0 0 0 23.0 2.0 Z"},{"d":"2026-08-17","wd":"الاثنين","dm":"17 أغسطس","r":"05:50","s":"18:32","dl":"12 س 43 د","ms":"21:39","nf":11,"nfd":"الجمعة 28 أغسطس 2026م","il":25,"ph":"هلال متزايد","p":"M 23.0 2.0 A 21.0 21.0 0 0 1 23.0 44.0 A 10.593366745743916 21.0 0 0 0 23.0 2.0 Z"},{"d":"2026-08-18","wd":"الثلاثاء","dm":"18 أغسطس","r":"05:50","s":"18:32","dl":"12 س 42 د","ms":"22:18","nf":10,"nfd":"الجمعة 28 أغسطس 2026م","il":34,"ph":"تربيع أول","p":"M 23.0 2.0 A 21.0 21.0 0 0 1 23.0 44.0 A 6.709434909086165 21.0 0 0 0 23.0 2.0 Z"}]</script>
+</div>
+  <p class="crit" style="margin-top:.7rem"><strong>حسابٌ فلكيّ لا توقّعٌ جوي</strong> —
+    <a href="sun-moon.html">والأفقُ كاملاً في صفحته</a>.</p>
+</section>
+
+<section class="reveal">
+  <div class="sec-head"><h2>الحدث القادم</h2>
+    <span class="tag">من جدول النشر نفسه</span></div>
+  <a class="big-cta" href="perseids.html"><div class="bl">ذروة زخة الشهب · 30 صفر 1448هـ · الخميس 13 أغسطس 2026م</div><h3>البرشاويات</h3><p>سترى من أي مكان وغير محجوبة، والذروة تصادف محاقاً تاماً فلا ضوء قمر طوال الليل</p></a><p class="crit" style="margin-top:.7rem"><a href="dashboard.html">ولوحةُ الأحداث تجمعها كلَّها</a> · <a href="events.ics" download>⬇ إضافة إلى التقويم</a></p>
+</section>
+
+<section class="reveal">
+  <div class="sec-head"><h2>نشرةُ الشهر</h2>
+    <span class="tag">صفحةٌ لكل شهر هجريّ</span></div>
+  <a class="big-cta" href="bulletin-1448-03.html"><div class="bl">النشرة الشهرية</div><h3>ربيع الأول 1448هـ</h3><p>شهرٌ يُفتتح بهلالٍ يبلغ حدّ الرؤية بالمرقب، ويُختم بهلالٍ دون حدّ دانجون فلا يُرى بحال — وكلاهما رقم قاطع. وبينهما أقربُ اقتران كوكبي في الموسم، والزهرة في قمّة ظهورها المسائي، وطرفُ خسوفٍ عميق لا نرى</p></a><p class="crit" style="margin-top:.7rem"><a href="bulletins.html">وجميعُ النشرات في فهرسها</a>.</p>
+</section>
+
+<section class="reveal">
+  <div class="sec-head"><h2>الحدث الأكبر</h2>
+    <span class="tag">29 صفر 1449هـ · 2 أغسطس 2027م</span></div>
+  <a class="big-cta" href="eclipse2027.html">
+    <div class="bl">★ كسوف الشمس الكلّي</div>
+    <h3>خمس دقائق وأربع وخمسون ثانية فوق سراة عبيدة</h3>
     <p>الكسوف الكلي الوحيد الذي يبلغه محرّكنا من هذا الموقع في ثلاثمئة سنة
       (فُحص ٣٧٢٤ محاقاً بين ١٨٥٠ و٢١٥٠) — ولا يحتاج أفقاً مكشوفاً، الشمس قرب
       كبد السماء. التفاصيل والسلامة والعدّ التنازلي ←</p>
   </a>
-</div>
-
-<div class="wrap">
-
-<section class="reveal">
-  <div class="stats">
-    <div><b>18.1°</b><span>خط عرض الحساب — لهذا الموقع وحده</span></div>
-    <div><b>0.02°</b><span>أقصى فرق عن مرصد جت بروبلجن</span></div>
-    <div><b>36/36</b><span>شهراً يعيد المحرّك إنتاج قاعدة أم القرى</span></div>
-    <div><b>15</b><span>يوماً يسبق سهيلُنا تقويمَ وسط الجزيرة — أثر الجغرافيا</span></div>
-    <div><b>2360</b><span>متراً فوق سطح البحر — ضغطاً وخفوتاً</span></div>
-  </div>
-</section>
-
-<section class="reveal">
-  <div class="sec-head"><h2>استكشف</h2><span class="tag">ست بوابات</span></div>
-  <div class="linkgrid">
-    <a class="lcard" href="dashboard.html"><b>لوحة الأحداث</b><span>جدول الشهر حيّاً، بعدّه التنازلي وملف تقويمك</span></a>
-    <a class="lcard" href="suhail.html"><b>سهيل</b><span>الوعد المؤرَّخ، ودرب صعوده يوماً بيوم</span></a>
-    <a class="lcard" href="hilal.html"><b>الهلال</b><span>إمكان الرؤية، والحساب حتى رمضان القادم</span></a>
-    <a class="lcard" href="eclipse.html"><b>خسوف القمر</b><span>ما يُرى من هنا فعلاً، وما لا يُرى</span></a>
-    <a class="lcard" style="border-top-color:var(--rust)" href="eclipse2027.html"><b>كسوف ٢٠٢٧ ★</b><span>الحدث الأكبر — خمس دقائق كلّية فوق سراة عبيدة</span></a>
-  </div>
-</section>
-
-<section class="reveal">
-  <div class="sec-head"><h2>صور السماء</h2><span class="tag">من فهرس هيبارخوس، لا بالظنّ</span></div>
-  <p class="lede">صورتان كما وصفهما ابن قتيبة الدِّينَوَريّ في «الأنواء»: مواضع
-    نجومهما محسوبة، ودرب التبانة من الإحداثي المجرّي، والمقياس متساوٍ في
-    المحورين فالصورة على هيئتها الحقيقية.</p>
-  <div class="gallery">
-    <figure class="gcard">
-      <img src="cards/chart_jawza_dark.png" alt="مخطط الجوزاء والشِّعريين والمِرزمين" loading="lazy">
-      <figcaption class="gtxt">
-        <h3>الشِّعريان والمِرْزَمان</h3>
-        <p>الجوزاء وكلبها، والذراع المبسوطة من الأسد. المِرْزَم وصفُ قرينٍ
-        يُضاف إلى متبوعه — فلكلّ شِعرى مِرزمُها يسبقها، ولا يكون الشيء
-        مِرزمَ نفسه.</p>
-      </figcaption>
-    </figure>
-    <figure class="gcard">
-      <img src="cards/chart_asad_dark.png" alt="مخطط الأسد، ثماني منازل" loading="lazy">
-      <figcaption class="gtxt">
-        <h3>الأسد — صورة تسع ربع السماء</h3>
-        <p>ليس بُرجاً عندهم، بل صورة تمتدّ من الذراعين إلى السِّماك، إحدى
-        وتسعون درجة، وفيها ثماني منازل من الثماني والعشرين.</p>
-      </figcaption>
-    </figure>
-  </div>
-</section>
-
-<section class="reveal">
-  <div class="sec-head"><h2>المنهج</h2><span class="tag">كيف يُحسب كل رقم</span></div>
-  <div class="panels">
-    <div class="panel">
-      <h3>المحرّك</h3>
-      <p>تقويم الكواكب <span class="num">JPL DE440s</span> — أدقّ ما هو متاح مدنياً —
-      ومواقع النجوم من فهرس هيباركوس، والمواضع من سطح الأرض عند الموقع لا من
-      مركزها، والفرق في القمر درجة كاملة.</p>
-    </div>
-    <div class="panel">
-      <h3>الفروض المعلنة</h3>
-      <ul>
-        <li>الأفق مستوٍ و<span class="num">dip = 0</span> — معلَن وملتزَم.</li>
-        <li>الطلوع الاحتراقي: ارتفاع حقيقي <span class="num">≥ 1°</span> والشمس
-          على عمق <span class="num">9°</span>.</li>
-        <li>رصد الكواكب: الشمس على عمق <span class="num">6°</span> — الشفق المدني.</li>
-        <li>الضغط <span class="num">760 hPa</span> والخفوت
-          <span class="num">k = 0.102</span>.</li>
-      </ul>
-    </div>
-    <div class="panel">
-      <h3>المعايرة على المتوارث</h3>
-      <div class="scroll"><table>
-        <thead><tr><th>الموقع</th><th>المتوارث</th><th>الحساب</th></tr></thead>
-        <tbody>
-          <tr><td>جازان</td><td class="n">٧ أغسطس</td><td class="n ok">٧ أغسطس ✓</td></tr>
-          <tr><td>عرعر</td><td class="n">٨ سبتمبر</td><td class="n ok">٨ سبتمبر ✓</td></tr>
-          <tr><td>الرياض</td><td class="n">٢٤ أغسطس</td><td class="n">٢٣ — بيومٍ معلَن</td></tr>
-        </tbody>
-      </table></div>
-      <p>ولا عتبة واحدة تجمع الثلاثة — <strong>والفرق معلن بلا معامل تصحيح.</strong></p>
-    </div>
-    <div class="panel">
-      <h3>التحقق الخارجي</h3>
-      <div class="scroll"><table>
-        <thead><tr><th>الكمية</th><th>Horizons</th><th>محرّكنا</th><th>الفرق</th></tr></thead>
-        <tbody>
-          <tr><td>ارتفاع المشتري</td><td class="n">6.367°</td><td class="n">6.35°</td><td class="n ok">0.02°</td></tr>
-          <tr><td>استطالة الزهرة</td><td class="n">45.8919°</td><td class="n">45.892°</td><td class="n ok">0.0001°</td></tr>
-          <tr><td>استطالة الهلال</td><td class="n">12.0525°</td><td class="n">12.0505°</td><td class="n ok">0.002°</td></tr>
-        </tbody>
-      </table></div>
-      <p>كل نشرة تُقابَل بإحداثي الموقع نفسه قبل النشر.</p>
-    </div>
-  </div>
-</section>
-
-<figure class="verse reveal">
-  <blockquote>
-    كنتُ إذا أصبحتُ في حاجةٍ … أستعملُ التقويمَ والزِّيجا<br>
-    فأصبح الزِّيجُ كتصحيفهِ … وأصبح التقويمُ تعويجا
-  </blockquote>
-  <figcaption>
-    أبو الحسن البصري «الناهي» — يتيمة الدهر للثعالبي (ت ٤٢٩ هـ)<br>
-    شكوى عمرها ألف سنة من تقويمٍ يُنقل ولا يُحسب، فيفسد بفساد أصله.
-    <strong>وهذا بعينه ما نعالجه.</strong>
-  </figcaption>
-</figure>
-
-<section class="reveal">
-  <div class="sec-head"><h2>قواعد الصدق</h2><span class="tag">وحدود العمل تُعلَن كنتائجه</span></div>
-  <div class="panels">
-    <div class="panel">
-      <h3>ما نلتزمه</h3>
-      <ul>
-        <li><strong>الهندسي رقم قاطع، والاحتمالي نافذة</strong> موصوفة بما
-          يؤخّرها — والغبار أولها.</li>
-        <li><strong>المعيار يُنشر مع الرقم دائماً</strong>.</li>
-        <li><strong>ما لم يُتحقق منه لا يُنشر</strong>، وكل رقم مصنَّف في سجل معلن.</li>
-        <li><strong>الرقم يُفصل عن تفسيره</strong> — وما لم يُحسب يُوسَم
-          تفسيراً مقترحاً.</li>
-      </ul>
-    </div>
-    <div class="panel">
-      <h3>وفي الهلال حدٌّ لا يُتجاوز</h3>
-      <p>الحساب يحسب <strong>الإمكان الفلكي للرؤية</strong> فقط —
-      <strong>لا يُثبت شهراً ولا ينفيه</strong>، والإثبات لجهة الإفتاء وحدها.</p>
-      <a class="more" href="hilal.html">صفحة الهلال ←</a>
-    </div>
-    <div class="panel">
-      <h3>وما هو قيد التحقق</h3>
-      <ul>
-        <li><strong>جداول المنازل الشعبية</strong> — تواريخ منقولة لم تُقابل
-          بمطبوعة، فلا تُنشر حتى يُتحقق.</li>
-        <li><strong>عتبة الرؤية بدلالة اللمعان</strong> — معطَّلة حتى يحسمها الرصد.</li>
-        <li><strong>النثرة</strong> — حُسبت بنجم مفرد وهي لطخة، فحسابها ناقص ومعلوم.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="reveal">
-  <div class="sec-head"><h2>البطاقات</h2><span class="tag">كما تُنشر على X</span></div>
-  <div class="cards">
-    <img src="cards/promise_dark.png" alt="وعد سهيل المؤرخ" loading="lazy">
-    <img src="cards/method_dark.png" alt="كيف نحسب" loading="lazy">
-    <img src="cards/ability_dark.png" alt="ماذا يحسب التقويم" loading="lazy">
-    <img src="cards/location_dark.png" alt="الموقع الجغرافي" loading="lazy">
-  </div>
 </section>
 
 </div>
 <footer>
+  <div class="attrib">أرقام الطقس والمناخ من
+    <a href="https://open-meteo.com/" rel="noopener">Open-Meteo</a>
+    برخصة <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC&nbsp;BY&nbsp;4.0</a>
+    — والحساب الفلكي بمحرّكنا.</div>
   <a class="handle" href="https://x.com/IBR_NJI" target="_blank" rel="noopener">@IBR_NJI</a>
-  <div>تقويم سراة عبيدة الفلكي · نحسب ولا ننقل · © 2026 جميع الحقوق محفوظة</div>
+  <!-- «نحسب ولا ننقل» خرج من الذيل العام (المرحلة ٢، ١١ أغسطس ٢٠٢٦): الموقع
+       صار يشمل طقساً منقولاً من مصدر خارجي، فلا يصحّ شعاراً عامّاً لكل صفحة.
+       وموضعُه بعدُ سياقُ المحرّك الفلكي ومجالُ «الشمس، القمر والفلك» — يُثبَّت
+       في المرحلة ٩ مع `astronomy.html`، لا هنا. -->
+  <div>طقس وفلك سراة عبيدة · © 2026 جميع الحقوق محفوظة</div>
   <div>الحدود الإدارية من خرائط الشارع المفتوحة برخصة ODbL ·
     تقويم الكواكب JPL DE440s · مواقع النجوم Hipparcos</div>
-  <div class="build">آخر تحديث: 28 صفر 1448هـ · الثلاثاء 11 أغسطس 2026م · الإصدار 3adfaf0 —
+  <div class="build">آخر تحديث: 29 صفر 1448هـ · الأربعاء 12 أغسطس 2026م · الإصدار 857596f —
     تُولَّد هذه الصفحات آلياً من المحرّك ولا تُحرَّر يدوياً</div>
 </footer>
-<script src="site.js?v=244d078a5c" defer></script>
+<script src="site.js?v=8dbaa81399" defer></script>
 </body>
 </html>
