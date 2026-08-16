@@ -220,6 +220,10 @@ summary.top:focus-visible{outline:2px solid var(--amber);outline-offset:3px;bord
 .dd-g{font-family:var(--f-head);font-size:var(--fs-3);color:var(--muted);
   padding:.5rem .6rem .2rem;letter-spacing:0}
 .dd-g:first-child{padding-top:.2rem}
+/* عنوانُ مجموعةٍ صار وجهةً — فيسلك سلوكَ الروابط في التركيز والتحويم */
+a.dd-g-link{display:block;text-decoration:none;border-radius:7px;
+  padding-bottom:.34rem}
+a.dd-g-link:hover{background:var(--panel2);color:var(--amber)}
 /* لمحة أربعة عشر يوماً — شبكةٌ مضغوطة تُمسَح بنظرة. خمسة حقول لكل خانة،
    واحتمال الهطول ثابتٌ فيها ولو كان صفراً فتتساوى الخانات. */
 .ds-list{list-style:none;padding:0;margin:0;display:grid;gap:.5rem;
