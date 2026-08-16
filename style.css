@@ -205,7 +205,11 @@ summary.top:focus-visible{outline:2px solid var(--amber);outline-offset:3px;bord
    بحافّتها الأخرى وتنمو **يميناً نحو وسط الصفحة** — والشريط مدفوعٌ إلى
    اليسار بـ`margin-inline-start:auto`، فما ينمو يميناً محتوىً بالبناء لا
    بحيلةٍ موضعية. (وقاعدة `:last-of-type` جُرّبت فانكسرت بأول إزاحة.) */
-.dd{position:absolute;top:calc(100% + .6rem);inset-inline-end:0;z-index:60;
+/* **والإرساءُ انقلب** حين خرج بندُ «الرئيسية» من الشريط (١٢ أغسطس ٢٠٢٦):
+   انزاحت المنسدلات إلى اليمين، فصارت لوحةُ أولاها تتجاوز حافّة الشاشة
+   بخمسة بكسلات عند ‎1280‎ ودونها. فأُرسيت بالحافّة المقابلة وصارت تنمو نحو
+   وسط الصفحة — مقيسٌ سليماً من ‎645‎ إلى ‎1440‎. */
+.dd{position:absolute;top:calc(100% + .6rem);inset-inline-start:0;z-index:60;
   min-width:15rem;max-width:min(22rem,calc(100vw - 2rem));
   max-height:min(70vh,26rem);overflow-y:auto;overscroll-behavior:contain;
   background:var(--panel);border:1px solid var(--line);border-radius:10px;
@@ -260,6 +264,14 @@ a.dd-g-link:hover{background:var(--panel2);color:var(--amber)}
 .crumb-sep{opacity:.55}
 body.weather-light .crumbs{background:color-mix(in srgb,#bfe0f2 45%,transparent)}
 .attrib{font-size:var(--fs-3);opacity:.9}
+/* وفي النطاق الضيّق من سطح المكتب (‎641‎–‎760‎) لا تتّسع الشاشة للوحةٍ مطلقة
+   بجوار آخر بند، فتمتدّ بين حافّتَي الشريط كما في الهاتف — **والشريط نفسه
+   يبقى شريطَ سطح مكتب**، فلا يتغيّر حدُّ زرّ القائمة. */
+@media (min-width:641px) and (max-width:760px){
+  .dd-wrap{position:static}
+  .dd{inset-inline:.6rem;min-width:0;max-width:none}
+}
+
 /* ═══ الهاتف: تصميمٌ للهاتف، لا التفافُ شريطِ سطح المكتب ═══
    كان `flex-wrap` وحده استراتيجيةَ الضيق، فيبلغ الشريط ‎109px‎ دون ‎480‎
    و‎158px‎ دون ‎360‎ — خُمسَ الشاشة، ولاصقاً أبداً. وصار: **الشريط سطرٌ
