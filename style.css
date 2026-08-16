@@ -177,10 +177,11 @@ body.weather-light{position:relative;overflow-x:hidden}
 .nav-in{max-width:76rem;margin:0 auto;padding:.65rem 1.2rem;
   display:flex;align-items:center;gap:1.2rem}
 /* سطح المكتب: اللوحةُ كأنّها ليست هناك — أبناؤها في صفّ `.nav-in` نفسه،
-   والزرُّ مخفيّ، والروابطُ ظاهرةٌ مفتوحةً كانت `<details>` أو مغلقة. */
+   والزرُّ مخفيّ. **وظهورُ الروابط من كون اللوحة مفتوحةً في الترميز**، لا من
+   قاعدةٍ تُكره محتوى `<details>` مغلقة على الظهور: تلك تُخرجها بعرض صفر
+   داخل صندوق المحتوى المطويّ، وقد وقع ذلك فعلاً. */
 .nav-panel{display:contents}
 .nav-btn{display:none}
-.nav-panel > .nav-links{display:flex}
 .brand{font-family:var(--f-head);font-weight:700;color:var(--amber);
   text-decoration:none;font-size:var(--fs-6)}
 .nav-links{display:flex;gap:1.1rem;margin-inline-start:auto;align-items:center}

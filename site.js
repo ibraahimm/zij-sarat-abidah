@@ -195,15 +195,35 @@
      فلا تُفتح اثنتان معاً ولو عُطِّل الجافاسكربت. وهذان تحسينان فوقها:
      `Escape` يغلق ويعيد التركيز إلى الزرّ، والنقرُ خارجها يغلق. ولا شيء
      منهما شرطٌ للتنقّل — الروابط `<a href>` تعمل كما هي. */
+  /* ═══ لوحةُ الهاتف تُطوى بالجافاسكربت، ولا تُظهرها هي ═══
+     الترميزُ يخرج **مفتوحاً**، فالبنود ظاهرةٌ على سطح المكتب وظاهرةٌ لمن
+     عطّل الجافاسكربت. وهذا يطوي على الشاشات الضيّقة وحدها — **تحسينٌ ينقص
+     لا شرطٌ يُظهر**. وعند تجاوز الحدّ صعوداً تُفتح ثانيةً، فلا تختفي
+     البنودُ بتكبير النافذة. */
+  var navPanel = document.querySelector('.site-nav .nav-panel');
+  var navNarrow = window.matchMedia ? window.matchMedia('(max-width: 640px)') : null;
+  function navIsNarrow() { return !!(navNarrow && navNarrow.matches); }
+  function navSync() {
+    if (navPanel) navPanel.open = !navIsNarrow();
+  }
+  navSync();
+  if (navNarrow && navNarrow.addEventListener) {
+    navNarrow.addEventListener('change', navSync);   /* عند عبور الحدّ وحده */
+  }
+
+  /* الإغلاقُ بالمفتاح وبالنقر خارجها — **للمنسدلات دائماً، وللّوحة على
+     الضيّق وحده**؛ فإغلاقُها على سطح المكتب يمحو الشريط كلَّه. */
   function navOpen() {
-    return [].slice.call(document.querySelectorAll('.site-nav details[open]'));
+    var out = [].slice.call(document.querySelectorAll('.site-nav details.dd-wrap[open]'));
+    if (navIsNarrow() && navPanel && navPanel.open) out.push(navPanel);
+    return out;
   }
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
     var open = navOpen();
     if (!open.length) return;
     /* الأعمق أولاً: منسدلةٌ داخل لوحة الهاتف تُغلق قبل اللوحة نفسها */
-    var d = open[open.length - 1];
+    var d = open[0];
     d.open = false;
     var s = d.querySelector('summary');
     if (s) s.focus();
