@@ -19,17 +19,20 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
 <link rel="preload" href="fonts/sans-ar-400.woff2?v=24f329fc6c" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/amiri-ar-700.woff2?v=bb99562a67" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=29eb541d40">
+<link rel="stylesheet" href="style.css?v=01fcae573c">
 </head>
 <body data-domain="astronomy" data-page="landing">
 <div class="sky" aria-hidden="true"></div>
 
-<nav>
+<nav class="site-nav" aria-label="التنقّل الرئيسي">
   <div class="nav-in">
     <a class="brand" href="index.html">طقس وفلك سراة عبيدة</a>
-    <div class="nav-links">
-      <a class="top" href="index.html">الرئيسية</a><a class="top" href="dashboard.html">الأحداث</a><details class="dd-wrap"><summary class="top">النشرات</summary><div class="dd"><a href="bulletins.html">جميع النشرات</a><a href="bulletin-1448-03.html">نشرة ربيع الأول 1448هـ</a></div></details><details class="dd-wrap"><summary class="top on">الشمس، القمر والفلك</summary><div class="dd"><a href="astronomy.html" aria-current="page">الشمس، القمر والفلك</a><span class="dd-g">الشمس والقمر</span><a href="sun-moon.html">الشمس والقمر</a><a href="hilal.html">الهلال</a><a href="eclipse2027.html" class="star">★ كسوف ٢٠٢٧</a><span class="dd-g">النجوم</span><a href="suhail.html">سهيل</a></div></details><details class="dd-wrap"><summary class="top">الطقس</summary><div class="dd"><a href="weather.html">الطقس الآن</a><a href="forecast.html">توقّع ١٤ يوماً</a><a href="rain-forecast.html">توقعات الأمطار</a><a href="climate.html">المناخ والبيانات التاريخية</a></div></details>
-    </div>
+    <details class="nav-panel">
+      <summary class="nav-btn" aria-label="قائمة التنقّل">القائمة</summary>
+      <div class="nav-links">
+      <a class="top" href="index.html">الرئيسية</a><details class="dd-wrap" name="site-nav-dd"><summary class="top">الطقس</summary><div class="dd"><a href="weather.html">الطقس الآن</a><a href="forecast.html">توقّع ١٤ يوماً</a><a href="rain-forecast.html">توقعات الأمطار</a><a href="climate.html">المناخ والبيانات التاريخية</a></div></details><details class="dd-wrap" name="site-nav-dd"><summary class="top on">الشمس، القمر والفلك</summary><div class="dd"><a href="astronomy.html" aria-current="page">الشمس، القمر والفلك</a><span class="dd-g">الشمس والقمر</span><a href="sun-moon.html">الشمس والقمر</a><a href="hilal.html">الهلال</a><a href="eclipse2027.html" class="star">★ كسوف ٢٠٢٧</a><span class="dd-g">النجوم</span><a href="suhail.html">سهيل</a></div></details><a class="top" href="dashboard.html">الأحداث</a><details class="dd-wrap" name="site-nav-dd"><summary class="top">النشرات</summary><div class="dd"><a href="bulletins.html">جميع النشرات</a><a href="bulletin-1448-03.html">نشرة ربيع الأول 1448هـ</a></div></details>
+      </div>
+    </details>
   </div>
 </nav>
 <nav class="crumbs" aria-label="مسار الصفحة"><div class="crumbs-in"><a href="index.html">الرئيسية</a><span class="crumb-sep" aria-hidden="true">›</span><span aria-current="page">الشمس، القمر والفلك</span></div></nav>
@@ -44,8 +47,6 @@
 </header>
 
 <div class="wrap">
-
-<a class="big-cta reveal" href="perseids.html"><div class="bl">القادم · 30 صفر 1448هـ · الخميس 13 أغسطس 2026م</div><h3>البرشاويات</h3><p>سترى من أي مكان وغير محجوبة، والذروة تصادف محاقاً تاماً فلا ضوء قمر طوال الليل</p></a>
 
 <section class="reveal">
   <div class="sec-head"><h2>صفحاتُ هذا المجال</h2>
@@ -216,6 +217,12 @@
 </section>
 
 <section class="reveal">
+  <div class="sec-head"><h2>وفي الأحداث</h2>
+    <span class="tag">إحالةٌ سياقية — وبيتُها لوحتُها</span></div>
+  <p class="lede">والأحداثُ المؤقّتة — أهلّةً وخسوفاً وزخّاتِ شهبٍ واقتراناتٍ — موضعُها لوحتُها، لا هذا المجال. وفيها موعدُ كلٍّ وعدُّه التنازليّ ومعياره. <a href="dashboard.html">لوحة الأحداث ←</a></p>
+</section>
+
+<section class="reveal">
   <div class="sharebar">
     
     <a class="btn ghost" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fibraahimm.github.io%2Fzij-sarat-abidah%2Fastronomy.html&text=%D8%A7%D9%84%D8%B4%D9%85%D8%B3%D8%8C+%D8%A7%D9%84%D9%82%D9%85%D8%B1+%D9%88%D8%A7%D9%84%D9%81%D9%84%D9%83+%E2%80%94+%D8%B3%D8%B1%D8%A7%D8%A9+%D8%B9%D8%A8%D9%8A%D8%AF%D8%A9+%E2%80%94+%D8%B7%D9%82%D8%B3+%D9%88%D9%81%D9%84%D9%83+%D8%B3%D8%B1%D8%A7%D8%A9+%D8%B9%D8%A8%D9%8A%D8%AF%D8%A9" target="_blank" rel="noopener">شارك على X</a>
@@ -238,9 +245,9 @@
   <div>طقس وفلك سراة عبيدة · © 2026 جميع الحقوق محفوظة</div>
   <div>الحدود الإدارية من خرائط الشارع المفتوحة برخصة ODbL ·
     تقويم الكواكب JPL DE440s · مواقع النجوم Hipparcos</div>
-  <div class="build">آخر تحديث: 29 صفر 1448هـ · الأربعاء 12 أغسطس 2026م · الإصدار 857596f —
+  <div class="build">آخر تحديث: 3 ربيع الأول 1448هـ · الأحد 16 أغسطس 2026م · الإصدار c107d27 —
     تُولَّد هذه الصفحات آلياً من المحرّك ولا تُحرَّر يدوياً</div>
 </footer>
-<script src="site.js?v=8dbaa81399" defer></script>
+<script src="site.js?v=b92c630aa3" defer></script>
 </body>
 </html>

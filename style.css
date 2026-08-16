@@ -168,15 +168,22 @@ body.weather-light{position:relative;overflow-x:hidden}
   .cloud.c4{top:245px;width:36vw}
 }
 
-nav{position:sticky;top:0;z-index:50;
+/* **اللصوق للشريط وحده.** وكانت القاعدة على `nav` عنصراً، فورثها
+   `<nav class="crumbs">`: فتاتٌ لاصقٌ عند `top:0` وبـ`z-index:50` يزاحم
+   الشريطَ على الموضع نفسه. والصنفُ الصريح يمنع توارثاً كهذا مستقبلاً. */
+.site-nav{position:sticky;top:0;z-index:50;
   background:color-mix(in srgb,var(--bg) 82%,transparent);
   backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .nav-in{max-width:76rem;margin:0 auto;padding:.65rem 1.2rem;
-  display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap}
+  display:flex;align-items:center;gap:1.2rem}
+/* سطح المكتب: اللوحةُ كأنّها ليست هناك — أبناؤها في صفّ `.nav-in` نفسه،
+   والزرُّ مخفيّ، والروابطُ ظاهرةٌ مفتوحةً كانت `<details>` أو مغلقة. */
+.nav-panel{display:contents}
+.nav-btn{display:none}
+.nav-panel > .nav-links{display:flex}
 .brand{font-family:var(--f-head);font-weight:700;color:var(--amber);
   text-decoration:none;font-size:var(--fs-6)}
-.nav-links{display:flex;gap:1.1rem;flex-wrap:wrap;margin-inline-start:auto;
-  align-items:center}
+.nav-links{display:flex;gap:1.1rem;margin-inline-start:auto;align-items:center}
 /* عناصر المستوى الأعلى: رابطٌ مباشر أو `summary`. ولا hover يفتح شيئاً —
    الفتح بالنقر واللمس والمفتاح، و`<details>` تتكفّل به بلا سطر JS. */
 .nav-links .top{color:var(--ink2);text-decoration:none;font-size:var(--fs-4);
@@ -235,8 +242,10 @@ summary.top:focus-visible{outline:2px solid var(--amber);outline-offset:3px;bord
   .ds-cell{padding:.5rem .3rem}
 }
 
-/* فتات المسار — مشتقّ من بطاقة الصفحة، وموضعه تحت الشريط مباشرة */
-.crumbs{border-bottom:1px solid var(--line);background:transparent}
+/* فتات المسار — مشتقّ من بطاقة الصفحة، وموضعه تحت الشريط مباشرة.
+   **وساكنٌ صراحةً**: لا يلتصق ولا يزاحم الشريطَ على `top` ولا على الطبقة. */
+.crumbs{position:static;z-index:auto;
+  border-bottom:1px solid var(--line);background:transparent}
 .crumbs-in{max-width:76rem;margin:0 auto;padding:.5rem 1.2rem;
   font-family:var(--f-head);font-size:var(--fs-3);color:var(--muted);
   display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
@@ -246,14 +255,40 @@ summary.top:focus-visible{outline:2px solid var(--amber);outline-offset:3px;bord
 .crumb-sep{opacity:.55}
 body.weather-light .crumbs{background:color-mix(in srgb,#bfe0f2 45%,transparent)}
 .attrib{font-size:var(--fs-3);opacity:.9}
+/* ═══ الهاتف: تصميمٌ للهاتف، لا التفافُ شريطِ سطح المكتب ═══
+   كان `flex-wrap` وحده استراتيجيةَ الضيق، فيبلغ الشريط ‎109px‎ دون ‎480‎
+   و‎158px‎ دون ‎360‎ — خُمسَ الشاشة، ولاصقاً أبداً. وصار: **الشريط سطرٌ
+   واحد** فيه الهويةُ وزرُّ القائمة، واللوحةُ تنسدل تحته بعرض الشاشة.
+
+   **والمنسدلات داخلها تتدفّق سطراً سطراً لا مطلقةً** — فلا تخرج عن الشاشة
+   ولا تتراكب اثنتان بحالٍ، والتراكبُ صار مستحيلاً بالبناء لا بالضبط. */
 @media (max-width:640px){
-  /* على الضيّق: اللوحة تأخذ عرض الشريط كاملاً بدل صندوقٍ ضيّق قد يخرج
-     عن الشاشة. و`position:static` يجعل مرجعها `nav` (وهو sticky، أي عنصر
-     موضَّع)، فتمتدّ بين حافّتيه. */
+  .nav-panel{position:static;display:block;margin-inline-start:auto}
+  .nav-btn{display:inline-flex;align-items:center;gap:.4rem;cursor:pointer;
+    list-style:none;user-select:none;font-family:var(--f-head);
+    font-size:var(--fs-4);color:var(--ink2);
+    border:1px solid var(--line);border-radius:9px;padding:.32rem .7rem}
+  .nav-btn::-webkit-details-marker{display:none}
+  .nav-btn::before{content:'☰';font-size:1em;line-height:1}
+  details.nav-panel[open] > .nav-btn{color:var(--amber);border-color:var(--amber)}
+  details.nav-panel[open] > .nav-btn::before{content:'✕'}
+  .nav-btn:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+  .nav-panel > .nav-links{position:absolute;inset-inline:.6rem;
+    top:calc(100% + .5rem);flex-direction:column;align-items:stretch;
+    gap:.15rem;margin:0;padding:.5rem;z-index:60;
+    max-height:min(72vh,30rem);overflow-y:auto;overscroll-behavior:contain;
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    box-shadow:0 14px 38px rgba(0,0,0,.36)}
+  .nav-links .top{display:block;padding:.5rem .6rem;border-bottom:0;
+    border-radius:8px}
+  .nav-links > .top.on{background:var(--panel2)}
+  /* المنسدلة داخل اللوحة: تتدفّق، ولا تُطلَق فوق شيء */
   .dd-wrap{position:static}
-  .dd{inset-inline:.6rem;min-width:0;max-width:none;max-height:60vh}
+  .dd{position:static;min-width:0;max-width:none;max-height:none;
+    overflow:visible;background:transparent;border:0;box-shadow:none;
+    padding:.1rem .1rem .35rem;
+    margin-inline-start:.75rem;border-inline-start:1px solid var(--line)}
   .dd a{white-space:normal}
-  .nav-links{gap:.85rem}
 }
 
 .hero{position:relative;z-index:1;max-width:76rem;margin:0 auto;
@@ -308,6 +343,13 @@ body.weather-light .crumbs{background:color-mix(in srgb,#bfe0f2 45%,transparent)
 .cd-grid b{font-family:var(--f-mono);font-size:clamp(1.5rem,3.6vw,2.2rem);
   color:var(--amber);font-variant-numeric:tabular-nums;line-height:var(--lh-tight)}
 .cd-grid i{font-style:normal;font-size:var(--fs-2);color:var(--muted);font-family:var(--f-head)}
+.cd-grid[hidden]{display:none}
+/* حالتا الزمن الصريحتان — لا أربعةُ أصفارٍ تُقرأ عدّاً وقد مضى الموعد */
+.cd-past,.nb-none{margin:.4rem 0 0;font-family:var(--f-head);
+  font-size:var(--fs-4);color:var(--muted);line-height:var(--lh-ui)}
+.cd-past[hidden],.nb-none[hidden],[data-ev="body"][hidden]{display:none}
+.next-box.is-past{border-color:var(--line)}
+.next-box .more{display:inline-block;margin-top:.5rem}
 
 .wrap{position:relative;z-index:1;max-width:76rem;margin:0 auto;
   padding:3.4rem 1.2rem 6rem;display:flex;flex-direction:column;gap:4.6rem}
@@ -345,8 +387,10 @@ body.weather-light .crumbs{background:color-mix(in srgb,#bfe0f2 45%,transparent)
 .mkey{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;font-size:var(--fs-1);
   color:var(--muted);margin-bottom:.4rem}
 .mkey b{color:var(--ink);font-weight:600}
-.sm-stale{margin-top:.7rem;font-size:var(--fs-1);color:var(--rust)}
-.sm-stale[hidden]{display:none}
+.sm-stale{margin-top:.7rem;padding:.7rem .9rem;border-radius:10px;
+  border:1px solid var(--rust);background:color-mix(in srgb,var(--rust) 9%,transparent);
+  font-size:var(--fs-3);color:var(--ink2);line-height:var(--lh-ui)}
+.sm-stale[hidden],[data-sm-body][hidden]{display:none}
 .mkey i{display:inline-block;width:.7rem;height:.7rem;border-radius:2px;
   background:var(--ac,var(--amber));vertical-align:-1px;margin-inline-end:.35rem}
 /* طرفا الشريط — أوّله يميناً وآخره يساراً، وبينهما طبيعةُ المدى */

@@ -19,103 +19,65 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
 <link rel="preload" href="fonts/sans-ar-400.woff2?v=24f329fc6c" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/amiri-ar-700.woff2?v=bb99562a67" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=29eb541d40">
+<link rel="stylesheet" href="style.css?v=01fcae573c">
 </head>
 <body data-domain="events" data-page="landing">
 <div class="sky" aria-hidden="true"></div>
 
-<nav>
+<nav class="site-nav" aria-label="التنقّل الرئيسي">
   <div class="nav-in">
     <a class="brand" href="index.html">طقس وفلك سراة عبيدة</a>
-    <div class="nav-links">
-      <a class="top" href="index.html">الرئيسية</a><a class="top on" href="dashboard.html" aria-current="page">الأحداث</a><details class="dd-wrap"><summary class="top">النشرات</summary><div class="dd"><a href="bulletins.html">جميع النشرات</a><a href="bulletin-1448-03.html">نشرة ربيع الأول 1448هـ</a></div></details><details class="dd-wrap"><summary class="top">الشمس، القمر والفلك</summary><div class="dd"><a href="astronomy.html">الشمس، القمر والفلك</a><span class="dd-g">الشمس والقمر</span><a href="sun-moon.html">الشمس والقمر</a><a href="hilal.html">الهلال</a><a href="eclipse2027.html" class="star">★ كسوف ٢٠٢٧</a><span class="dd-g">النجوم</span><a href="suhail.html">سهيل</a></div></details><details class="dd-wrap"><summary class="top">الطقس</summary><div class="dd"><a href="weather.html">الطقس الآن</a><a href="forecast.html">توقّع ١٤ يوماً</a><a href="rain-forecast.html">توقعات الأمطار</a><a href="climate.html">المناخ والبيانات التاريخية</a></div></details>
-    </div>
+    <details class="nav-panel">
+      <summary class="nav-btn" aria-label="قائمة التنقّل">القائمة</summary>
+      <div class="nav-links">
+      <a class="top" href="index.html">الرئيسية</a><details class="dd-wrap" name="site-nav-dd"><summary class="top">الطقس</summary><div class="dd"><a href="weather.html">الطقس الآن</a><a href="forecast.html">توقّع ١٤ يوماً</a><a href="rain-forecast.html">توقعات الأمطار</a><a href="climate.html">المناخ والبيانات التاريخية</a></div></details><details class="dd-wrap" name="site-nav-dd"><summary class="top">الشمس، القمر والفلك</summary><div class="dd"><a href="astronomy.html">الشمس، القمر والفلك</a><span class="dd-g">الشمس والقمر</span><a href="sun-moon.html">الشمس والقمر</a><a href="hilal.html">الهلال</a><a href="eclipse2027.html" class="star">★ كسوف ٢٠٢٧</a><span class="dd-g">النجوم</span><a href="suhail.html">سهيل</a></div></details><a class="top on" href="dashboard.html" aria-current="page">الأحداث</a><details class="dd-wrap" name="site-nav-dd"><summary class="top">النشرات</summary><div class="dd"><a href="bulletins.html">جميع النشرات</a><a href="bulletin-1448-03.html">نشرة ربيع الأول 1448هـ</a></div></details>
+      </div>
+    </details>
   </div>
 </nav>
 <nav class="crumbs" aria-label="مسار الصفحة"><div class="crumbs-in"><a href="index.html">الرئيسية</a><span class="crumb-sep" aria-hidden="true">›</span><span aria-current="page">الأحداث</span></div></nav>
 <header class="hero" id="top">
-  <div class="eyebrow">لوحة الأحداث · 1 صفر 1448هـ – 21 ربيع الأول 1448هـ</div>
+  <div class="eyebrow">لوحة الأحداث · 1 ربيع الأول 1448هـ</div>
   <h1>الأحداث المجدولة</h1>
-  <p class="sub">7 أحداث محسوبة لسراة عبيدة بين 15 يوليو – 3 سبتمبر 2026، بأرقامها
+  <p class="sub">4 أحداث محسوبة لسراة عبيدة بين 14 أغسطس – 3 سبتمبر 2026، بأرقامها
     المنشورة ومعيارها. <strong>وهي الشهر الهجريّ الجاري وما بعده</strong> —
     وما مضى قبله في <a href="bulletins.html">النشرة الشهرية</a>. والحالة
     والعدّ التنازلي يتحدثان في متصفحك.</p>
-  <div class="next-box countdown" data-until="2026-08-13T04:32:00+03:00">
-    <div class="nb-l">الحدث القادم</div>
-    <div class="nb-t">ذروة زخة الشهب — البرشاويات · 30 صفر 1448هـ · 04:32</div>
-    <div class="cd-grid">
+  <div class="next-box countdown" data-next-event="agenda"
+       data-until="2026-08-28T05:33:00+03:00">
+    <div data-ev="body">
+      <div class="nb-l">الحدث القادم</div>
+      <div class="nb-t" data-ev="title">الطرف المرئي فقط — خسوف القمر · 15 ربيع الأول 1448هـ · 05:33</div>
+      <div class="cd-grid">
       <span><b data-cd="d">–</b><i>يوم</i></span>
       <span><b data-cd="h">–</b><i>ساعة</i></span>
       <span><b data-cd="m">–</b><i>دقيقة</i></span>
       <span><b data-cd="s">–</b><i>ثانية</i></span>
     </div>
+      <p class="cd-past" data-ev="past" hidden>انقضى موعدُه</p>
+      <a class="more" data-ev="link" href="eclipse.html">التفاصيل ←</a>
+    </div>
+    <p class="nb-none" data-ev="none" hidden>لا حدثَ قادمٌ ضمن
+      الجدول الحالي — والنشرةُ القادمة مع هلال الشهر الجديد.</p>
   </div>
 </header>
 
 <div class="wrap">
 <section class="reveal">
   <div class="sec-head"><h2>الجدول في شريط</h2>
-    <span class="tag">1 صفر 1448هـ – 21 ربيع الأول 1448هـ · المعلَّم عليه يوم حدث</span></div>
+    <span class="tag">1 ربيع الأول 1448هـ · المعلَّم عليه يوم حدث</span></div>
   <div class="mkey">
-    <span><i></i>6 أيام فيها حدث</span>
+    <span><i></i>3 أيام فيها حدث</span>
     <span>واليوم <b data-today>–</b></span>
     <span>والحدّ الأخضر أولُ شهرٍ هجريّ</span>
     <span>مرّر على الخانة لاسم يومها</span>
   </div>
-  <div class="mstrip"><div class="mday mstart" data-d="2026-07-15" data-h="1 صفر" title="1 صفر · 15 يوليو">1</div><div class="mday" data-d="2026-07-16" data-h="2 صفر" title="2 صفر · 16 يوليو">2</div><div class="mday" data-d="2026-07-17" data-h="3 صفر" title="3 صفر · 17 يوليو">3</div><div class="mday" data-d="2026-07-18" data-h="4 صفر" title="4 صفر · 18 يوليو">4</div><div class="mday" data-d="2026-07-19" data-h="5 صفر" title="5 صفر · 19 يوليو">5</div><div class="mday" data-d="2026-07-20" data-h="6 صفر" title="6 صفر · 20 يوليو">6</div><div class="mday" data-d="2026-07-21" data-h="7 صفر" title="7 صفر · 21 يوليو">7</div><div class="mday" data-d="2026-07-22" data-h="8 صفر" title="8 صفر · 22 يوليو">8</div><div class="mday" data-d="2026-07-23" data-h="9 صفر" title="9 صفر · 23 يوليو">9</div><div class="mday" data-d="2026-07-24" data-h="10 صفر" title="10 صفر · 24 يوليو">10</div><div class="mday" data-d="2026-07-25" data-h="11 صفر" title="11 صفر · 25 يوليو">11</div><div class="mday" data-d="2026-07-26" data-h="12 صفر" title="12 صفر · 26 يوليو">12</div><div class="mday" data-d="2026-07-27" data-h="13 صفر" title="13 صفر · 27 يوليو">13</div><div class="mday" data-d="2026-07-28" data-h="14 صفر" title="14 صفر · 28 يوليو">14</div><div class="mday" data-d="2026-07-29" data-h="15 صفر" title="15 صفر · 29 يوليو">15</div><div class="mday" data-d="2026-07-30" data-h="16 صفر" title="16 صفر · 30 يوليو">16</div><div class="mday" data-d="2026-07-31" data-h="17 صفر" title="17 صفر · 31 يوليو">17</div><div class="mday" data-d="2026-08-01" data-h="18 صفر" title="18 صفر · 1 أغسطس">18</div><div class="mday" data-d="2026-08-02" data-h="19 صفر" title="19 صفر · 2 أغسطس">19</div><div class="mday" data-d="2026-08-03" data-h="20 صفر" title="20 صفر · 3 أغسطس">20</div><div class="mday" data-d="2026-08-04" data-h="21 صفر" title="21 صفر · 4 أغسطس">21</div><div class="mday" data-d="2026-08-05" data-h="22 صفر" title="22 صفر · 5 أغسطس">22</div><div class="mday" data-d="2026-08-06" data-h="23 صفر" title="23 صفر · 6 أغسطس">23</div><div class="mday hit" data-d="2026-08-07" data-h="24 صفر" title="24 صفر · 7 أغسطس — القمر والثريا">24</div><div class="mday" data-d="2026-08-08" data-h="25 صفر" title="25 صفر · 8 أغسطس">25</div><div class="mday hit" data-d="2026-08-09" data-h="26 صفر" title="26 صفر · 9 أغسطس — سهيل">26</div><div class="mday" data-d="2026-08-10" data-h="27 صفر" title="27 صفر · 10 أغسطس">27</div><div class="mday" data-d="2026-08-11" data-h="28 صفر" title="28 صفر · 11 أغسطس">28</div><div class="mday" data-d="2026-08-12" data-h="29 صفر" title="29 صفر · 12 أغسطس">29</div><div class="mday hit" data-d="2026-08-13" data-h="30 صفر" title="30 صفر · 13 أغسطس — البرشاويات">30</div><div class="mday mstart" data-d="2026-08-14" data-h="1 ربيع الأول" title="1 ربيع الأول · 14 أغسطس">1</div><div class="mday hit" data-d="2026-08-15" data-h="2 ربيع الأول" title="2 ربيع الأول · 15 أغسطس — عطارد والمشتري، الزهرة">2</div><div class="mday" data-d="2026-08-16" data-h="3 ربيع الأول" title="3 ربيع الأول · 16 أغسطس">3</div><div class="mday" data-d="2026-08-17" data-h="4 ربيع الأول" title="4 ربيع الأول · 17 أغسطس">4</div><div class="mday" data-d="2026-08-18" data-h="5 ربيع الأول" title="5 ربيع الأول · 18 أغسطس">5</div><div class="mday" data-d="2026-08-19" data-h="6 ربيع الأول" title="6 ربيع الأول · 19 أغسطس">6</div><div class="mday" data-d="2026-08-20" data-h="7 ربيع الأول" title="7 ربيع الأول · 20 أغسطس">7</div><div class="mday" data-d="2026-08-21" data-h="8 ربيع الأول" title="8 ربيع الأول · 21 أغسطس">8</div><div class="mday" data-d="2026-08-22" data-h="9 ربيع الأول" title="9 ربيع الأول · 22 أغسطس">9</div><div class="mday" data-d="2026-08-23" data-h="10 ربيع الأول" title="10 ربيع الأول · 23 أغسطس">10</div><div class="mday" data-d="2026-08-24" data-h="11 ربيع الأول" title="11 ربيع الأول · 24 أغسطس">11</div><div class="mday" data-d="2026-08-25" data-h="12 ربيع الأول" title="12 ربيع الأول · 25 أغسطس">12</div><div class="mday" data-d="2026-08-26" data-h="13 ربيع الأول" title="13 ربيع الأول · 26 أغسطس">13</div><div class="mday" data-d="2026-08-27" data-h="14 ربيع الأول" title="14 ربيع الأول · 27 أغسطس">14</div><div class="mday hit" data-d="2026-08-28" data-h="15 ربيع الأول" title="15 ربيع الأول · 28 أغسطس — خسوف القمر">15</div><div class="mday" data-d="2026-08-29" data-h="16 ربيع الأول" title="16 ربيع الأول · 29 أغسطس">16</div><div class="mday" data-d="2026-08-30" data-h="17 ربيع الأول" title="17 ربيع الأول · 30 أغسطس">17</div><div class="mday" data-d="2026-08-31" data-h="18 ربيع الأول" title="18 ربيع الأول · 31 أغسطس">18</div><div class="mday" data-d="2026-09-01" data-h="19 ربيع الأول" title="19 ربيع الأول · 1 سبتمبر">19</div><div class="mday" data-d="2026-09-02" data-h="20 ربيع الأول" title="20 ربيع الأول · 2 سبتمبر">20</div><div class="mday hit" data-d="2026-09-03" data-h="21 ربيع الأول" title="21 ربيع الأول · 3 سبتمبر — الجبهة، قلب الأسد">21</div></div><div class="mends"><span class="me"><b>1 صفر</b><span>15 يوليو 2026</span></span><span class="mn">من أول الشهر الهجريّ الجاري إلى آخر موعدٍ مجدول</span><span class="me lt"><b>21 ربيع الأول</b><span>3 سبتمبر 2026</span></span></div>
+  <div class="mstrip"><div class="mday mstart" data-d="2026-08-14" data-h="1 ربيع الأول" title="1 ربيع الأول · 14 أغسطس">1</div><div class="mday hit" data-d="2026-08-15" data-h="2 ربيع الأول" title="2 ربيع الأول · 15 أغسطس — عطارد والمشتري، الزهرة">2</div><div class="mday" data-d="2026-08-16" data-h="3 ربيع الأول" title="3 ربيع الأول · 16 أغسطس">3</div><div class="mday" data-d="2026-08-17" data-h="4 ربيع الأول" title="4 ربيع الأول · 17 أغسطس">4</div><div class="mday" data-d="2026-08-18" data-h="5 ربيع الأول" title="5 ربيع الأول · 18 أغسطس">5</div><div class="mday" data-d="2026-08-19" data-h="6 ربيع الأول" title="6 ربيع الأول · 19 أغسطس">6</div><div class="mday" data-d="2026-08-20" data-h="7 ربيع الأول" title="7 ربيع الأول · 20 أغسطس">7</div><div class="mday" data-d="2026-08-21" data-h="8 ربيع الأول" title="8 ربيع الأول · 21 أغسطس">8</div><div class="mday" data-d="2026-08-22" data-h="9 ربيع الأول" title="9 ربيع الأول · 22 أغسطس">9</div><div class="mday" data-d="2026-08-23" data-h="10 ربيع الأول" title="10 ربيع الأول · 23 أغسطس">10</div><div class="mday" data-d="2026-08-24" data-h="11 ربيع الأول" title="11 ربيع الأول · 24 أغسطس">11</div><div class="mday" data-d="2026-08-25" data-h="12 ربيع الأول" title="12 ربيع الأول · 25 أغسطس">12</div><div class="mday" data-d="2026-08-26" data-h="13 ربيع الأول" title="13 ربيع الأول · 26 أغسطس">13</div><div class="mday" data-d="2026-08-27" data-h="14 ربيع الأول" title="14 ربيع الأول · 27 أغسطس">14</div><div class="mday hit" data-d="2026-08-28" data-h="15 ربيع الأول" title="15 ربيع الأول · 28 أغسطس — خسوف القمر">15</div><div class="mday" data-d="2026-08-29" data-h="16 ربيع الأول" title="16 ربيع الأول · 29 أغسطس">16</div><div class="mday" data-d="2026-08-30" data-h="17 ربيع الأول" title="17 ربيع الأول · 30 أغسطس">17</div><div class="mday" data-d="2026-08-31" data-h="18 ربيع الأول" title="18 ربيع الأول · 31 أغسطس">18</div><div class="mday" data-d="2026-09-01" data-h="19 ربيع الأول" title="19 ربيع الأول · 1 سبتمبر">19</div><div class="mday" data-d="2026-09-02" data-h="20 ربيع الأول" title="20 ربيع الأول · 2 سبتمبر">20</div><div class="mday hit" data-d="2026-09-03" data-h="21 ربيع الأول" title="21 ربيع الأول · 3 سبتمبر — الجبهة، قلب الأسد">21</div></div><div class="mends"><span class="me"><b>1 ربيع الأول</b><span>14 أغسطس 2026</span></span><span class="mn">من أول الشهر الهجريّ الجاري إلى آخر موعدٍ مجدول</span><span class="me lt"><b>21 ربيع الأول</b><span>3 سبتمبر 2026</span></span></div>
 </section>
 
 <section class="reveal">
-  <div class="sec-head"><h2>الأحداث</h2><span class="tag">7 أحداث · اضغط للتفاصيل</span></div>
+  <div class="sec-head"><h2>الأحداث</h2><span class="tag">4 أحداث · اضغط للتفاصيل</span></div>
   <div class="evs">
-<a class="ev" data-when="2026-08-07T05:11:00+03:00" href="moonpleiades.html" style="--ac:#58A69C"><div class="ev-top">
-    <span class="chip">تقارب قمري</span>
-    <span class="st">قادم</span>
-  </div>
-  <h3>القمر والثريا</h3>
-  <div class="dates">
-    <span>24 صفر 1448هـ</span><span class="sep">·</span><span>الجمعة 7 أغسطس 2026م</span>
-    <span class="sep">·</span><span class="t">05:11 <small>لحظة الرصد</small></span>
-  </div>
-  <div class="ev-body">
-    <svg viewBox="0 0 180 180" class="dial" role="img" aria-label="دائرة أفق، السمت 68.5 درجة"><circle cx="90.0" cy="90.0" r="61.2" class="dring"/><circle cx="90.0" cy="90.0" r="37.9" class="dring faint"/><line x1="90.0" y1="37.4" x2="90.0" y2="28.8" class="dtick major"/><line x1="104.7" y1="35.0" x2="105.8" y2="30.9" class="dtick"/><line x1="118.5" y1="40.7" x2="120.6" y2="37.0" class="dtick"/><line x1="127.2" y1="52.8" x2="133.3" y2="46.7" class="dtick major"/><line x1="139.3" y1="61.5" x2="143.0" y2="59.4" class="dtick"/><line x1="145.0" y1="75.3" x2="149.1" y2="74.2" class="dtick"/><line x1="142.6" y1="90.0" x2="151.2" y2="90.0" class="dtick major"/><line x1="145.0" y1="104.7" x2="149.1" y2="105.8" class="dtick"/><line x1="139.3" y1="118.5" x2="143.0" y2="120.6" class="dtick"/><line x1="127.2" y1="127.2" x2="133.3" y2="133.3" class="dtick major"/><line x1="118.5" y1="139.3" x2="120.6" y2="143.0" class="dtick"/><line x1="104.7" y1="145.0" x2="105.8" y2="149.1" class="dtick"/><line x1="90.0" y1="142.6" x2="90.0" y2="151.2" class="dtick major"/><line x1="75.3" y1="145.0" x2="74.2" y2="149.1" class="dtick"/><line x1="61.5" y1="139.3" x2="59.4" y2="143.0" class="dtick"/><line x1="52.8" y1="127.2" x2="46.7" y2="133.3" class="dtick major"/><line x1="40.7" y1="118.5" x2="37.0" y2="120.6" class="dtick"/><line x1="35.0" y1="104.7" x2="30.9" y2="105.8" class="dtick"/><line x1="37.4" y1="90.0" x2="28.8" y2="90.0" class="dtick major"/><line x1="35.0" y1="75.3" x2="30.9" y2="74.2" class="dtick"/><line x1="40.7" y1="61.5" x2="37.0" y2="59.4" class="dtick"/><line x1="52.8" y1="52.8" x2="46.7" y2="46.7" class="dtick major"/><line x1="61.5" y1="40.7" x2="59.4" y2="37.0" class="dtick"/><line x1="75.3" y1="35.0" x2="74.2" y2="30.9" class="dtick"/><text x="90.0" y="8.0" class="dlbl main">شمال</text><text x="148.0" y="32.0" class="dlbl">شمال شرق</text><text x="172.0" y="90.0" class="dlbl main">شرق</text><text x="148.0" y="148.0" class="dlbl">جنوب شرق</text><text x="90.0" y="172.0" class="dlbl main">جنوب</text><text x="32.0" y="148.0" class="dlbl">جنوب غرب</text><text x="8.0" y="90.0" class="dlbl main">غرب</text><text x="32.0" y="32.0" class="dlbl">شمال غرب</text><line x1="90.0" y1="90.0" x2="141.2" y2="69.8" style="stroke:#58A69C" class="dray"/><circle cx="141.2" cy="69.8" r="5" style="fill:#58A69C"/><circle cx="90.0" cy="90.0" r="2.6" class="dobs"/></svg>
-    <dl class="nums"><div class="nrow"><dt>الفصل بينهما</dt><dd>2.6°</dd></div><div class="nrow"><dt>ارتفاع القمر</dt><dd>67.6°</dd></div><div class="nrow"><dt>ارتفاع الثريا</dt><dd>65.3°</dd></div><div class="nrow"><dt>النافذة</dt><dd>حتى الشروق</dd></div></dl>
-  </div>
-  <p class="hz">سترى من أي مكان وغير محجوبة، فالمشهد في كبد السماء لا على الأفق</p>
-  <p class="crit">الفصل طوبوغرافي من سراة عبيدة، وليس تغطية ولا حدثاً حدياً</p>
-  <span class="more">التفاصيل ←</span></a>
-<a class="ev" data-when="2026-08-09T05:11:00+03:00" href="suhail.html" style="--ac:#E3A93F"><div class="ev-top">
-    <span class="chip">أول ظهور ممكن</span>
-    <span class="st">قادم</span>
-  </div>
-  <h3>سهيل</h3>
-  <div class="dates">
-    <span>26 صفر 1448هـ</span><span class="sep">·</span><span>الأحد 9 أغسطس 2026م</span>
-    <span class="sep">·</span><span class="t">05:11 <small>لحظة الرصد</small></span>
-  </div>
-  <div class="ev-body">
-    <svg viewBox="0 0 180 180" class="dial" role="img" aria-label="دائرة أفق، السمت 147.5 درجة"><circle cx="90.0" cy="90.0" r="61.2" class="dring"/><circle cx="90.0" cy="90.0" r="37.9" class="dring faint"/><line x1="90.0" y1="37.4" x2="90.0" y2="28.8" class="dtick major"/><line x1="104.7" y1="35.0" x2="105.8" y2="30.9" class="dtick"/><line x1="118.5" y1="40.7" x2="120.6" y2="37.0" class="dtick"/><line x1="127.2" y1="52.8" x2="133.3" y2="46.7" class="dtick major"/><line x1="139.3" y1="61.5" x2="143.0" y2="59.4" class="dtick"/><line x1="145.0" y1="75.3" x2="149.1" y2="74.2" class="dtick"/><line x1="142.6" y1="90.0" x2="151.2" y2="90.0" class="dtick major"/><line x1="145.0" y1="104.7" x2="149.1" y2="105.8" class="dtick"/><line x1="139.3" y1="118.5" x2="143.0" y2="120.6" class="dtick"/><line x1="127.2" y1="127.2" x2="133.3" y2="133.3" class="dtick major"/><line x1="118.5" y1="139.3" x2="120.6" y2="143.0" class="dtick"/><line x1="104.7" y1="145.0" x2="105.8" y2="149.1" class="dtick"/><line x1="90.0" y1="142.6" x2="90.0" y2="151.2" class="dtick major"/><line x1="75.3" y1="145.0" x2="74.2" y2="149.1" class="dtick"/><line x1="61.5" y1="139.3" x2="59.4" y2="143.0" class="dtick"/><line x1="52.8" y1="127.2" x2="46.7" y2="133.3" class="dtick major"/><line x1="40.7" y1="118.5" x2="37.0" y2="120.6" class="dtick"/><line x1="35.0" y1="104.7" x2="30.9" y2="105.8" class="dtick"/><line x1="37.4" y1="90.0" x2="28.8" y2="90.0" class="dtick major"/><line x1="35.0" y1="75.3" x2="30.9" y2="74.2" class="dtick"/><line x1="40.7" y1="61.5" x2="37.0" y2="59.4" class="dtick"/><line x1="52.8" y1="52.8" x2="46.7" y2="46.7" class="dtick major"/><line x1="61.5" y1="40.7" x2="59.4" y2="37.0" class="dtick"/><line x1="75.3" y1="35.0" x2="74.2" y2="30.9" class="dtick"/><text x="90.0" y="8.0" class="dlbl main">شمال</text><text x="148.0" y="32.0" class="dlbl">شمال شرق</text><text x="172.0" y="90.0" class="dlbl main">شرق</text><text x="148.0" y="148.0" class="dlbl">جنوب شرق</text><text x="90.0" y="172.0" class="dlbl main">جنوب</text><text x="32.0" y="148.0" class="dlbl">جنوب غرب</text><text x="8.0" y="90.0" class="dlbl main">غرب</text><text x="32.0" y="32.0" class="dlbl">شمال غرب</text><line x1="90.0" y1="90.0" x2="119.6" y2="136.5" style="stroke:#E3A93F" class="dray"/><circle cx="119.6" cy="136.5" r="5" style="fill:#E3A93F"/><circle cx="90.0" cy="90.0" r="2.6" class="dobs"/></svg>
-    <dl class="nums"><div class="nrow"><dt>الوقت</dt><dd>05:11</dd></div><div class="nrow"><dt>السمت</dt><dd>147.5°</dd></div><div class="nrow"><dt>الارتفاع</dt><dd>1.1°</dd></div><div class="nrow"><dt>النافذة</dt><dd>14 دقيقة</dd></div></dl>
-  </div>
-  <p class="hz">موعد صعب: يلزم أفق الجنوب الشرقي مكشوفاً تماماً، والنافذة دقائق معدودة، وأي تلة أو غبار يلغيها</p>
-  <p class="crit">المعيار: النجم فوق درجة واحدة بارتفاع حقيقي، والشمس على عمق تسع درجات، وأفق مستو</p>
-  <span class="more">التفاصيل ←</span></a>
-<a class="ev" data-when="2026-08-13T04:32:00+03:00" href="perseids.html" style="--ac:#58A69C"><div class="ev-top">
-    <span class="chip">ذروة زخة الشهب</span>
-    <span class="st">قادم</span>
-  </div>
-  <h3>البرشاويات</h3>
-  <div class="dates">
-    <span>30 صفر 1448هـ</span><span class="sep">·</span><span>الخميس 13 أغسطس 2026م</span>
-    <span class="sep">·</span><span class="t">04:32 <small>الظلام حتى</small></span>
-  </div>
-  <div class="ev-body">
-    <svg viewBox="0 0 180 180" class="dial" role="img" aria-label="دائرة أفق، السمت 28.0 درجة"><circle cx="90.0" cy="90.0" r="61.2" class="dring"/><circle cx="90.0" cy="90.0" r="37.9" class="dring faint"/><line x1="90.0" y1="37.4" x2="90.0" y2="28.8" class="dtick major"/><line x1="104.7" y1="35.0" x2="105.8" y2="30.9" class="dtick"/><line x1="118.5" y1="40.7" x2="120.6" y2="37.0" class="dtick"/><line x1="127.2" y1="52.8" x2="133.3" y2="46.7" class="dtick major"/><line x1="139.3" y1="61.5" x2="143.0" y2="59.4" class="dtick"/><line x1="145.0" y1="75.3" x2="149.1" y2="74.2" class="dtick"/><line x1="142.6" y1="90.0" x2="151.2" y2="90.0" class="dtick major"/><line x1="145.0" y1="104.7" x2="149.1" y2="105.8" class="dtick"/><line x1="139.3" y1="118.5" x2="143.0" y2="120.6" class="dtick"/><line x1="127.2" y1="127.2" x2="133.3" y2="133.3" class="dtick major"/><line x1="118.5" y1="139.3" x2="120.6" y2="143.0" class="dtick"/><line x1="104.7" y1="145.0" x2="105.8" y2="149.1" class="dtick"/><line x1="90.0" y1="142.6" x2="90.0" y2="151.2" class="dtick major"/><line x1="75.3" y1="145.0" x2="74.2" y2="149.1" class="dtick"/><line x1="61.5" y1="139.3" x2="59.4" y2="143.0" class="dtick"/><line x1="52.8" y1="127.2" x2="46.7" y2="133.3" class="dtick major"/><line x1="40.7" y1="118.5" x2="37.0" y2="120.6" class="dtick"/><line x1="35.0" y1="104.7" x2="30.9" y2="105.8" class="dtick"/><line x1="37.4" y1="90.0" x2="28.8" y2="90.0" class="dtick major"/><line x1="35.0" y1="75.3" x2="30.9" y2="74.2" class="dtick"/><line x1="40.7" y1="61.5" x2="37.0" y2="59.4" class="dtick"/><line x1="52.8" y1="52.8" x2="46.7" y2="46.7" class="dtick major"/><line x1="61.5" y1="40.7" x2="59.4" y2="37.0" class="dtick"/><line x1="75.3" y1="35.0" x2="74.2" y2="30.9" class="dtick"/><text x="90.0" y="8.0" class="dlbl main">شمال</text><text x="148.0" y="32.0" class="dlbl">شمال شرق</text><text x="172.0" y="90.0" class="dlbl main">شرق</text><text x="148.0" y="148.0" class="dlbl">جنوب شرق</text><text x="90.0" y="172.0" class="dlbl main">جنوب</text><text x="32.0" y="148.0" class="dlbl">جنوب غرب</text><text x="8.0" y="90.0" class="dlbl main">غرب</text><text x="32.0" y="32.0" class="dlbl">شمال غرب</text><line x1="90.0" y1="90.0" x2="115.9" y2="41.4" style="stroke:#58A69C" class="dray"/><circle cx="115.9" cy="41.4" r="5" style="fill:#58A69C"/><circle cx="90.0" cy="90.0" r="2.6" class="dobs"/></svg>
-    <dl class="nums"><div class="nrow"><dt>المشع عند الثالثة</dt><dd>38.6°</dd></div><div class="nrow"><dt>السمت</dt><dd>21°–33°</dd></div><div class="nrow"><dt>إضاءة القمر</dt><dd>0.1%</dd></div><div class="nrow"><dt>الظلام حتى</dt><dd>04:32</dd></div></dl>
-  </div>
-  <p class="hz">سترى من أي مكان وغير محجوبة، والذروة تصادف محاقاً تاماً فلا ضوء قمر طوال الليل</p>
-  <p class="crit">المشع يرتفع طوال الليل ويبلغ سبعاً وأربعين درجة عند الفجر الفلكي</p>
-  <span class="more">التفاصيل ←</span></a>
 <a class="ev" data-when="2026-08-15T05:27:00+03:00" href="mercjup.html" style="--ac:#E3A93F"><div class="ev-top">
     <span class="chip">اقتران وثيق</span>
     <span class="st">قادم</span>
@@ -198,9 +160,9 @@
   <div>طقس وفلك سراة عبيدة · © 2026 جميع الحقوق محفوظة</div>
   <div>الحدود الإدارية من خرائط الشارع المفتوحة برخصة ODbL ·
     تقويم الكواكب JPL DE440s · مواقع النجوم Hipparcos</div>
-  <div class="build">آخر تحديث: 29 صفر 1448هـ · الأربعاء 12 أغسطس 2026م · الإصدار 857596f —
+  <div class="build">آخر تحديث: 3 ربيع الأول 1448هـ · الأحد 16 أغسطس 2026م · الإصدار c107d27 —
     تُولَّد هذه الصفحات آلياً من المحرّك ولا تُحرَّر يدوياً</div>
 </footer>
-<script src="site.js?v=8dbaa81399" defer></script>
+<script src="site.js?v=b92c630aa3" defer></script>
 </body>
 </html>

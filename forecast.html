@@ -19,17 +19,20 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
 <link rel="preload" href="fonts/sans-ar-400.woff2?v=24f329fc6c" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/amiri-ar-700.woff2?v=bb99562a67" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=29eb541d40">
+<link rel="stylesheet" href="style.css?v=01fcae573c">
 </head>
 <body class="light weather-light" data-domain="weather" data-page="forecast">
 <div class="sky" aria-hidden="true"></div>
 <div class="clouds" aria-hidden="true"><svg class="cloud c1" viewBox="0 0 220 110" aria-hidden="true"><defs><linearGradient id="cloudgc1" gradientUnits="userSpaceOnUse" x1="0" y1="16" x2="0" y2="100"><stop offset="0%" stop-color="#ffffff"/><stop offset="62%" stop-color="#f0f7fc"/><stop offset="100%" stop-color="#c4d9e9"/></linearGradient></defs><g fill="url(#cloudgc1)"><ellipse cx="112.6" cy="77.5" rx="85.2" ry="17"/><circle cx="44.6" cy="64.8" r="23.6"/><circle cx="74.4" cy="63.7" r="30.8"/><circle cx="113.8" cy="57.4" r="35.6"/><circle cx="141.0" cy="65.3" r="28.7"/><circle cx="180.5" cy="65.5" r="23.7"/></g></svg><svg class="cloud c2" viewBox="0 0 220 110" aria-hidden="true"><defs><linearGradient id="cloudgc2" gradientUnits="userSpaceOnUse" x1="0" y1="16" x2="0" y2="100"><stop offset="0%" stop-color="#ffffff"/><stop offset="62%" stop-color="#f0f7fc"/><stop offset="100%" stop-color="#c4d9e9"/></linearGradient></defs><g fill="url(#cloudgc2)"><ellipse cx="104.8" cy="76.2" rx="85.3" ry="17"/><circle cx="35.7" cy="67.2" r="22.6"/><circle cx="90.1" cy="57.5" r="32.5"/><circle cx="138.2" cy="64.3" r="28.9"/><circle cx="172.4" cy="67.8" r="24.1"/></g></svg><svg class="cloud c3" viewBox="0 0 220 110" aria-hidden="true"><defs><linearGradient id="cloudgc3" gradientUnits="userSpaceOnUse" x1="0" y1="16" x2="0" y2="100"><stop offset="0%" stop-color="#ffffff"/><stop offset="62%" stop-color="#f0f7fc"/><stop offset="100%" stop-color="#c4d9e9"/></linearGradient></defs><g fill="url(#cloudgc3)"><ellipse cx="111.4" cy="74.9" rx="86.2" ry="17"/><circle cx="42.2" cy="67.6" r="23.4"/><circle cx="89.2" cy="56.7" r="33.3"/><circle cx="128.1" cy="59.8" r="32.0"/><circle cx="180.1" cy="65.9" r="24.0"/></g></svg><svg class="cloud c4" viewBox="0 0 220 110" aria-hidden="true"><defs><linearGradient id="cloudgc4" gradientUnits="userSpaceOnUse" x1="0" y1="16" x2="0" y2="100"><stop offset="0%" stop-color="#ffffff"/><stop offset="62%" stop-color="#f0f7fc"/><stop offset="100%" stop-color="#c4d9e9"/></linearGradient></defs><g fill="url(#cloudgc4)"><ellipse cx="110.8" cy="76.1" rx="87.0" ry="17"/><circle cx="40.3" cy="68.7" r="23.0"/><circle cx="73.5" cy="65.2" r="27.9"/><circle cx="110.9" cy="57.8" r="33.2"/><circle cx="147.4" cy="62.6" r="27.9"/><circle cx="181.1" cy="65.6" r="23.2"/></g></svg></div>
-<nav>
+<nav class="site-nav" aria-label="التنقّل الرئيسي">
   <div class="nav-in">
     <a class="brand" href="index.html">طقس وفلك سراة عبيدة</a>
-    <div class="nav-links">
-      <a class="top" href="index.html">الرئيسية</a><a class="top" href="dashboard.html">الأحداث</a><details class="dd-wrap"><summary class="top">النشرات</summary><div class="dd"><a href="bulletins.html">جميع النشرات</a><a href="bulletin-1448-03.html">نشرة ربيع الأول 1448هـ</a></div></details><details class="dd-wrap"><summary class="top">الشمس، القمر والفلك</summary><div class="dd"><a href="astronomy.html">الشمس، القمر والفلك</a><span class="dd-g">الشمس والقمر</span><a href="sun-moon.html">الشمس والقمر</a><a href="hilal.html">الهلال</a><a href="eclipse2027.html" class="star">★ كسوف ٢٠٢٧</a><span class="dd-g">النجوم</span><a href="suhail.html">سهيل</a></div></details><details class="dd-wrap"><summary class="top on">الطقس</summary><div class="dd"><a href="weather.html">الطقس الآن</a><a href="forecast.html" aria-current="page">توقّع ١٤ يوماً</a><a href="rain-forecast.html">توقعات الأمطار</a><a href="climate.html">المناخ والبيانات التاريخية</a></div></details>
-    </div>
+    <details class="nav-panel">
+      <summary class="nav-btn" aria-label="قائمة التنقّل">القائمة</summary>
+      <div class="nav-links">
+      <a class="top" href="index.html">الرئيسية</a><details class="dd-wrap" name="site-nav-dd"><summary class="top on">الطقس</summary><div class="dd"><a href="weather.html">الطقس الآن</a><a href="forecast.html" aria-current="page">توقّع ١٤ يوماً</a><a href="rain-forecast.html">توقعات الأمطار</a><a href="climate.html">المناخ والبيانات التاريخية</a></div></details><details class="dd-wrap" name="site-nav-dd"><summary class="top">الشمس، القمر والفلك</summary><div class="dd"><a href="astronomy.html">الشمس، القمر والفلك</a><span class="dd-g">الشمس والقمر</span><a href="sun-moon.html">الشمس والقمر</a><a href="hilal.html">الهلال</a><a href="eclipse2027.html" class="star">★ كسوف ٢٠٢٧</a><span class="dd-g">النجوم</span><a href="suhail.html">سهيل</a></div></details><a class="top" href="dashboard.html">الأحداث</a><details class="dd-wrap" name="site-nav-dd"><summary class="top">النشرات</summary><div class="dd"><a href="bulletins.html">جميع النشرات</a><a href="bulletin-1448-03.html">نشرة ربيع الأول 1448هـ</a></div></details>
+      </div>
+    </details>
   </div>
 </nav>
 <nav class="crumbs" aria-label="مسار الصفحة"><div class="crumbs-in"><a href="index.html">الرئيسية</a><span class="crumb-sep" aria-hidden="true">›</span><a href="weather.html">الطقس</a><span class="crumb-sep" aria-hidden="true">›</span><span aria-current="page">توقّع ١٤ يوماً</span></div></nav>
@@ -83,9 +86,9 @@
   <div>طقس وفلك سراة عبيدة · © 2026 جميع الحقوق محفوظة</div>
   <div>الحدود الإدارية من خرائط الشارع المفتوحة برخصة ODbL ·
     تقويم الكواكب JPL DE440s · مواقع النجوم Hipparcos</div>
-  <div class="build">آخر تحديث: 29 صفر 1448هـ · الأربعاء 12 أغسطس 2026م · الإصدار 857596f —
+  <div class="build">آخر تحديث: 3 ربيع الأول 1448هـ · الأحد 16 أغسطس 2026م · الإصدار c107d27 —
     تُولَّد هذه الصفحات آلياً من المحرّك ولا تُحرَّر يدوياً</div>
 </footer>
-<script src="site.js?v=8dbaa81399" defer></script>
+<script src="site.js?v=b92c630aa3" defer></script>
 </body>
 </html>

@@ -1,25 +1,91 @@
 
 (function () {
-  function tick() {
-    var now = new Date();
-    document.querySelectorAll('[data-until]').forEach(function (box) {
-      var ms = new Date(box.dataset.until) - now;
-      if (ms < 0) ms = 0;
-      var s = Math.floor(ms / 1000);
-      var d = box.querySelector('[data-cd="d"]'), h = box.querySelector('[data-cd="h"]'),
-          m = box.querySelector('[data-cd="m"]'), sec = box.querySelector('[data-cd="s"]');
-      if (d) d.textContent = Math.floor(s / 86400);
-      if (h) h.textContent = Math.floor(s % 86400 / 3600);
-      if (m) m.textContent = Math.floor(s % 3600 / 60);
-      if (sec) sec.textContent = s % 60;
+  /* ═══════════ الزمن يُقرَّر وقت القراءة لا وقت البناء ═══════════
+     **العلّة:** «الحدث القادم» كان يُختار وقت البناء ويُخبَز في ثلاث صفحات،
+     فيبقى حدثاً منقضياً معروضاً **بعدّادٍ صفريّ** حتى يُعاد النشر.
+
+     والوقتُ كلُّه من `Date.now()` في موضعٍ واحد — فيُبدَّل في الاختبار
+     بزمنٍ وهميّ قبل الحدث وبعده، ويُفحص الحكمُ لا الصياغة. */
+  function nowMs() { return Date.now(); }
+
+  /* عدّادٌ واحد: إمّا أرقامٌ حيّة، وإمّا **حالةُ «انقضى» صريحة** — ولا
+     أربعةُ أصفارٍ تُقرأ عدّاً وقد مضى الموعد. */
+  function paint(box, untilIso) {
+    var grid = box.querySelector('.cd-grid'),
+        past = box.querySelector('[data-ev="past"]');
+    var t = Date.parse(untilIso || box.getAttribute('data-until') || '');
+    if (isNaN(t)) return;
+    var ms = t - nowMs();
+    if (ms <= 0) {
+      box.classList.add('is-past');
+      if (grid) grid.hidden = true;
+      if (past) past.hidden = false;
+      return;
+    }
+    box.classList.remove('is-past');
+    if (grid) grid.hidden = false;
+    if (past) past.hidden = true;
+    var s = Math.floor(ms / 1000);
+    var d = box.querySelector('[data-cd="d"]'), h = box.querySelector('[data-cd="h"]'),
+        m = box.querySelector('[data-cd="m"]'), sec = box.querySelector('[data-cd="s"]');
+    if (d) d.textContent = Math.floor(s / 86400);
+    if (h) h.textContent = Math.floor(s % 86400 / 3600);
+    if (m) m.textContent = Math.floor(s % 3600 / 60);
+    if (sec) sec.textContent = s % 60;
+  }
+
+  /* أقربُ حدثٍ لم يَمضِ — من الحمولة المشتركة، بساعة القارئ */
+  function upcoming() {
+    var evs = (SITE.data && SITE.data.events) || [];
+    var t = nowMs();
+    for (var i = 0; i < evs.length; i++) {
+      if (Date.parse(evs[i].iso) > t) return evs[i];
+    }
+    return null;
+  }
+
+  /* صناديقُ «الحدث القادم»: `agenda` تختار من الجدول، و`self` مثبَّتةٌ على
+     حدثِ صفحتها. وكلتاهما تُعلن الانقضاء ولا تعرض صفراً. */
+  function renderNextBoxes() {
+    document.querySelectorAll('[data-next-event]').forEach(function (box) {
+      var mode = box.getAttribute('data-next-event');
+      if (mode === 'self') { paint(box); return; }
+      if (!SITE.data) { paint(box); return; }       /* لم تصل الحمولة بعد */
+      var e = upcoming();
+      var body = box.querySelector('[data-ev="body"]'),
+          none = box.querySelector('[data-ev="none"]'),
+          ttl = box.querySelector('[data-ev="title"]'),
+          lnk = box.querySelector('[data-ev="link"]');
+      if (!e) {
+        box.classList.add('is-empty');
+        if (body) body.hidden = true;
+        if (none) none.hidden = false;
+        return;
+      }
+      box.classList.remove('is-empty');
+      if (body) body.hidden = false;
+      if (none) none.hidden = true;
+      box.setAttribute('data-until', e.iso);
+      if (ttl) ttl.textContent = e.chip + ' — ' + e.title + ' · ' + e.hijri
+                                 + ' · ' + e.time;
+      if (lnk) { lnk.setAttribute('href', e.href); lnk.hidden = false; }
+      paint(box, e.iso);
     });
-    var evs = document.querySelectorAll('.ev[data-when]');
+  }
+
+  function tick() {
+    var t = nowMs();
+    document.querySelectorAll('[data-until]').forEach(function (box) {
+      if (box.hasAttribute('data-next-event')) return;   /* يتولّاها مُصيِّرُها */
+      paint(box);
+    });
+    renderNextBoxes();
     var marked = false;
-    evs.forEach(function (el) {
-      var t = new Date(el.dataset.when), st = el.querySelector('.st');
+    document.querySelectorAll('.ev[data-when]').forEach(function (el) {
+      var w = Date.parse(el.dataset.when), st = el.querySelector('.st');
       el.classList.remove('past', 'next');
       if (!st) return;
-      if (t < now) { el.classList.add('past'); st.textContent = 'انقضى'; }
+      if (w < t) { el.classList.add('past'); st.textContent = 'انقضى'; }
       else {
         st.textContent = 'قادم';
         if (!marked) { marked = true; el.classList.add('next'); st.textContent = 'التالي'; }
@@ -29,12 +95,26 @@
   /* «اليوم» في شريط الأيام — يُحسب هنا لا وقت البناء، وإلا كذب غداً على
      صفحةٍ ساكنة. وبتوقيت الرياض لا بساعة الجهاز، فزائرٌ بساعةٍ على توقيت
      آخر لا يرى يوماً غير يومنا — نفس اصطلاح «الطقس الآن». */
+  /* ═══ الحمولة المحليّة المشتركة — مصدرٌ واحد لكل ما يتغيّر بالزمن ═══
+     أحداثُ الجدول بلحظاتها، وأفقُ الشمس والقمر أربعَ مئة يوم. **محسوبةٌ
+     بمحرّكنا وقت البناء، ولا نداءَ خارجيّ ولا حسابَ فلكيّ في المتصفّح** —
+     جدولٌ يُقرأ ويُنتقى منه يومُ القارئ. ونداءٌ واحد يُخزَّن. */
+  var SITE = { data: null };
+  var SITE_DATA_URL = './site-data.json';
+  function loadSiteData() {
+    if (!window.fetch) return Promise.resolve(null);
+    return fetch(SITE_DATA_URL + '?t=' + Math.floor(Date.now() / 300000))
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (d) { SITE.data = d; return d; })
+      .catch(function () { return null; });
+  }
+
   function riyadhToday() {
     try {
       var o = {};
       new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Riyadh',
         year: 'numeric', month: '2-digit', day: '2-digit' })
-        .formatToParts(new Date()).forEach(function (p) { o[p.type] = p.value; });
+        .formatToParts(new Date(Date.now())).forEach(function (p) { o[p.type] = p.value; });
       return o.year + '-' + o.month + '-' + o.day;
     } catch (e) { return null; }
   }
@@ -60,24 +140,32 @@
      وعددُ البطاقات من الجذر نفسه (`data-sm-cards`)، فالرئيسية بطاقةٌ واحدة
      وحمولةُ سبعة أيام، والتفصيل سبعٌ وحمولةُ الأفق كلّه. */
   function mountSunMoon(root) {
-    var tag = root.querySelector('[data-sm-data]');
-    if (!tag) return;
-    var rows;
-    try { rows = JSON.parse(tag.textContent); } catch (e) { return; }
+    /* **المصدرُ الحمولةُ المشتركة** — وكانت نسخةً مضمَّنةً في كل صفحة،
+       سبعةَ أيامٍ في الرئيسية فيخرج قارئُها من الأفق بعد أسبوع. وقبل
+       وصولها يبقى ما بناه الخادم، ولا يُمحى بفراغ. */
+    var rows = SITE.data && SITE.data.sun;
+    if (!rows || !rows.length) return;
     var iso = riyadhToday();
     var i = -1;
     for (var j = 0; j < rows.length; j++) { if (rows[j].d === iso) { i = j; break; } }
     var stale = root.querySelector('[data-sm-stale]');
+    var smBody = root.querySelector('[data-sm-body]');
     var cards = root.querySelectorAll('.sm-card');
     var need = +root.getAttribute('data-sm-cards') || cards.length || 1;
-    /* خارج الأفق — أو أقربَ إلى آخره من أن يكتمل الشريط بعده: يُترك ما بناه
-       الخادم ويُصرَّح بأنه يوم النشر لا يوم القارئ. وبغير هذا الحدّ يُكرَّر
-       آخرُ يومٍ مراراً في الشريط. */
+    /* ═══ انتهاءُ الأفق يفشل بأمان، ولا يكذب ═══
+       خارج الأفق — أو أقربَ إلى آخره من أن يكتمل الشريط بعده — **يُحجب ما
+       بناه الخادم** ويُصرَّح بأن الحساب يحتاج تجديداً. وكان يُترك معروضاً
+       وعليه لفظُ «اليوم»، فيُقرأ يومُ آخر نشرٍ على أنه يومُ القارئ: **رقمٌ
+       صحيحٌ في موضعٍ كاذب**. وبغير حدِّ `need` يُكرَّر آخرُ يومٍ في الشريط. */
     if (i < 0 || i > rows.length - need) {
       if (stale) stale.hidden = false;
+      if (smBody) smBody.hidden = true;
+      root.classList.add('sm-expired');
       return;
     }
     if (stale) stale.hidden = true;
+    if (smBody) smBody.hidden = false;
+    root.classList.remove('sm-expired');
 
     function fill(el, row, isToday) {
       el.querySelectorAll('[data-k]').forEach(function (n) {
@@ -102,13 +190,40 @@
     document.querySelectorAll('[data-sm-root]').forEach(mountSunMoon);
   }
 
+  /* ═══ التنقّل: إغلاقٌ بالمفتاح وبالنقر خارجها ═══
+     **والحصريّة ليست هنا** — سمة `name` على `<details>` تكفّلت بها أصليّاً،
+     فلا تُفتح اثنتان معاً ولو عُطِّل الجافاسكربت. وهذان تحسينان فوقها:
+     `Escape` يغلق ويعيد التركيز إلى الزرّ، والنقرُ خارجها يغلق. ولا شيء
+     منهما شرطٌ للتنقّل — الروابط `<a href>` تعمل كما هي. */
+  function navOpen() {
+    return [].slice.call(document.querySelectorAll('.site-nav details[open]'));
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    var open = navOpen();
+    if (!open.length) return;
+    /* الأعمق أولاً: منسدلةٌ داخل لوحة الهاتف تُغلق قبل اللوحة نفسها */
+    var d = open[open.length - 1];
+    d.open = false;
+    var s = d.querySelector('summary');
+    if (s) s.focus();
+  });
+  document.addEventListener('click', function (e) {
+    navOpen().forEach(function (d) {
+      if (!d.contains(e.target)) d.open = false;
+    });
+  });
+
   markToday(); smRender();
   setInterval(function () { markToday(); smRender(); }, 60000);
   document.addEventListener('visibilitychange', function () {
-    if (!document.hidden) { markToday(); smRender(); }
+    if (!document.hidden) { markToday(); smRender(); tick(); }
   });
 
   tick(); setInterval(tick, 1000);
+
+  /* وحين تصل الحمولة يُعاد الحكمُ كلُّه بها — قبلها المعروضُ بناءُ الخادم */
+  loadSiteData().then(function (d) { if (d) { smRender(); tick(); } });
 
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (es) {
