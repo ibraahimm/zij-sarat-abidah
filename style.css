@@ -784,6 +784,16 @@ tbody tr.mark td{background:color-mix(in srgb,var(--amber) 10%,transparent)}
 tbody tr.cap td{color:var(--muted);font-style:italic}
 td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
 .ok{color:var(--teal);font-weight:700}
+
+/* بوابةُ النجوم — خليّتا الاسم والظهور. والوسمُ وحده يلتفّ، فلا يمدّ الجدول. */
+.st-name{display:flex;flex-direction:column;gap:.15rem}
+.st-name b{font-size:var(--fs-6);color:var(--ink)}
+.st-name .lat{font-family:var(--f-mono);font-size:var(--fs-2);color:var(--muted)}
+.st-name .more{margin-top:.15rem;font-size:var(--fs-3)}
+.st-app{display:flex;flex-direction:column;gap:.15rem}
+.st-app b{font-size:var(--fs-6);color:var(--amber);white-space:nowrap}
+.st-app>span{font-size:var(--fs-3);color:var(--muted);white-space:nowrap}
+.st-app .gate{color:var(--rust);white-space:normal;max-width:11rem}
 .note{border-inline-start:3px solid var(--amber);background:var(--panel);
   padding:1rem 1.2rem;border-radius:0 10px 10px 0}
 .note.warn{border-inline-start-color:var(--rust)}
