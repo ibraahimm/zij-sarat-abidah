@@ -785,6 +785,10 @@ tbody tr.cap td{color:var(--muted);font-style:italic}
 td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
 .ok{color:var(--teal);font-weight:700}
 
+/* سطرُ رصد الشمس والقمر — بعرض القراءة، ويلتفّ على الضيّق. */
+.sm-obs{margin:.9rem 0 0;max-width:52rem;font-size:var(--fs-5)}
+.sm-obs .num{font-family:var(--f-mono)}
+
 /* بوابةُ النجوم — خليّتا الاسم والظهور. والوسمُ وحده يلتفّ، فلا يمدّ الجدول. */
 .st-name{display:flex;flex-direction:column;gap:.15rem}
 .st-name b{font-size:var(--fs-6);color:var(--ink)}
