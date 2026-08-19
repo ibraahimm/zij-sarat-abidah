@@ -797,6 +797,7 @@ td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:now
 .st-app{display:flex;flex-direction:column;gap:.15rem}
 .st-app b{font-size:var(--fs-6);color:var(--amber);white-space:nowrap}
 .st-app>span{font-size:var(--fs-3);color:var(--muted);white-space:nowrap}
+.st-app .when{white-space:normal;max-width:15rem;line-height:1.5}
 .st-app .gate{color:var(--rust);white-space:normal;max-width:11rem}
 .note{border-inline-start:3px solid var(--amber);background:var(--panel);
   padding:1rem 1.2rem;border-radius:0 10px 10px 0}
